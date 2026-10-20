@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="EN-MATCH: plataforma que conecta a estudiantes y recién egresados con su primera práctica. Prototipo · Laboratorio de Emprendimientos 2026.">
+<meta name="theme-color" content="#1FB597">
 <title>EN-MATCH</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +24,10 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14.5px;line-height:1.5}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14.5px;line-height:1.5;overflow-x:hidden}
+main [id]{scroll-margin-top:96px}
+@media (max-width:980px){main [id]{scroll-margin-top:120px}}
 h1,h2,h3{font-family:var(--display);margin:0;line-height:1.15;text-wrap:balance;letter-spacing:-.01em}
 button{font:inherit;cursor:pointer;color:inherit}
 :focus-visible{outline:2.5px solid var(--sun);outline-offset:2px}
@@ -273,7 +283,7 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
 .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 @media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .kpi{border-radius:var(--r);padding:16px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);position:relative;overflow:hidden;min-width:0}
-.kpi .ic{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--mint-100);color:var(--brand-700)}
+.kpi .ic{position:absolute;right:12px;top:12px;width:34px;height:34px;padding:0;border-radius:10px;display:grid;place-items:center;background:var(--mint-100);color:var(--brand-700)}
 .kpi .ic svg{width:18px;height:18px}
 .kpi span{display:block;font-size:12px;color:var(--muted);font-weight:600;padding-right:40px}
 .kpi strong{display:block;font-family:var(--display);font-size:28px;margin-top:4px;font-variant-numeric:tabular-nums}
@@ -312,20 +322,189 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
 .toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:99px;font-weight:600;font-size:13.5px;z-index:50;max-width:calc(100% - 32px);display:flex;gap:8px;align-items:center}
 .toast svg{width:16px;height:16px;color:#5CDDC2;flex:none}
 .foot{max-width:1360px;margin:0 auto;padding-inline:20px;padding-block:0 28px;font-size:12px;color:var(--muted);text-align:center}
-</style>
 
+/* ---------- Cabecera de la app con sesión ---------- */
+.rolechip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:99px;background:var(--rs,var(--mint-50));color:var(--rc,var(--brand-700));white-space:nowrap}
+.rolechip svg{width:14px;height:14px}
+.hdr-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.logout{border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 14px;border-radius:99px;font-weight:600;font-size:13px;display:flex;gap:6px;align-items:center;white-space:nowrap;transition:border-color .2s,background .2s}
+.logout:hover{border-color:var(--coral);background:#FFF7F5}
+.logout svg{width:15px;height:15px}
+
+/* ---------- Portada e inicio de sesión ---------- */
+.auth{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);background:#fff;--rc:var(--brand);--rs:var(--mint-100)}
+.auth-art{position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(155deg,#0A5E50 0%,#0C7865 45%,#17A588 100%);color:#fff;padding:36px clamp(24px,4vw,56px);display:flex;flex-direction:column;gap:20px}
+.auth-art::before{content:"";position:absolute;width:560px;height:560px;right:-200px;bottom:-220px;border-radius:50%;border:64px solid rgba(255,255,255,.06);z-index:-1}
+.auth-art::after{content:"";position:absolute;width:260px;height:260px;left:-120px;top:38%;border-radius:50%;border:2px dashed rgba(255,255,255,.14);z-index:-1}
+.wordmark.inv{color:#fff;font-size:20px}
+.wordmark.inv::before{background:rgba(255,255,255,.16);width:36px;height:36px}
+.auth-art h1{font-size:clamp(30px,3.5vw,46px);font-weight:800;line-height:1.08;max-width:15ch;margin-top:auto}
+.auth-art .lead{margin:0;font-size:16px;line-height:1.55;color:rgba(255,255,255,.86);max-width:42ch}
+.matchdemo{display:flex;align-items:center;margin:8px 0 4px}
+.mcard{background:#fff;color:var(--ink);border-radius:18px;padding:14px;width:210px;flex:none;box-shadow:0 24px 44px -22px rgba(0,0,0,.55);display:flex;flex-direction:column;gap:8px;min-width:0}
+.mcard .k{font-size:11.5px;font-weight:600;color:var(--muted)}
+.mcard b{font-family:var(--display);font-size:14px;line-height:1.25}
+.mcard .tags{gap:5px}
+.mcard .tag{font-size:10.5px;padding:2px 8px}
+.mcard.s{padding-right:26px}.mcard.j{padding-left:26px}
+.mring{width:92px;height:92px;flex:none;border-radius:50%;background:#fff;display:grid;place-items:center;margin:0 -16px;position:relative;z-index:2;box-shadow:0 0 0 7px rgba(255,255,255,.22),0 16px 30px -12px rgba(0,0,0,.5)}
+.mring svg{position:absolute;inset:6px;width:80px;height:80px;transform:rotate(-90deg)}
+.mring circle{fill:none;stroke-width:7}
+.mring .bg{stroke:var(--mint-100)}.mring .fg{stroke:var(--brand);stroke-linecap:round;stroke-dasharray:226;stroke-dashoffset:226;transition:stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1) .9s}
+.mring.on .fg{stroke-dashoffset:13.6}
+.mring .in{position:relative;text-align:center;line-height:1}
+.mring .in b{font-family:var(--display);font-size:22px;color:var(--brand-700);display:block}
+.mring .in small{font-size:10px;font-weight:700;color:var(--muted)}
+.auth-facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:14px;color:rgba(255,255,255,.9)}
+.auth-facts li{display:flex;gap:10px;align-items:center}
+.auth-facts i{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+.auth-facts svg{width:13px;height:13px}
+.auth-foot{font-size:12px;color:rgba(255,255,255,.62);margin:0}
+@keyframes inL{from{opacity:0;transform:translateX(-46px) rotate(-4deg)}to{opacity:1;transform:none}}
+@keyframes inR{from{opacity:0;transform:translateX(46px) rotate(4deg)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  .mcard.s{animation:inL .8s cubic-bezier(.2,.7,.2,1) .15s both}
+  .mcard.j{animation:inR .8s cubic-bezier(.2,.7,.2,1) .15s both}
+  .mring{animation:pop .5s cubic-bezier(.2,.7,.2,1) .75s both}
+  .step{animation:up .45s cubic-bezier(.2,.7,.2,1) both}
+}
+
+.auth-panel{display:grid;place-items:center;padding:40px 24px;min-width:0}
+.step{width:100%;max-width:430px}
+.step h2{font-size:clamp(24px,2.4vw,30px);font-weight:800}
+.step .sub{color:var(--muted);margin:8px 0 22px;font-size:15px}
+.rolelist{display:flex;flex-direction:column;gap:10px}
+.rolebtn{display:grid;grid-template-columns:46px minmax(0,1fr) 18px;gap:14px;align-items:center;text-align:left;padding:14px 16px;border:1.5px solid var(--line);border-radius:16px;background:#fff;transition:border-color .2s,background .2s,transform .2s}
+.rolebtn:hover,.rolebtn:focus-visible{border-color:var(--rc);background:var(--rs)}
+.rolebtn:hover{transform:translateX(3px)}
+.rolebtn .ri{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--rs);color:var(--rc)}
+.rolebtn .ri svg{width:22px;height:22px}
+.rolebtn b{font-family:var(--display);font-size:15.5px;display:block;color:var(--ink)}
+.rolebtn span{font-size:13px;color:var(--muted);display:block;line-height:1.35}
+.rolebtn .chev{width:18px;height:18px;color:var(--muted)}
+.staff{margin:22px 0 0;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.staff button,.linkbtn{border:0;background:none;padding:0;font-weight:700;color:var(--brand-700);font-size:13.5px}
+.staff button:hover,.linkbtn:hover{text-decoration:underline}
+.tour{margin:14px 0 0;font-size:13px;color:var(--muted)}
+
+.back{display:inline-flex;align-items:center;gap:4px;border:0;background:none;padding:6px 8px 6px 2px;margin:0 0 18px;font-weight:600;font-size:13.5px;color:var(--muted)}
+.back svg{width:16px;height:16px}
+.back:hover{color:var(--ink)}
+.lg-who{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.lg-who .ri{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:var(--rs);color:var(--rc)}
+.lg-who .ri svg{width:26px;height:26px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-weight:600;font-size:13.5px}
+.field input{font:inherit;font-size:15px;width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+.field input:focus{border-color:var(--rc);box-shadow:0 0 0 4px var(--rs)}
+.field input[aria-invalid="true"]{border-color:var(--coral)}
+.pw{position:relative}
+.pw input{padding-right:84px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;font-size:12.5px;font-weight:700;color:var(--muted);padding:6px 10px;border-radius:8px}
+.pw button:hover{background:var(--mint-50);color:var(--ink)}
+.lg-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 18px;font-size:13.5px}
+.chk{display:flex;gap:8px;align-items:center;cursor:pointer}
+.chk input{width:16px;height:16px;accent-color:var(--rc)}
+.err{margin:0 0 14px;padding:10px 12px;border-radius:10px;background:var(--coral-soft);color:#A8321F;font-size:13.5px;font-weight:600}
+.go{width:100%;border:0;border-radius:14px;padding:14px;background:var(--rc);color:#fff;font-weight:700;font-size:15px;box-shadow:0 12px 24px -12px var(--rc);transition:filter .2s,transform .2s}
+.go:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.signup{margin:18px 0 0;text-align:center;font-size:13.5px;color:var(--muted)}
+.demo-note{margin:22px 0 0;display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--sun-soft);font-size:12.5px;color:#7A4E00}
+.demo-note svg{width:16px;height:16px;flex:none;margin-top:1px}
+.loading{text-align:center}
+.spin{width:54px;height:54px;border-radius:50%;border:5px solid var(--rs);border-top-color:var(--rc);margin:0 auto 18px}
+@media (prefers-reduced-motion:no-preference){.spin{animation:spin .8s linear infinite}}
+
+@media (max-width:900px){
+  .auth{grid-template-columns:minmax(0,1fr);min-height:0}
+  .auth-art{padding:22px 20px 26px;gap:14px}
+  .auth-art h1{margin-top:6px;font-size:28px;max-width:20ch}
+  .auth-art .lead,.auth-facts,.auth-foot{display:none}
+  .matchdemo{margin:4px 0 0;justify-content:center}
+  .mcard{width:clamp(120px,36vw,200px);padding:11px;gap:6px}
+  .mcard .tags{display:none}
+  .mcard.s{padding-right:20px}.mcard.j{padding-left:20px}
+  .mcard b{font-size:12.5px}
+  .mring{width:76px;height:76px;margin:0 -12px}
+  .mring svg{inset:5px;width:66px;height:66px}
+  .mring .in b{font-size:18px}
+  .auth-panel{padding:26px 16px 36px;place-items:start center}
+}
+/* Celular */
+@media (max-width:600px){
+  .rolebar-in{padding:8px 16px;gap:8px}
+  .rolebar .rolechip{display:none}
+  .logout span{display:none}
+  .logout{padding:8px 10px}
+  .shell{padding-inline:16px;gap:14px;padding-block:12px 32px}
+  .side{position:sticky;top:57px;z-index:15;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);margin-inline:-16px;padding:6px 16px;border-bottom:1px solid var(--line)}
+  .me .who{display:none}
+  .topline{flex-wrap:nowrap;gap:10px}
+  .search{flex:1 1 auto}
+  .me{gap:8px}
+  .hero{padding:18px}
+  .hero-art{justify-content:flex-start}
+  .pill{white-space:normal}
+  .pill:nth-child(n){margin-left:0}
+  .pagehead{padding:18px}
+  .kpi strong{font-size:24px}
+  .route{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="auth" id="auth">
+  <aside class="auth-art">
+    <div class="wordmark inv" aria-label="EN-MATCH"><span>EN-</span><span>MATCH</span></div>
+    <h1>Tu primera práctica empieza con un buen match</h1>
+    <p class="lead">Estudiantes, empresas, ONGs e institutos de cursos en un mismo lugar. Cada postulación recibe una respuesta.</p>
+    <div class="matchdemo" aria-hidden="true">
+      <div class="mcard s"><span class="k">Estudiante · 8vo ciclo</span><b>Ingeniería Industrial</b><div class="tags"><span class="tag t-br">Costos</span><span class="tag t-br">Excel</span><span class="tag t-vi">Liderazgo</span></div></div>
+      <div class="mring" id="mring"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="36"/><circle class="fg" cx="40" cy="40" r="36"/></svg><div class="in"><b id="mval">0%</b><small>match</small></div></div>
+      <div class="mcard j" id="mjob"></div>
+    </div>
+    <ul class="auth-facts" id="facts"></ul>
+    <p class="auth-foot">Prototipo · Laboratorio de Emprendimientos 2026</p>
+  </aside>
+  <main class="auth-panel">
+    <section class="step" id="step-role">
+      <h2>¿Cómo quieres entrar?</h2>
+      <p class="sub">Elige tu perfil para iniciar sesión.</p>
+      <div class="rolelist" id="rolelist"></div>
+      <div class="staff"><span>¿Eres parte del equipo EN-MATCH?</span><button type="button" data-role="admin">Entrar como administrador</button></div>
+      <p class="tour">¿Vas a presentar el proyecto? <button type="button" class="linkbtn" id="tour">Ver recorrido por los 5 perfiles</button></p>
+    </section>
+    <form class="step" id="step-login" hidden novalidate>
+      <button type="button" class="back" id="back"></button>
+      <div class="lg-who"><span class="ri" id="lg-ic"></span><span class="rolechip" id="lg-chip"></span></div>
+      <h2 id="lg-title">Inicia sesión</h2>
+      <p class="sub" id="lg-sub"></p>
+      <div class="field"><label for="lg-mail">Correo electrónico</label><input id="lg-mail" type="email" autocomplete="username" inputmode="email"></div>
+      <div class="field"><label for="lg-pw">Contraseña</label><div class="pw"><input id="lg-pw" type="password" autocomplete="current-password" placeholder="Tu contraseña"><button type="button" id="lg-eye" aria-pressed="false">Mostrar</button></div></div>
+      <div class="lg-row"><label class="chk"><input type="checkbox" checked> Recordarme</label><button type="button" class="linkbtn" id="lg-forgot">¿Olvidaste tu contraseña?</button></div>
+      <p class="err" id="lg-err" role="alert" hidden></p>
+      <button class="go" type="submit" id="lg-go">Iniciar sesión</button>
+      <p class="signup">¿Aún no tienes cuenta? <button type="button" class="linkbtn" id="lg-signup">Crear cuenta</button></p>
+      <p class="demo-note" id="demo-note"></p>
+    </form>
+    <section class="step loading" id="step-load" hidden aria-live="polite">
+      <div class="spin"></div>
+      <h2 style="font-size:20px" id="load-t">Preparando tu panel…</h2>
+      <p class="sub" style="margin-bottom:0">Cargando tus datos</p>
+    </section>
+  </main>
+</div>
+
+<div id="appwrap" hidden>
 <header class="rolebar">
   <div class="rolebar-in">
     <div class="brand"><div class="wordmark" aria-label="EN-MATCH"><span>EN-</span><span>MATCH</span></div></div>
-    <span class="viewas">Ver como</span>
-    <nav class="roles" role="tablist" aria-label="Ver como">
-      <button role="tab" data-v="estudiante">Estudiante</button>
-      <button role="tab" data-v="rrhh">RRHH Empresa</button>
-      <button role="tab" data-v="ong">ONG</button>
-      <button role="tab" data-v="cursos">Empresa de cursos</button>
-      <button role="tab" data-v="admin">Administrador</button>
-    </nav>
-    <button class="present" id="present" aria-pressed="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Presentar</span></button>
+    <span class="rolechip" id="rolechip"></span>
+    <div class="hdr-actions">
+      <button class="present on" id="present" hidden><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg><span>Detener recorrido</span></button>
+      <button class="logout" id="logout" aria-label="Cerrar sesión"></button>
+    </div>
   </div>
   <div class="pbar" id="pbar"></div>
 </header>
@@ -338,6 +517,7 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
   <main id="app" class="view"></main>
 </div>
 <p class="foot">Prototipo EN-MATCH · Laboratorio de Emprendimientos 2026. Las empresas, ONGs y sus logos son ficticios; las cifras son de ejemplo.</p>
+</div>
 <div class="toast" id="toast" hidden></div>
 <div class="modal" id="modal" hidden></div>
 
@@ -376,6 +556,10 @@ const I={
  alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17h.01"/>',
  plus:'<path d="M12 5v14M5 12h14"/>',
  scale:'<path d="M12 3v18M5 7h14M5 7l-3 7a4 4 0 006 0zM19 7l-3 7a4 4 0 006 0z"/>',
+ chev:'<path d="M9 6l6 6-6 6"/>',
+ back:'<path d="M15 6l-6 6 6 6"/>',
+ out:'<path d="M15 4h3a2 2 0 012 2v12a2 2 0 01-2 2h-3M10 16l-4-4 4-4M6 12h10"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
  building:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/>'
 };
 const ic=(n,sw=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
@@ -398,6 +582,16 @@ const L={
 };
 const logo=(k,o={})=>{const l=L[k];return `<span class="logo ${o.lg?'lg':''}"><span class="mk" style="--c:${l.c}"><svg viewBox="0 0 24 24" aria-hidden="true">${l.m}</svg></span>${o.bare?'':`<span class="nm">${l.n}${o.sub?`<small>${l.s}</small>`:''}</span>`}</span>`};
 
+
+/* ---------- Fechas relativas a hoy (no se vencen) ---------- */
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const HOY=new Date();HOY.setHours(0,0,0,0);
+const enDias=n=>{const d=new Date(HOY);d.setDate(d.getDate()+n);return d};
+const proxJueves=(()=>{const d=new Date(HOY);d.setDate(d.getDate()+(((4-d.getDay())+7)%7||7));return d})();
+const fLarga=d=>`${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
+const fCorta=d=>`${d.getDate()} ${MESES[d.getMonth()].slice(0,3)}`;
+
 /* ---------- Datos (ejemplo) ---------- */
 const ME={n:'Anderson Matute Quispe',short:'Anderson',ini:'AM',car:'Ingeniería Industrial',ciclo:'8vo ciclo',pts:842,perfil:78};
 const S={
@@ -408,7 +602,7 @@ const S={
   {id:4,k:'cobre',t:'Practicante de Mejora Continua',lugar:'Arequipa, Perú',mod:'Presencial',sub:1500,m:81,est:0,bm:false}
  ],
  postul:[
-  {t:'Practicante de Control de Gestión',k:'ruta',st:'in',fb:'¡Pasaste a entrevista! Fecha propuesta: jueves 2 de octubre, 10:00. Te recomendamos practicar la entrevista simulada de costos.'},
+  {t:'Practicante de Control de Gestión',k:'ruta',st:'in',fb:'¡Pasaste a entrevista! Fecha propuesta: '+fLarga(proxJueves)+', 10:00. Te recomendamos practicar la entrevista simulada de costos.'},
   {t:'Practicante de Calidad',k:'wari',st:'no',fb:'No seleccionado. El puesto pedía inglés intermedio (B1). Tu ruta ahora incluye el curso “Inglés para entrevistas”.'},
   {t:'Practicante de Logística',k:'andina',st:'wa',fb:'En revisión. Andina Logística responde en promedio en 4 días.'}
  ],
@@ -433,11 +627,11 @@ const S={
 
 /* ---------- Navegación lateral por rol ---------- */
 const NAV={
- estudiante:[['home','Inicio'],['brief','Ofertas de prácticas'],['user','Mi perfil'],['spark','Asistente IA'],['cap','Desarrollo de habilidades'],['game','Juegos y quizzes'],['chart','Mi progreso']],
- rrhh:[['home','Inicio'],['brief','Mis ofertas'],['users','Candidatos'],['target','Retos'],['shield','Sello y respuesta'],['chart','Reportes']],
- ong:[['home','Inicio'],['heart','Voluntariados'],['check','Validar horas'],['users','Voluntarios'],['chart','Impacto']],
- cursos:[['home','Inicio'],['book','Mis cursos'],['users','Inscritos'],['target','Brechas del mercado'],['chart','Resultados']],
- admin:[['home','Panel general'],['shield','Verificación'],['alert','Alertas'],['scale','Revisión de sesgos'],['building','Universidades'],['chart','Reportes']]
+ estudiante:[['home','Inicio','top'],['brief','Ofertas de prácticas','ofertas'],['user','Mi perfil','s-perfil'],['spark','Asistente IA','aicard'],['cap','Desarrollo de habilidades','s-feats'],['game','Juegos y quizzes','game'],['chart','Mi progreso','s-ruta']],
+ rrhh:[['home','Inicio','top'],['brief','Mis ofertas','s-kpis'],['users','Candidatos','s-cand'],['target','Retos','s-retos'],['shield','Sello y respuesta','s-sello'],['chart','Reportes','s-brechas']],
+ ong:[['home','Inicio','top'],['heart','Voluntariados','s-vols'],['check','Validar horas','s-validar'],['users','Voluntarios','s-validar'],['chart','Impacto','s-kpis']],
+ cursos:[['home','Inicio','top'],['book','Mis cursos','s-rend'],['users','Inscritos','s-insc'],['target','Brechas del mercado','s-brechas'],['chart','Resultados','s-kpis']],
+ admin:[['home','Panel general','top'],['shield','Verificación','s-ver'],['alert','Alertas','s-alertas'],['scale','Revisión de sesgos','s-sesgos'],['building','Universidades','s-univ'],['chart','Reportes','s-kpis']]
 };
 
 /* ---------- Vistas ---------- */
@@ -488,14 +682,14 @@ ${topline('Hola, '+ME.short,ME.car+' · '+ME.ciclo,ME.ini,'Busca prácticas, emp
     </article>`).join('')}</div>
   </section>
 
-  <section class="feats">
+  <section class="feats" id="s-feats">
    <div class="feat lift"><span class="ic">${ic('doc')}</span><h3>Optimiza tu CV con IA</h3><p>Recomendaciones para destacar tu proyecto de @RISK y tu liderazgo en Santander X.</p><button class="btn sm p" data-ai="cv">Mejorar mi CV →</button></div>
    <div class="feat k lift"><span class="ic">${ic('mic')}</span><h3>Prepárate para entrevistas</h3><p>Practica con la IA: analiza tu respuesta y te da consejos al instante.</p><button class="btn sm p" data-ai="ent">Comenzar práctica →</button></div>
    <div class="feat v lift"><span class="ic">${ic('game')}</span><h3>Juega y demuestra tu potencial</h3><p>Resuelve retos de costos y procesos. Cada acierto suma puntos a tu perfil.</p><button class="btn sm p" data-game>Jugar ahora →</button></div>
    <div class="feat s lift"><span class="ic">${ic('cap')}</span><h3>Desarrolla tus habilidades</h3><p>Cursos de empresas colaboradoras según lo que te falta, con insignias.</p><button class="btn sm p" data-ai="cur">Ver cursos →</button></div>
   </section>
 
-  <section class="card">
+  <section class="card" id="s-ruta">
    <div class="sec-h"><h2>Tu ruta hacia la primera práctica</h2><span class="tag t-br">Estás en 8vo ciclo</span></div>
    <div class="route">${[
     ['5to ciclo','Descubre',['Test de intereses','CV base'],'done'],
@@ -527,7 +721,7 @@ ${topline('Hola, '+ME.short,ME.car+' · '+ME.ciclo,ME.ini,'Busca prácticas, emp
  </div>
 
  <aside class="stack">
-  <section class="card">
+  <section class="card" id="s-perfil">
    <div class="pf"><span class="av">${ME.ini}</span><div><b>${ME.n}</b><span class="small muted">${ME.car} · ${ME.ciclo}<br>UARM · Intercambio PUJ Cali</span></div></div>
    <div class="tags" style="margin-top:12px"><span class="tag t-ok">${ic('check',3)} CV verificado</span><span class="tag t-br">Líder Santander X</span><span class="tag t-vi">Voluntario JNE</span><span class="tag t-wa">@RISK Monte Carlo</span></div>
   </section>
@@ -558,14 +752,14 @@ V.rrhh=()=>{const r=S.cand.filter(c=>c.st).length;return `
 ${topline('Paola Ramírez','Talento · Andina Logística','PR','Busca candidatos, carreras o habilidades…')}
 <div class="stack">
  <section class="pagehead"><div>${logo('andina',{lg:true,sub:true})}<h1>Practicante de Costos y Presupuestos</h1><p>5 candidatos evaluados, ordenados por habilidades demostradas. Responde a cada uno para mantener tu sello.</p></div><button class="btn p" data-toast="Borrador de reto creado">${ic('plus')} Publicar un reto</button></section>
- <div class="kpis">
+ <div class="kpis" id="s-kpis">
   <div class="kpi"><span class="ic">${ic('brief')}</span><span>Ofertas activas</span><strong data-count="3">0</strong><em>2 prácticas · 1 reto</em></div>
   <div class="kpi"><span class="ic">${ic('users')}</span><span>Postulantes esta semana</span><strong data-count="47">0</strong><em>+12 vs. semana pasada</em></div>
   <div class="kpi"><span class="ic">${ic('clock')}</span><span>Días para contratar</span><strong data-count="11">0</strong><em>−6 días con EN-MATCH</em></div>
   <div class="kpi hl"><span class="ic">${ic('shield')}</span><span>Tasa de respuesta</span><strong data-count="96" data-suf="%">0%</strong><em>Sello activo</em></div>
  </div>
  <div class="grid">
-  <section class="card c8">
+  <section class="card c8" id="s-cand">
    <div class="sec-h"><h2>Candidatos</h2><span class="tag t-br">${r} de ${S.cand.length} respondidos</span></div>
    <div class="tw"><table><thead><tr><th>Candidato</th><th>Puntaje</th><th>Entrevista IA</th><th>Insignias</th><th>Acción</th></tr></thead><tbody>
    ${S.cand.map((c,i)=>`<tr><td><div class="person"><span class="av">${c.ini}</span><div><b>${c.n}</b><div class="small muted">${c.u}</div></div></div></td><td class="sc" style="color:var(--brand-700)">${c.p}</td><td class="sc">${c.e}</td><td><div class="tags">${c.ins.length?c.ins.map(x=>`<span class="tag t-br">${x}</span>`).join(''):'<span class="muted">—</span>'}</div></td>
@@ -573,12 +767,12 @@ ${topline('Paola Ramírez','Talento · Andina Logística','PR','Busca candidatos
    </tbody></table></div>
   </section>
   <div class="stack c4">
-   <section class="card"><div class="seal"><span class="badge">96%</span><div><b style="font-family:var(--display)">Empresa que responde</b><div class="small muted">Los estudiantes ven este sello en tus ofertas.</div></div></div></section>
-   <section class="card"><div class="sec-h"><h2>Retos publicados</h2></div><div class="list">
-    <div class="item"><div class="grow"><div class="t">Reduce el costo por pedido</div><div class="m">32 soluciones · cierra el 5 oct</div></div><span class="tag t-ok">Activo</span></div>
-    <div class="item"><div class="grow"><div class="t">Planifica una semana de despachos</div><div class="m">18 soluciones · cierra el 12 oct</div></div><span class="tag t-ok">Activo</span></div></div></section>
+   <section class="card" id="s-sello"><div class="seal"><span class="badge">96%</span><div><b style="font-family:var(--display)">Empresa que responde</b><div class="small muted">Los estudiantes ven este sello en tus ofertas.</div></div></div></section>
+   <section class="card" id="s-retos"><div class="sec-h"><h2>Retos publicados</h2></div><div class="list">
+    <div class="item"><div class="grow"><div class="t">Reduce el costo por pedido</div><div class="m">32 soluciones · cierra el ${fCorta(enDias(6))}</div></div><span class="tag t-ok">Activo</span></div>
+    <div class="item"><div class="grow"><div class="t">Planifica una semana de despachos</div><div class="m">18 soluciones · cierra el ${fCorta(enDias(13))}</div></div><span class="tag t-ok">Activo</span></div></div></section>
   </div>
-  <section class="card c12"><div class="sec-h"><h2>Lo que más les falta a tus postulantes</h2><span class="small muted">% de postulantes, últimos 60 días</span></div>
+  <section class="card c12" id="s-brechas"><div class="sec-h"><h2>Lo que más les falta a tus postulantes</h2><span class="small muted">% de postulantes, últimos 60 días</span></div>
    <div class="bars">${bar('Inglés intermedio',44,'lo')}${bar('Manejo del tiempo',31,'lo')}${bar('Redacción',22,'lo')}${bar('Power BI',18,'lo')}</div></section>
  </div>
 </div>`};
@@ -587,16 +781,16 @@ V.ong=()=>`
 ${topline('Rosa Huamaní','Coordinadora · Red Sembrando Futuro','RH','Busca voluntarios o proyectos…')}
 <div class="stack">
  <section class="pagehead"><div>${logo('sembrando',{lg:true,sub:true})}<h1>12 voluntarios activos en tus proyectos</h1><p>Publica voluntariados ligados a carreras y valida las horas. Cada validación se convierte en una insignia que ven las empresas.</p></div><button class="btn p" data-toast="Borrador de voluntariado creado">${ic('plus')} Publicar voluntariado</button></section>
- <div class="kpis">
+ <div class="kpis" id="s-kpis">
   <div class="kpi"><span class="ic">${ic('heart')}</span><span>Voluntariados publicados</span><strong data-count="4">0</strong><em>2 abiertos</em></div>
   <div class="kpi"><span class="ic">${ic('users')}</span><span>Voluntarios activos</span><strong data-count="12">0</strong><em>+5 este mes</em></div>
   <div class="kpi hl"><span class="ic">${ic('clock')}</span><span>Horas validadas</span><strong data-count="486">0</strong><em>desde marzo</em></div>
   <div class="kpi"><span class="ic">${ic('check')}</span><span>Por validar</span><strong>${S.vol.filter(v=>v.st==='p').length}</strong><em class="dn">Responde en 7 días</em></div>
  </div>
  <div class="grid">
-  <section class="card c7"><div class="sec-h"><h2>Validar horas</h2><span class="small muted">Emite la insignia al estudiante</span></div>
+  <section class="card c7" id="s-validar"><div class="sec-h"><h2>Validar horas</h2><span class="small muted">Emite la insignia al estudiante</span></div>
    <div class="list">${S.vol.map((v,i)=>`<div class="item"><div class="person grow"><span class="av">${v.ini}</span><div><div class="t">${v.n}</div><div class="m">${v.a} · <span class="num">${v.h}</span> h</div></div></div>${v.st==='ok'?`<span class="tag t-ok">${ic('check',3)} Insignia emitida</span>`:`<div class="act"><button class="btn sm p" data-val="${i}">Validar</button><button class="btn sm" data-toast="Pediste más detalle al voluntario">Pedir detalle</button></div>`}</div>`).join('')}</div></section>
-  <section class="card c5"><div class="sec-h"><h2>Tus voluntariados</h2></div><div class="list">
+  <section class="card c5" id="s-vols"><div class="sec-h"><h2>Tus voluntariados</h2></div><div class="list">
    <div class="item"><div class="grow"><div class="t">Diagnóstico de almacén comunitario</div><div class="m">Ing. Industrial, Administración · 40 h · Villa El Salvador</div></div><span class="tag t-ok">3 cupos</span></div>
    <div class="item"><div class="grow"><div class="t">Taller de finanzas para emprendedoras</div><div class="m">Economía, Contabilidad · 24 h</div></div><span class="tag t-ok">5 cupos</span></div>
    <div class="item"><div class="grow"><div class="t">Censo de huertos urbanos</div><div class="m">Ing. Ambiental · 30 h</div></div><span class="tag t-in">Completo</span></div></div></section>
@@ -607,24 +801,24 @@ V.cursos=()=>`
 ${topline('Julio Paredes','Alianzas · Aprende+ Perú','JP','Busca cursos o habilidades…')}
 <div class="stack">
  <section class="pagehead"><div>${logo('aprende',{lg:true,sub:true})}<h1>Tus cursos llegan a quien los necesita</h1><p>EN-MATCH recomienda tu curso solo a estudiantes a los que les falta esa habilidad, y les otorga una insignia al terminar.</p></div><button class="btn p" data-toast="Borrador de curso creado">${ic('plus')} Publicar curso</button></section>
- <div class="kpis">
+ <div class="kpis" id="s-kpis">
   <div class="kpi"><span class="ic">${ic('book')}</span><span>Cursos publicados</span><strong data-count="3">0</strong><em>2 con insignia</em></div>
   <div class="kpi"><span class="ic">${ic('users')}</span><span>Inscritos</span><strong data-count="1248">0</strong><em>+214 este mes</em></div>
   <div class="kpi"><span class="ic">${ic('check')}</span><span>Completaron</span><strong data-count="63" data-suf="%">0%</strong><em>+8 puntos</em></div>
   <div class="kpi hl"><span class="ic">${ic('trophy')}</span><span>Consiguieron práctica</span><strong data-count="118">0</strong><em>después del curso</em></div>
  </div>
  <div class="grid">
-  <section class="card c7"><div class="sec-h"><h2>Rendimiento por curso</h2></div>
+  <section class="card c7" id="s-rend"><div class="sec-h"><h2>Rendimiento por curso</h2></div>
    <div class="tw"><table><thead><tr><th>Curso</th><th>Inscritos</th><th>Completaron</th><th>Insignia</th></tr></thead><tbody>
     <tr><td><b>Inglés para entrevistas</b></td><td class="num">702</td><td class="num">71%</td><td><span class="tag t-br">Inglés B1</span></td></tr>
     <tr><td><b>Gestión del tiempo para practicantes</b></td><td class="num">389</td><td class="num">58%</td><td><span class="tag t-br">Manejo del tiempo</span></td></tr>
     <tr><td><b>Power BI desde cero</b></td><td class="num">157</td><td class="num">44%</td><td><span class="muted">Sin insignia</span></td></tr></tbody></table></div>
-   <div class="sec-h" style="margin-top:18px"><h2>Habilidades que piden las empresas</h2><span class="small muted">Oportunidad para nuevos cursos</span></div>
+   <div class="sec-h" id="s-brechas" style="margin-top:18px"><h2>Habilidades que piden las empresas</h2><span class="small muted">Oportunidad para nuevos cursos</span></div>
    <div class="list"><div class="item"><div class="grow t">Power BI</div><span class="tag t-wa">Demanda alta · pocos cursos</span></div><div class="item"><div class="grow t">Redacción profesional</div><span class="tag t-no">Demanda alta · sin cursos</span></div><div class="item"><div class="grow t">Inglés intermedio</div><span class="tag t-ok">Cubierta por ti</span></div></div>
   </section>
   <section class="card c5"><div class="sec-h"><h2>Así lo ve el estudiante</h2></div>
    <div class="feat" style="background:#fff"><div style="display:flex;gap:10px;align-items:center">${logo('aprende',{bare:true})}<div><div class="small" style="font-weight:700;color:var(--sky)">Aprende+ Perú</div><h3>Inglés para entrevistas</h3></div></div><p>6 h · Gratis · Otorga insignia “Inglés B1” · +80 pts</p><span class="tag t-in" style="align-self:flex-start;white-space:normal">Recomendado porque te falta inglés intermedio</span><button class="btn sm p" data-toast="Así se inscribe el estudiante">Inscribirme</button></div>
-   <div class="sec-h" style="margin-top:18px;margin-bottom:0"><h2>Inscripciones por semana</h2></div>
+   <div class="sec-h" id="s-insc" style="margin-top:18px;margin-bottom:0"><h2>Inscripciones por semana</h2></div>
    <div class="minichart">${[120,150,138,176,201,214].map((v,i,a)=>`<div class="${i===a.length-1?'hl':''}" style="height:${v/214*100}%;animation-delay:${i*.07}s"><span>${v}</span></div>`).join('')}</div>
    <div class="mlabels">${['S1','S2','S3','S4','S5','S6'].map(x=>`<span>${x}</span>`).join('')}</div>
   </section>
@@ -635,24 +829,24 @@ V.admin=()=>`
 ${topline('Equipo EN-MATCH','Administrador','EM','Busca organizaciones, usuarios u ofertas…')}
 <div class="stack">
  <section class="pagehead"><div><span class="tag t-br">${ic('shield')} Administrador</span><h1>Panel general del piloto</h1><p>Verifica organizaciones, vigila la calidad de las ofertas y revisa que el puntaje no discrimine.</p></div></section>
- <div class="kpis">
+ <div class="kpis" id="s-kpis">
   <div class="kpi"><span class="ic">${ic('users')}</span><span>Estudiantes activos</span><strong data-count="3412">0</strong><em>+9% este mes</em></div>
   <div class="kpi"><span class="ic">${ic('building')}</span><span>Empresas verificadas</span><strong data-count="57">0</strong><em>${S.pend.filter(e=>!e.st).length} por revisar</em></div>
   <div class="kpi"><span class="ic">${ic('shield')}</span><span>Tasa de respuesta</span><strong data-count="91" data-suf="%">0%</strong><em>Meta: 90%</em></div>
   <div class="kpi hl"><span class="ic">${ic('trophy')}</span><span>Prácticas conseguidas</span><strong data-count="286">0</strong><em>desde marzo</em></div>
  </div>
  <div class="grid">
-  <section class="card c7"><div class="sec-h"><h2>Verificación por RUC</h2><span class="small muted">Nuevas organizaciones</span></div>
+  <section class="card c7" id="s-ver"><div class="sec-h"><h2>Verificación por RUC</h2><span class="small muted">Nuevas organizaciones</span></div>
    <div class="list">${S.pend.map((e,i)=>`<div class="item"><div class="grow" style="display:flex;gap:10px;align-items:center">${logo(e.k,{bare:true})}<div style="min-width:0"><div class="t">${L[e.k].n}</div><div class="m">${e.tipo} · RUC <span class="num">${e.ruc}</span></div></div></div>${e.st==='ok'?`<span class="tag t-ok">${ic('check',3)} Aprobada</span>`:e.st==='no'?'<span class="tag t-no">Rechazada</span>':`<div class="act"><button class="btn sm p" data-apr="${i}">Aprobar</button><button class="btn sm" data-rec="${i}">Rechazar</button></div>`}</div>`).join('')}</div>
-   <div class="sec-h" style="margin-top:18px"><h2>Alertas</h2></div>
+   <div class="sec-h" id="s-alertas" style="margin-top:18px"><h2>Alertas</h2></div>
    <div class="list"><div class="item"><div class="grow"><div class="t">Oferta sin subvención</div><div class="m">“Practicante ad honorem” · Comercial Norte Grande</div></div><span class="tag t-no">${ic('alert')} Revisar</span></div><div class="item"><div class="grow"><div class="t">Empresa con 12 días sin responder</div><div class="m">Distribuidora Pacífico Sur · 23 postulantes esperando</div></div><span class="tag t-wa">Recordatorio enviado</span></div></div>
   </section>
-  <section class="card c5"><div class="sec-h"><h2>Revisión de sesgos</h2><span class="small muted">Puntaje promedio</span></div>
+  <section class="card c5" id="s-sesgos"><div class="sec-h"><h2>Revisión de sesgos</h2><span class="small muted">Puntaje promedio</span></div>
    <p class="small muted" style="margin:-4px 0 12px">Si un grupo queda más de 8 puntos debajo del promedio, se revisa el modelo.</p>
    <div class="bars">${bar('Lima',74)}${bar('Regiones',71)}${bar('Mujeres',75)}${bar('Hombres',73)}${bar('Univ. pública',72)}${bar('Univ. privada',75)}</div>
    <div class="seal" style="margin-top:14px"><span class="badge">4</span><div><b style="font-family:var(--display)">Diferencia máxima entre grupos</b><div class="small muted">Dentro del límite de 8 puntos</div></div></div>
   </section>
-  <section class="card c12"><div class="sec-h"><h2>Universidades aliadas</h2><span class="small muted">Datos de empleabilidad</span></div>
+  <section class="card c12" id="s-univ"><div class="sec-h"><h2>Universidades aliadas</h2><span class="small muted">Datos de empleabilidad</span></div>
    <div class="tw"><table><thead><tr><th>Universidad</th><th>Estudiantes</th><th>Nivel promedio</th><th>Con práctica</th><th>Licencia</th></tr></thead><tbody>
     <tr><td><b>Universidad Antonio Ruiz de Montoya</b></td><td class="num">842</td><td class="num">3,1</td><td class="num">38%</td><td><span class="tag t-ok">Activa</span></td></tr>
     <tr><td><b>Universidad de Ejemplo del Sur</b></td><td class="num">1 105</td><td class="num">2,7</td><td class="num">29%</td><td><span class="tag t-ok">Activa</span></td></tr>
@@ -694,15 +888,17 @@ const ORDER=['estudiante','rrhh','ong','cursos','admin'];
 let cur='estudiante';
 function show(v,keepScroll){
  if(!V[v])v='estudiante';cur=v;
- $$('.roles button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===v));
- $('#nav').innerHTML=NAV[v].map(([i,t],n)=>`<a href="#${v}" class="${n===0?'on':''}" data-nav>${ic(i)}<span>${t}</span></a>`).join('');
+ const R=ROLES[v];$('#rolechip').innerHTML=ic(R.ic)+R.panel;$('.rolebar').style.setProperty('--rc',R.c);$('.rolebar').style.setProperty('--rs',R.s);
+ $('#nav').innerHTML=NAV[v].map(([i,t,sec],n)=>`<a href="#${v}" class="${n===0?'on':''}" data-nav data-sec="${sec}">${ic(i)}<span>${t}</span></a>`).join('');
  app.classList.remove('view');void app.offsetWidth;app.classList.add('view');
  app.innerHTML=V[v]();animate();
  if(!keepScroll)window.scrollTo({top:0,behavior:RM?'auto':'smooth'});
- try{localStorage.setItem('enmatch-rol',v)}catch(e){}
 }
-$('.roles').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;stopPresent();show(b.dataset.v)});
-$('#nav').addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(!a)return;e.preventDefault();$$('#nav a').forEach(x=>x.classList.remove('on'));a.classList.add('on');toast(a.textContent.trim()+': sección de ejemplo del prototipo')});
+$('#nav').addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(!a)return;e.preventDefault();$$('#nav a').forEach(x=>x.classList.remove('on'));a.classList.add('on');a.scrollIntoView({block:'nearest',inline:'nearest'});
+ const sec=a.dataset.sec,beh=RM?'auto':'smooth';
+ if(sec==='game')return openGame();
+ if(sec==='top')return window.scrollTo({top:0,behavior:beh});
+ const el=document.getElementById(sec);if(el){el.scrollIntoView({behavior:beh,block:'start'});el.animate&&!RM&&el.animate([{boxShadow:'0 0 0 3px #1FB597'},{boxShadow:'0 0 0 0 rgba(31,181,151,0)'}],{duration:1200})}});
 
 function toast(msg){const t=$('#toast');t.innerHTML=ic('check',3)+'<span></span>';t.lastChild.textContent=msg;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2600)}
 
@@ -725,19 +921,21 @@ function askAI(k){
 
 /* ---------- Juego ---------- */
 const Q={q:'Coordinas una línea de producción. ¿Cuál de estos NO es un elemento del costo de producción?',o:['Materiales directos','Mano de obra directa','Costos indirectos de fabricación','Gastos de publicidad'],c:3};
-function closeGame(){const m=$('#modal');m.hidden=true;m.innerHTML=''}
+function closeGame(){clearTimeout(openGame.t);const m=$('#modal');m.hidden=true;m.innerHTML=''}
 function openGame(){
  const m=$('#modal');
  m.innerHTML=`<div class="dialog" role="dialog" aria-modal="true" aria-labelledby="gq"><span class="tag t-vi">${ic('game')} Reto de costos · +20 pts</span><h3 id="gq">${Q.q}</h3><div class="timer"><i id="tm"></i></div><div class="opts">${Q.o.map((o,i)=>`<button data-opt="${i}">${o}</button>`).join('')}</div><p class="small muted" id="gres" style="margin:0 0 12px">Elige una respuesta antes de que termine el tiempo.</p><div style="display:flex;justify-content:flex-end"><button class="btn" data-close>Cerrar</button></div></div>`;
  m.hidden=false;
  const tm=$('#tm');if(!RM){tm.style.transition='width 20s linear';requestAnimationFrame(()=>requestAnimationFrame(()=>tm.style.width='0%'))}
  $('[data-opt]',m).focus();
+ clearTimeout(openGame.t);
+ openGame.t=setTimeout(()=>{if(m.hidden)return;const bs=$$('[data-opt]',m);if(!bs.length||bs[0].disabled)return;bs.forEach((x,j)=>{x.disabled=true;if(j===Q.c)x.classList.add('right')});$('#gres').innerHTML='<b style="color:var(--coral)">Se acabó el tiempo.</b> La respuesta era “Gastos de publicidad”: es un gasto de venta, no de producción.'},20000);
 }
 $('#modal').addEventListener('click',e=>{
  const m=$('#modal');
  if(e.target===m||e.target.closest('[data-close]'))return closeGame();
  const b=e.target.closest('[data-opt]');if(!b||b.disabled)return;
- const i=+b.dataset.opt;
+ clearTimeout(openGame.t);const i=+b.dataset.opt;
  $$('[data-opt]',m).forEach((x,j)=>{x.disabled=true;if(j===Q.c)x.classList.add('right');else if(j===i)x.classList.add('wrong')});
  const tm=$('#tm');const w=getComputedStyle(tm).width;tm.style.transition='none';tm.style.width=w;
  if(i===Q.c){
@@ -769,16 +967,94 @@ app.addEventListener('keydown',e=>{if(e.target.id==='q'&&e.key==='Enter'&&e.targ
 /* ---------- Modo presentación ---------- */
 let pres=null;const PDUR=9000;
 function tickBar(){const pb=$('#pbar');pb.style.transition='none';pb.style.width='0';void pb.offsetWidth;if(!RM){pb.style.transition=`width ${PDUR}ms linear`;pb.style.width='100%'}}
-function stopPresent(){if(!pres)return;clearInterval(pres);pres=null;const b=$('#present');b.classList.remove('on');b.setAttribute('aria-pressed','false');b.lastChild.textContent='Presentar';const pb=$('#pbar');pb.style.transition='none';pb.style.width='0'}
-$('#present').addEventListener('click',()=>{
- if(pres)return stopPresent();
- const b=$('#present');b.classList.add('on');b.setAttribute('aria-pressed','true');b.lastChild.textContent='Detener';
- show(cur);tickBar();
+function stopPresent(){if(!pres)return;clearInterval(pres);pres=null;$('#present').hidden=true;const pb=$('#pbar');pb.style.transition='none';pb.style.width='0'}
+function startPresent(){
+ stopPresent();$('#present').hidden=false;tickBar();
  pres=setInterval(()=>{show(ORDER[(ORDER.indexOf(cur)+1)%ORDER.length]);tickBar()},PDUR);
+}
+$('#present').addEventListener('click',()=>{stopPresent();toast('Recorrido detenido. Sigues en el panel de '+ROLES[cur].t.toLowerCase())});
+
+/* ---------- Perfiles e inicio de sesión ---------- */
+const ROLES={
+ estudiante:{t:'Estudiante',d:'Busca tu primera práctica y prepárate con IA',ic:'cap',c:'#139A80',s:'#E1F6EF',panel:'Panel de estudiante',ph:'tu.nombre@universidad.edu.pe',sub:'Usa el correo de tu universidad o el que registraste.'},
+ rrhh:{t:'Empresa',d:'Publica prácticas y encuentra talento ya evaluado',ic:'brief',c:'#2F7BEA',s:'#E3EEFD',panel:'Panel de empresa',ph:'talento@tuempresa.com.pe',sub:'Entra con el correo de tu área de talento o RR. HH.'},
+ ong:{t:'ONG',d:'Publica voluntariados y valida las horas',ic:'heart',c:'#E0533F',s:'#FDE6E2',panel:'Panel de ONG',ph:'coordinacion@tuong.org.pe',sub:'Entra con el correo de tu organización verificada.'},
+ cursos:{t:'Empresa de cursos',d:'Lleva tus cursos a quien los necesita',ic:'book',c:'#7458F2',s:'#EDE9FE',panel:'Panel de cursos',ph:'alianzas@tuinstituto.edu.pe',sub:'Entra con el correo de tu institución.'},
+ admin:{t:'Administrador',d:'Verifica organizaciones y supervisa el piloto',ic:'shield',c:'#10302A',s:'#E4ECEA',panel:'Administración',ph:'nombre@enmatch.pe',sub:'Acceso solo para el equipo EN-MATCH.'}
+};
+const auth=$('#auth'),wrap=$('#appwrap');
+let pick='estudiante';
+const SKEY='enmatch-sesion';
+const ssGet=()=>{try{return JSON.parse(sessionStorage.getItem(SKEY)||localStorage.getItem(SKEY)||'null')}catch(e){return null}};
+const ssSet=(o,keep)=>{try{sessionStorage.setItem(SKEY,JSON.stringify(o));if(keep)localStorage.setItem(SKEY,JSON.stringify(o));else localStorage.removeItem(SKEY)}catch(e){}};
+const ssDel=()=>{try{sessionStorage.removeItem(SKEY);localStorage.removeItem(SKEY)}catch(e){}};
+
+$('#rolelist').innerHTML=['estudiante','rrhh','ong','cursos'].map(k=>{const r=ROLES[k];return `<button type="button" class="rolebtn" data-role="${k}" style="--rc:${r.c};--rs:${r.s}"><span class="ri">${ic(r.ic)}</span><span><b>${r.t}</b><span>${r.d}</span></span>${ic('chev').replace('<svg','<svg class="chev"')}</button>`}).join('');
+$('#mjob').innerHTML=`${logo('andina')}<b>Practicante de Costos y Presupuestos</b><div class="tags"><span class="tag t-ok">Responde en 4 días</span></div>`;
+$('#facts').innerHTML=[['shield','Empresas y ONGs verificadas por RUC'],['check','Respuesta en cada postulación, con motivo'],['mic','Entrevistas de práctica con IA']].map(([i,t])=>`<li><i>${ic(i,2.4)}</i>${t}</li>`).join('');
+$('#back').innerHTML=ic('back')+'Cambiar de perfil';
+$('#logout').innerHTML=ic('out')+'<span>Cerrar sesión</span>';
+$('#demo-note').innerHTML=ic('info')+'<span>Versión de demostración: entra con cualquier correo y contraseña.</span>';
+
+function matchAnim(){
+ const r=$('#mring'),v=$('#mval');r.classList.remove('on');v.textContent='0%';
+ requestAnimationFrame(()=>requestAnimationFrame(()=>r.classList.add('on')));
+ if(RM){v.textContent='94%';return}
+ setTimeout(()=>{const t0=performance.now();const st=t=>{const k=Math.min(1,(t-t0)/1200),e=1-Math.pow(1-k,3);v.textContent=Math.round(94*e)+'%';if(k<1)requestAnimationFrame(st)};requestAnimationFrame(st)},900);
+}
+function step(id){['step-role','step-login','step-load'].forEach(x=>{$('#'+x).hidden=x!==id});const el=$('#'+id);el.style.animation='none';void el.offsetWidth;el.style.animation=''}
+function setAccent(k){const r=ROLES[k];auth.style.setProperty('--rc',r.c);auth.style.setProperty('--rs',r.s)}
+function openLogin(k){
+ pick=ROLES[k]?k:'estudiante';const r=ROLES[pick];setAccent(pick);
+ $('#lg-ic').innerHTML=ic(r.ic);$('#lg-chip').innerHTML=r.t;
+ $('#lg-title').textContent='Inicia sesión como '+(pick==='admin'?'administrador':r.t.toLowerCase());
+ $('#lg-sub').textContent=r.sub;
+ const m=$('#lg-mail');m.placeholder=r.ph;m.value='';m.removeAttribute('aria-invalid');
+ const p=$('#lg-pw');p.value='';p.type='password';p.removeAttribute('aria-invalid');$('#lg-eye').textContent='Mostrar';
+ $('#lg-err').hidden=true;
+ step('step-login');m.focus({preventScroll:true});
+ if(innerWidth<=900)$('.auth-panel').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
+}
+function showAuth(){
+ stopPresent();closeGame();wrap.hidden=true;auth.hidden=false;
+ setAccent('estudiante');step('step-role');window.scrollTo(0,0);matchAnim();
+ document.title='EN-MATCH · Inicia sesión';
+}
+function enter(k,mail,opts={}){
+ auth.hidden=true;wrap.hidden=false;
+ show(k);window.scrollTo(0,0);
+ document.title='EN-MATCH · '+ROLES[k].panel;
+ if(!opts.silent)toast('Sesión iniciada'+(mail?' como '+mail:''));
+}
+auth.addEventListener('click',e=>{const b=e.target.closest('[data-role]');if(b)openLogin(b.dataset.role)});
+$('#back').addEventListener('click',()=>{setAccent('estudiante');step('step-role')});
+$('#lg-eye').addEventListener('click',e=>{const p=$('#lg-pw'),on=p.type==='password';p.type=on?'text':'password';e.currentTarget.textContent=on?'Ocultar':'Mostrar';e.currentTarget.setAttribute('aria-pressed',on)});
+$('#lg-forgot').addEventListener('click',()=>toast('Te enviaríamos un enlace para crear una nueva contraseña'));
+$('#lg-signup').addEventListener('click',()=>toast('El registro estará disponible en la versión piloto'));
+$('#step-login').addEventListener('submit',e=>{
+ e.preventDefault();
+ const m=$('#lg-mail'),p=$('#lg-pw'),er=$('#lg-err'),mail=m.value.trim();
+ m.removeAttribute('aria-invalid');p.removeAttribute('aria-invalid');
+ let msg='';
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){msg='Escribe un correo válido, por ejemplo nombre@correo.com';m.setAttribute('aria-invalid','true');m.focus()}
+ else if(!p.value){msg='Escribe tu contraseña para continuar';p.setAttribute('aria-invalid','true');p.focus()}
+ if(msg){er.textContent=msg;er.hidden=false;return}
+ er.hidden=true;
+ const keep=$('.chk input').checked;
+ $('#load-t').textContent='Preparando tu '+ROLES[pick].panel.toLowerCase().replace('administración','panel de administración')+'…';
+ step('step-load');
+ setTimeout(()=>{ssSet({r:pick,m:mail},keep);enter(pick,mail)},RM?200:1100);
 });
+$('#logout').addEventListener('click',()=>{ssDel();showAuth();toast('Cerraste sesión')});
+$('#tour').addEventListener('click',()=>{enter('estudiante','',{silent:true});startPresent();toast('Recorrido: cambia de perfil cada 9 segundos')});
 
 /* ---------- Inicio ---------- */
-let start='estudiante';const h=(location.hash||'').slice(1);
-if(ORDER.includes(h))start=h;else{try{const s=localStorage.getItem('enmatch-rol');if(ORDER.includes(s))start=s}catch(e){}}
-show(start,true);
+(()=>{
+ const h=(location.hash||'').slice(1),ses=ssGet();
+ if(ses&&ROLES[ses.r]){enter(ses.r,ses.m,{silent:true});return}
+ showAuth();
+ if(ROLES[h])openLogin(h);
+})();
 </script>
+</body>
+</html>
