@@ -16,16 +16,30 @@ Para activar todo lo real, sigue estos pasos una sola vez. Tiempo estimado: 30 a
 ## 3. Activar la IA y las funciones del servidor
 La clave de Anthropic **nunca** va en el HTML ni en el repositorio: se guarda como secreto en el servidor.
 
+Necesitas [Node.js](https://nodejs.org) instalado y este repositorio en tu computadora (en GitHub: **Code → Download ZIP**, y descomprímelo). Abre una terminal **dentro de esa carpeta**. No hace falta instalar nada más: se usa `npx`.
+
+**Windows (PowerShell):**
+```powershell
+npx supabase login
+npx supabase link --project-ref TU_REF                     # el REF está en Settings → General
+npx supabase secrets set ANTHROPIC_API_KEY=sk-ant-...      # tu clave de console.anthropic.com
+npx supabase secrets set ALLOWED_ORIGIN=https://TU-USUARIO.github.io
+foreach ($f in 'analizar-cv','publicar-oferta','match-feed','match-candidatos','reto-generar','reto-obtener','reto-responder') {
+  npx supabase functions deploy $f --use-api
+}
+```
+
+**Mac o Linux:**
 ```bash
-npm i -g supabase
-supabase login
-supabase link --project-ref TU_REF                     # el REF está en Settings → General
-supabase secrets set ANTHROPIC_API_KEY=sk-ant-...      # tu clave de console.anthropic.com
-supabase secrets set ALLOWED_ORIGIN=https://TU-USUARIO.github.io   # solo tu página puede llamar a las funciones
+npx supabase login
+npx supabase link --project-ref TU_REF
+npx supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
+npx supabase secrets set ALLOWED_ORIGIN=https://TU-USUARIO.github.io
 for f in analizar-cv publicar-oferta match-feed match-candidatos reto-generar reto-obtener reto-responder; do
-  supabase functions deploy $f
+  npx supabase functions deploy $f --use-api
 done
 ```
+`ALLOWED_ORIGIN` es solo el dominio (sin ruta ni barra final). `--use-api` evita tener que instalar Docker.
 Opcional: `supabase secrets set CLAUDE_MODEL=<id del modelo>` para cambiar de modelo.
 
 ## 4. Conectar la página
