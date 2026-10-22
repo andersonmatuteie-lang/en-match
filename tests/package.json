@@ -1,0 +1,7 @@
+{
+  "name": "en-match-tests",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --experimental-strip-types score.test.mjs && node --experimental-strip-types match.test.mjs && node sql.test.mjs" },
+  "devDependencies": { "@electric-sql/pglite": "^0.2.0" }
+}
