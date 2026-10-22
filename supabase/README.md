@@ -1,62 +1,78 @@
-# EN-MATCH · Servidor (Fase 1: cuentas + CV + puntaje con IA)
+# EN-MATCH · Servidor (cuentas, CV, match, retos y verificación)
 
-Mientras `config.js` esté vacío, la página funciona en **modo demostración** (datos de ejemplo).
-Para activar cuentas reales y el análisis de CV con IA, sigue estos pasos una sola vez.
+Mientras `config.js` esté vacío, la página funciona en **modo demostración** (datos de ejemplo, sin servidor).
+Para activar todo lo real, sigue estos pasos una sola vez. Tiempo estimado: 30 a 40 minutos.
 
-## 1. Crear el proyecto
+## 1. Crear el proyecto y las tablas
 1. Entra a https://supabase.com → **New project** (el plan gratuito alcanza para el piloto).
-2. Cuando termine de crearse, abre **SQL Editor → New query**, pega todo `supabase/schema.sql` y pulsa **Run**.
-   Esto crea las tablas, las reglas de seguridad (cada persona solo ve lo suyo) y el almacén privado de CV.
+2. **SQL Editor → New query**: pega `supabase/schema.sql` y pulsa **Run**.
+3. Otra consulta nueva: pega `supabase/schema_fase2.sql` y pulsa **Run**. (Ambos se pueden volver a ejecutar sin problema.)
 
 ## 2. Autenticación
 - **Authentication → Providers → Email**: déjalo activo.
   - Para probar rápido puedes desactivar *Confirm email*. Para el piloto real, déjalo activo.
-- **Authentication → URL Configuration → Site URL**: pon la dirección de tu página (la de GitHub Pages).
+- **Authentication → URL Configuration → Site URL**: la dirección de tu página (la de GitHub Pages).
 
-## 3. Activar la IA (clave de Anthropic)
-La clave **nunca** va en el HTML ni en el repositorio. Se guarda como secreto en el servidor:
+## 3. Activar la IA y las funciones del servidor
+La clave de Anthropic **nunca** va en el HTML ni en el repositorio: se guarda como secreto en el servidor.
 
 ```bash
 npm i -g supabase
 supabase login
-supabase link --project-ref TU_REF            # el REF está en Settings → General
-supabase secrets set ANTHROPIC_API_KEY=sk-ant-...        # tu clave de console.anthropic.com
-supabase secrets set ALLOWED_ORIGIN=https://TU-USUARIO.github.io   # solo tu página puede llamar a la función
-supabase functions deploy analizar-cv
+supabase link --project-ref TU_REF                     # el REF está en Settings → General
+supabase secrets set ANTHROPIC_API_KEY=sk-ant-...      # tu clave de console.anthropic.com
+supabase secrets set ALLOWED_ORIGIN=https://TU-USUARIO.github.io   # solo tu página puede llamar a las funciones
+for f in analizar-cv publicar-oferta match-feed match-candidatos reto-generar reto-obtener reto-responder; do
+  supabase functions deploy $f
+done
 ```
-
 Opcional: `supabase secrets set CLAUDE_MODEL=<id del modelo>` para cambiar de modelo.
 
 ## 4. Conectar la página
-En **Settings → API** copia **Project URL** y la clave **anon public**, y pégalas en `config.js`:
+En **Settings → API** copia **Project URL** y la clave **anon public** en `config.js`:
 
 ```js
 window.ENMATCH_CONFIG = { SUPABASE_URL: 'https://xxxx.supabase.co', SUPABASE_ANON_KEY: 'eyJ...' };
 ```
 La clave *anon* es pública por diseño. **No pegues aquí la `service_role` ni la de Anthropic.**
-Sube `config.js` a GitHub junto con el resto.
-
 Para presentar con datos de ejemplo aunque esté conectado, abre la página con `?demo` al final de la dirección.
 
-## 5. Crear un administrador
-Nadie puede registrarse como administrador desde el formulario. Registra la cuenta normal y luego, en el SQL Editor:
+## 5. Crear el administrador
+Nadie puede registrarse como administrador desde el formulario. Registra una cuenta normal y, en el SQL Editor:
 ```sql
 update public.perfiles set rol = 'admin' where id = (select id from auth.users where email = 'tu@correo.com');
 ```
+Desde ese usuario, **Verificación** muestra las organizaciones con su RUC. Compruébalo en la consulta pública de SUNAT y pulsa **Aprobar**: sus publicaciones se activan.
 
-## Cómo se calcula el puntaje
-- La IA **solo extrae** datos del CV (carrera, ciclo, habilidades, herramientas, idiomas, experiencia).
-- El puntaje lo calcula una fórmula fija en `functions/analizar-cv/score.ts`: habilidades 35, herramientas 20, experiencia 25, idiomas 10, formación 10.
-- No se extraen ni usan género, edad, nacionalidad, región ni universidad.
-- Pruebas de la fórmula: `node --experimental-strip-types tests/score.test.mjs`
+## Cómo funciona
+| Quién | Qué hace |
+|---|---|
+| **Estudiante** | Sube su CV; la IA extrae sus datos y se calcula su puntaje por rubro. Desliza prácticas, cursos y voluntariados ordenados por match. Si hay reto, lo resuelve. Ve la respuesta de cada organización con su motivo. |
+| **Empresa / ONG / Cursos** | Se registra con su RUC. Escribe su oferta en texto libre y la IA extrae los requisitos. Ve a los interesados ordenados por match y reto, con una lista corta sugerida, y decide (el motivo al descartar es obligatorio). |
+| **Administrador** | Verifica las organizaciones por RUC. |
+
+- La IA **solo extrae** datos (del CV, de las ofertas y para borradores de retos). Los puntajes y porcentajes los calculan fórmulas fijas en `functions/_shared/score.ts` y `match.ts`.
+- No se usan género, edad, región ni universidad para puntuar ni para el match.
+- **Lista corta:** con reto, los que superan el mínimo, ordenados por la mezcla de match y reto, hasta llenar los cupos. Sin reto, los 5 mejores por match.
+- Los retos son de opción múltiple y se califican en el servidor; el estudiante nunca recibe las respuestas y tiene un solo intento.
 
 ## Seguridad incluida
-- CV en un almacén privado: cada persona solo accede a su carpeta; solo PDF de hasta 5 MB.
-- El puntaje lo escribe solo el servidor, así nadie puede falsearlo desde el navegador.
-- Máximo 5 análisis por persona cada 24 h (controla el costo de la IA).
-- El texto del CV se trata como dato: si contiene órdenes dirigidas a la IA, se ignoran; y todo lo extraído se valida y se escapa antes de mostrarse.
-- La persona puede borrar su CV y su análisis desde "Mi CV y puntaje".
+- Reglas de acceso (RLS) en todas las tablas: cada persona solo ve lo suyo. Las organizaciones solo ven a quienes mostraron interés en sus ofertas, y reciben el perfil analizado, no el CV ni el correo.
+- CV en un almacén privado (solo PDF de hasta 5 MB). La persona puede borrarlo desde la plataforma.
+- Puntajes, resultados de retos y ofertas los escribe solo el servidor; nadie puede falsearlos desde el navegador.
+- Límites diarios de uso de la IA por persona (controlan el costo).
+- El texto de CV y ofertas se trata como dato (se ignoran órdenes dirigidas a la IA); todo lo extraído se valida y se escapa antes de mostrarse.
+
+## Pruebas
+```bash
+cd tests && npm install          # una vez
+npm test                         # puntaje, match, retos y reglas de seguridad de la base de datos (SQL real con PGlite)
+deno test --allow-env --allow-read --import-map=tests/import_map.json tests/functions.test.ts   # funciones del servidor
+```
 
 ## Pendiente antes de recibir usuarios reales
-- Política de privacidad y términos revisados por un abogado (Ley 29733, protección de datos personales, Perú).
-- Probar el análisis con CV reales y ajustar los rubros de `score.ts`.
+- **Política de privacidad y términos**: `privacidad.html` es un borrador con campos `[COMPLETAR]`; debe revisarlo un abogado (Ley N.° 29733).
+- Probar con CV y ofertas reales y ajustar rubros y pesos en `score.ts` y `match.ts`.
+- **Avisos por correo** (por ejemplo "una empresa te respondió"): hoy los avisos son dentro de la plataforma. Requieren un servicio de correo (Resend, SMTP).
+- **Validar horas de voluntariado y panel de reportes de admin**: siguen con datos de ejemplo.
+- La verificación del RUC es del formato y del dígito verificador, más la revisión manual del administrador; no consulta SUNAT automáticamente.

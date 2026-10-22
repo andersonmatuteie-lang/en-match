@@ -470,6 +470,50 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
 .cvgrid{display:grid;grid-template-columns:150px minmax(0,1fr);gap:22px;align-items:center}
 @media (max-width:700px){.cvgrid{grid-template-columns:minmax(0,1fr);justify-items:center}.cvgrid .bars{width:100%}}
 .ul-clean{margin:8px 0 0;padding-left:18px;font-size:13px;display:flex;flex-direction:column;gap:5px}
+
+/* ---------- Descubrir (tarjetas), reto, retos de la organización ---------- */
+.logo .mk{color:#fff;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em}
+.mxw{max-width:640px;width:100%;margin-inline:auto}
+.tabs{display:flex;gap:4px;background:var(--mint-50);border:1px solid var(--line);border-radius:99px;padding:4px;align-self:center;max-width:100%;overflow-x:auto}
+.tabs button{border:0;background:transparent;padding:8px 18px;border-radius:99px;font-weight:600;font-size:13.5px;color:var(--muted);white-space:nowrap}
+.tabs button.on{background:var(--brand);color:#fff;box-shadow:0 4px 12px -4px var(--brand)}
+.swipe{position:relative;display:grid;min-height:400px}
+.scard{grid-area:1/1;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow);cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;position:relative;transition:transform .28s cubic-bezier(.2,.7,.2,1),opacity .28s;--like:0;--pass:0;min-width:0}
+.scard:active{cursor:grabbing}
+.scard.ghost{transform:scale(.94) translateY(14px);opacity:.55;pointer-events:none;background:var(--mint-50)}
+.scard.out-like{transform:translateX(130%) rotate(14deg);opacity:0}
+.scard.out-pass{transform:translateX(-130%) rotate(-14deg);opacity:0}
+.scard h3{font-size:20px;font-weight:800;line-height:1.2}
+.scard details summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--brand-700)}
+.sc-top{display:flex;align-items:center;gap:10px}
+.sc-top b{font-family:var(--display);font-size:14px;display:block;line-height:1.2}
+.sc-m{display:grid;place-items:center;text-align:center;border-radius:14px;padding:6px 12px;line-height:1.1}
+.sc-m b{font-size:20px}.sc-m small{font-size:10.5px;font-weight:700}
+.sc-m.sm{display:inline-grid;padding:3px 10px;border-radius:99px}.sc-m.sm b{font-size:14px}
+.m-hi{background:var(--good-soft);color:var(--good)}.m-mid{background:var(--sun-soft);color:#A56A00}.m-lo{background:var(--coral-soft);color:#C23B29}
+.sc-why{display:flex;flex-direction:column;gap:5px;font-size:12.5px}
+.sc-why>b{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.chip.ok{background:var(--good-soft);border-color:transparent;color:#0F7A50}
+.chip.no{background:var(--coral-soft);border-color:transparent;color:#C23B29}
+.stamp{position:absolute;top:18px;font-family:var(--display);font-weight:800;font-size:20px;border:3px solid;border-radius:10px;padding:2px 10px;opacity:0;pointer-events:none;z-index:2}
+.stamp.like{left:18px;color:var(--good);transform:rotate(-12deg);opacity:var(--like)}
+.stamp.pass{right:18px;color:var(--coral);transform:rotate(12deg);opacity:var(--pass)}
+.sw-actions{display:flex;justify-content:center;gap:26px;margin:4px 0}
+.sw-btn{width:64px;height:64px;border-radius:50%;border:2px solid var(--line);background:#fff;display:grid;place-items:center;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.sw-btn:hover{transform:scale(1.08)}
+.sw-btn svg{width:28px;height:28px}
+.sw-btn.pass{color:var(--coral);border-color:var(--coral-soft)}
+.sw-btn.like{color:var(--good);border-color:var(--good-soft);background:var(--good-soft)}
+@media (max-width:600px){.sw-actions{position:sticky;bottom:14px;z-index:5}.sw-btn{background:#fff}.sw-btn.like{background:var(--good-soft)}}
+#nav .nb{margin-left:auto;font-style:normal;font-size:11px;font-weight:800;background:var(--coral);color:#fff;border-radius:99px;min-width:20px;height:20px;display:grid;place-items:center;padding:0 6px}
+.field textarea{font:inherit;font-size:15px;width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none;resize:vertical;min-height:90px}
+.field textarea:focus,.field input:focus{border-color:var(--brand);box-shadow:0 0 0 4px var(--mint-100)}
+.rq{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 12px;min-width:0}
+.rq legend{font-weight:700;font-size:14px;padding:0 6px;display:flex;gap:10px;align-items:center}
+.ro{display:flex;gap:8px;align-items:center;padding:7px 4px;font-size:14px;cursor:pointer}
+.ro input[type=radio]{width:16px;height:16px;accent-color:var(--brand);flex:none}
+.ro input[type=text]{flex:1;min-width:0;font:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:8px;padding:6px 9px}
+.rq.edit textarea{width:100%;font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;resize:vertical}
 </style>
 </head>
 <body>
@@ -514,9 +558,10 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
       <p class="sub">Elige tu perfil y empieza en un minuto.</p>
       <div class="field"><label for="su-rol">Soy</label><select id="su-rol"><option value="estudiante">Estudiante o egresado</option><option value="rrhh">Empresa que contrata</option><option value="ong">ONG</option><option value="cursos">Empresa de cursos</option></select></div>
       <div class="field"><label for="su-nombre">Nombre completo o de la organización</label><input id="su-nombre" type="text" autocomplete="name" maxlength="80"></div>
+      <div class="field" id="su-ruc-wrap" hidden><label for="su-ruc">RUC de la organización</label><input id="su-ruc" inputmode="numeric" maxlength="11" autocomplete="off"><span class="small muted">11 dígitos. El equipo EN-MATCH lo verificará antes de activar tus publicaciones.</span></div>
       <div class="field"><label for="su-mail">Correo electrónico</label><input id="su-mail" type="email" autocomplete="username" inputmode="email"></div>
       <div class="field"><label for="su-pw">Contraseña (mínimo 8 caracteres)</label><input id="su-pw" type="password" autocomplete="new-password"></div>
-      <label class="chk block"><input type="checkbox" id="su-ok"><span>Acepto los términos de uso y el tratamiento de mis datos personales para el funcionamiento de EN-MATCH.</span></label>
+      <label class="chk block"><input type="checkbox" id="su-ok"><span>Acepto los términos de uso y la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>, incluido el tratamiento de mis datos personales para el funcionamiento de EN-MATCH.</span></label>
       <p class="err" id="su-err" role="alert" hidden></p>
       <button class="go" type="submit">Crear cuenta</button>
       <p class="signup">¿Ya tienes cuenta? <button type="button" class="linkbtn" id="su-login">Inicia sesión</button></p>
@@ -557,6 +602,7 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5CDDC2"/><stop offset="1" stop-color="#0C7865"/></linearGradient></defs></svg>
 
 <script src="config.js"></script>
+<script src="match.js"></script>
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const app=$('#app');
@@ -627,7 +673,7 @@ const fLarga=d=>`${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
 const fCorta=d=>`${d.getDate()} ${MESES[d.getMonth()].slice(0,3)}`;
 
 /* ---------- Datos (ejemplo) ---------- */
-const ME={n:'Anderson Matute Quispe',short:'Anderson',ini:'AM',car:'Ingeniería Industrial',ciclo:'8vo ciclo',pts:842,perfil:78,analisis:null,consent:false,nueva:false};
+const ME={n:'Anderson Matute Quispe',short:'Anderson',ini:'AM',car:'Ingeniería Industrial',ciclo:'8vo ciclo',pts:842,perfil:78,analisis:null,consent:false,nueva:false,verificada:false};
 const S={
  ofertas:[
   {id:1,k:'andina',t:'Practicante de Costos y Presupuestos',lugar:'Callao, Perú',mod:'Presencial',sub:1300,m:94,est:0,bm:true},
@@ -677,14 +723,14 @@ const traducir=m=>/invalid login/i.test(m)?'Correo o contraseña incorrectos.':/
 function setMe(nombre,limpio){
  const n=String(nombre||'').trim()||'Estudiante';
  ME.n=n;ME.short=n.split(/\s+/)[0];ME.ini=n.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
- if(limpio){ME.nueva=true;ME.car='';ME.ciclo='';ME.pts=0;ME.perfil=10;ME.analisis=null;ME.consent=false;S.postul=[]}
+ if(limpio){ME.nueva=true;ME.verificada=false;ME.car='';ME.ciclo='';ME.pts=0;ME.perfil=10;ME.analisis=null;ME.consent=false;S.postul=[]}
 }
 const completitud=e=>Math.round(100*[e.carrera,e.ciclo,e.habilidades.length>=3,e.herramientas.length>=2,e.idiomas.length,e.experiencia.length,e.logros.length].filter(Boolean).length/7);
-function applyAnalisis(a){ME.analisis=a;const e=a.extraccion;if(e.carrera)ME.car=e.carrera;if(e.ciclo)ME.ciclo=e.ciclo;ME.perfil=completitud(e)}
+function applyAnalisis(a){MX.invalidar();ME.analisis=a;const e=a.extraccion;if(e.carrera)ME.car=e.carrera;if(e.ciclo)ME.ciclo=e.ciclo;ME.perfil=completitud(e)}
 async function cargarUsuario(user){
- const {data:p,error}=await sb.from('perfiles').select('rol,nombre,consentimiento_cv').eq('id',user.id).maybeSingle();
+ const {data:p,error}=await sb.from('perfiles').select('rol,nombre,consentimiento_cv,verificada').eq('id',user.id).maybeSingle();
  if(error||!p)throw new Error('No encontramos tu perfil. Intenta de nuevo.');
- setMe(p.nombre,true);ME.consent=!!p.consentimiento_cv;
+ MX.reiniciar();setMe(p.nombre,true);ME.consent=!!p.consentimiento_cv;ME.verificada=!!p.verificada;
  if(p.rol==='estudiante'){const {data:a}=await sb.from('analisis_cv').select('extraccion,puntajes,rubro_objetivo,busca').eq('user_id',user.id).maybeSingle();if(a)applyAnalisis(a)}
  return p.rol;
 }
@@ -715,10 +761,10 @@ async function borrarCV(){
 
 /* ---------- Navegación lateral por rol: cada opción es una pantalla ---------- */
 const NAV={
- estudiante:[['home','Inicio','inicio'],['doc','Mi CV y puntaje','cv'],['brief','Prácticas','practicas'],['user','Mi perfil','perfil'],['spark','Asistente IA y juegos','asistente']],
- rrhh:[['home','Inicio','inicio'],['users','Candidatos','cand'],['target','Retos','retos'],['chart','Reportes','rep']],
- ong:[['home','Inicio','inicio'],['heart','Voluntariados','vols'],['check','Validar horas','validar']],
- cursos:[['home','Inicio','inicio'],['book','Mis cursos','cursos'],['target','Brechas del mercado','brechas'],['users','Inscritos','insc']],
+ estudiante:[['home','Inicio','inicio'],['doc','Mi CV y puntaje','cv'],['heart','Descubrir','descubrir'],['check','Mis postulaciones','postulaciones'],['user','Mi perfil','perfil'],['spark','Asistente IA y juegos','asistente']],
+ rrhh:[['home','Inicio','inicio'],['brief','Mis ofertas','ofertas'],['users','Candidatos','cand'],['target','Retos','retos'],['chart','Reportes','rep']],
+ ong:[['home','Inicio','inicio'],['heart','Voluntariados','ofertas'],['users','Voluntarios','cand'],['check','Validar horas','validar']],
+ cursos:[['home','Inicio','inicio'],['book','Mis cursos','ofertas'],['users','Inscritos','cand'],['target','Brechas del mercado','brechas']],
  admin:[['home','Panel general','inicio'],['shield','Verificación','ver'],['alert','Alertas','alertas'],['scale','Revisión de sesgos','sesgos'],['building','Universidades','univ']]
 };
 
@@ -727,7 +773,8 @@ const V={};
 const soles=n=>'S/ '+String(n).replace(/\B(?=(\d{3})+$)/g,' ');
 const tagSt={in:['t-in','Entrevista'],no:['t-no','No seleccionado'],wa:['t-wa','En revisión'],ok:['t-ok','Seleccionado']};
 const bar=(k,v,cls='')=>`<div class="bar"><span>${k}</span><div class="tr"><i class="${cls}" data-w="${v}"></i></div><span class="v">${v}</span></div>`;
-const topline=(who,sub,ini,ph)=>`<div class="topline"><label class="search">${ic('search')}<input id="q" placeholder="${ph}" aria-label="Buscar"></label><div class="me"><button class="bell" aria-label="Notificaciones" data-toast="Tienes 3 notificaciones nuevas">${ic('bell')}</button><span class="av">${ini}</span><span class="who">${who}<small>${sub}</small></span></div></div>`;
+const bellAttr=()=>real()?(cur==='estudiante'?'data-go="postulaciones"':NAV[cur].some(n=>n[2]==='cand')?'data-go="cand"':'data-toast="Sin notificaciones nuevas"'):'data-toast="Tienes 3 notificaciones nuevas"';
+const topline=(who,sub,ini,ph)=>`<div class="topline"><label class="search">${ic('search')}<input id="q" placeholder="${ph}" aria-label="Buscar"></label><div class="me"><button class="bell" aria-label="Notificaciones" ${bellAttr()}>${ic('bell')}</button><span class="av">${ini}</span><span class="who">${who}<small>${sub}</small></span></div></div>`;
 const jobLogos=Object.keys(L).filter(k=>!['sembrando','minka','warmi'].includes(k));
 const jobCard=o=>`
     <article class="job lift">
@@ -740,7 +787,7 @@ const jobCard=o=>`
 const postulCard=()=>`
   <section class="card">
    <div class="sec-h"><h2>Mis postulaciones</h2><span class="tag t-ok">Siempre con respuesta</span></div>
-   ${S.postul.length?`<div class="list">${S.postul.map(p=>`
+   ${real()?MX.resumenPost():S.postul.length?`<div class="list">${S.postul.map(p=>`
     <div class="item"><div class="grow" style="display:flex;gap:10px;align-items:center">${logo(p.k,{bare:true})}<div style="min-width:0"><div class="t">${p.t}</div><div class="m">${L[p.k].n}</div></div></div><span class="tag ${tagSt[p.st][0]}">${tagSt[p.st][1]}</span><div class="fb ${p.st==='no'?'n':''}">${p.fb}</div></div>`).join('')}</div>`
    :`<p class="small muted" style="margin:0">Aún no te has postulado. Cuando lo hagas, cada empresa te responderá aquí con el motivo.</p>`}
   </section>`;
@@ -809,18 +856,8 @@ V.estudiante=pg=>{
 const head=topline('Hola, '+esc(ME.short),esc(meSub()),esc(ME.ini),'Busca prácticas, empresas o habilidades…');
 const a=ME.analisis,o=a&&a.puntajes.objetivo;
 if(pg==='cv')return head+cvPage();
-if(pg==='practicas')return head+`
-<div class="stack">
-  ${real()?demoNote('Estas ofertas son de ejemplo. Las reales aparecerán cuando las empresas publiquen y se active el match.'):''}
-  <section class="card" style="padding:14px 18px">
-   <div class="sec-h" style="margin-bottom:8px"><h2 style="font-size:14px">Empresas que buscan practicantes en EN-MATCH</h2><span class="tag t-ok">${ic('shield')} Verificadas por RUC</span></div>
-   <div class="marquee"><div class="track">${[...jobLogos,...jobLogos].map(k=>logo(k)).join('')}</div></div>
-  </section>
-  <section>
-   <div class="sec-h"><h2>Prácticas para ti</h2><span class="small muted">Ordenadas por match</span></div>
-   <div class="jobs">${S.ofertas.map(jobCard).join('')}</div>
-  </section>
-</div>`;
+if(pg==='descubrir')return head+MX.vDescubrir();
+if(pg==='postulaciones')return head+MX.vPostulaciones();
 if(pg==='perfil'){
  const e=a&&a.extraccion;
  const bars=a?(e.habilidades.slice(0,6).map(x=>bar(esc(x.nombre),NIVEL_PCT[x.nivel]||40)).join('')||'<p class="small muted" style="margin:0">No encontramos habilidades en tu CV.</p>'):real()?'<p class="small muted" style="margin:0">Aún no analizamos tu CV. <button class="link" data-go="cv">Súbelo aquí</button>.</p>':`${bar('Liderazgo',90)}${bar('Análisis',88)}${bar('Organización',84)}${bar('Comunicación',79)}${bar('Inglés',46,'lo')}`;
@@ -891,14 +928,14 @@ return head+`
     <span class="tag t-br">${ic('spark')} ${esc(ME.car||'Estudiante')}${real()?'':' · UARM'}</span>
     <h1 style="margin-top:10px">Tu talento encuentra <em>su oportunidad</em></h1>
     <p>Conecta con empresas, demuestra tus habilidades y prepárate con inteligencia artificial para tu primera práctica.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">${real()&&!a?`<button class="btn p" data-go="cv">${ic('doc')} Subir mi CV</button>`:'<button class="btn p" data-go="practicas">Explorar prácticas →</button>'}<button class="btn" data-go="asistente">${ic('bot')} Practicar con IA</button></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">${real()&&!a?`<button class="btn p" data-go="cv">${ic('doc')} Subir mi CV</button>`:'<button class="btn p" data-go="descubrir">Descubrir ofertas →</button>'}<button class="btn" data-go="asistente">${ic('bot')} Practicar con IA</button></div>
    </div>
    <div class="hero-art">
     <div class="orbwrap" aria-hidden="true"><div class="ring-dash"></div><div class="orb"><div class="in"><b class="num" data-count="${orbVal}" data-suf="${real()?'':'%'}">0</b><small>${orbTxt}</small></div></div></div>
    </div>
   </section>
   ${real()?'':`<section>
-   <div class="sec-h"><h2>Tu mejor match</h2><button class="link" data-go="practicas">Ver todas las prácticas →</button></div>
+   <div class="sec-h"><h2>Tu mejor match</h2><button class="link" data-go="descubrir">Ver más ofertas →</button></div>
    <div class="jobs single">${jobCard(S.ofertas[0])}</div>
   </section>`}
   ${postulCard()}
@@ -906,7 +943,13 @@ return head+`
  <aside class="stack">${ringCard()}${scoreCard()}</aside>
 </div>`};
 
-V.rrhh=pg=>{const r=S.cand.filter(c=>c.st).length;const head=topline('Paola Ramírez','Talento · Andina Logística','PR','Busca candidatos, carreras o habilidades…');
+V.rrhh=pg=>{const r=S.cand.filter(c=>c.st).length;const head=topline(LIVE?esc(ME.n):'Paola Ramírez',LIVE?'Empresa':'Talento · Andina Logística',LIVE?esc(ME.ini):'PR','Busca candidatos, carreras o habilidades…');
+if(LIVE&&MX.real('rrhh',pg))return head+MX.vOrg('rrhh',pg);
+if(pg==='ofertas')return head+`
+<div class="stack">
+  <section class="card"><div class="sec-h"><h2>Mis ofertas</h2><button class="btn sm p" data-toast="En la versión real, escribes tu oferta y la IA la lee">${ic('plus')} Publicar una práctica</button></div><div class="list">
+   ${S.ofertas.slice(0,3).map((o,i)=>`<div class="item"><div class="grow"><div class="t">${o.t}</div><div class="m">${[47,31,18][i]} interesados · ${o.lugar}</div></div><span class="tag t-ok">Activa</span><button class="btn sm p" data-go="cand">Candidatos</button></div>`).join('')}</div></section>
+</div>`;
 if(pg==='cand')return head+`
 <div class="stack">
   <section class="card" id="s-cand">
@@ -940,7 +983,9 @@ return head+`
  <section class="card" id="s-sello"><div class="seal"><span class="badge">96%</span><div><b style="font-family:var(--display)">Empresa que responde</b><div class="small muted">Los estudiantes ven este sello en tus ofertas.</div></div></div></section>
 </div>`};
 
-V.ong=pg=>{const head=topline('Rosa Huamaní','Coordinadora · Red Sembrando Futuro','RH','Busca voluntarios o proyectos…');
+V.ong=pg=>{const head=topline(LIVE?esc(ME.n):'Rosa Huamaní',LIVE?'ONG':'Coordinadora · Red Sembrando Futuro',LIVE?esc(ME.ini):'RH','Busca voluntarios o proyectos…');
+if(LIVE&&MX.real('ong',pg))return head+MX.vOrg('ong',pg);
+if(!LIVE)pg=({ofertas:'vols',cand:'validar'})[pg]||pg;
 if(pg==='vols')return head+`
 <div class="stack">
   <section class="card" id="s-vols"><div class="sec-h"><h2>Tus voluntariados</h2><button class="btn sm p" data-toast="Borrador de voluntariado creado">${ic('plus')} Publicar voluntariado</button></div><div class="list">
@@ -964,7 +1009,9 @@ return head+`
  </div>
 </div>`};
 
-V.cursos=pg=>{const head=topline('Julio Paredes','Alianzas · Aprende+ Perú','JP','Busca cursos o habilidades…');
+V.cursos=pg=>{const head=topline(LIVE?esc(ME.n):'Julio Paredes',LIVE?'Empresa de cursos':'Alianzas · Aprende+ Perú',LIVE?esc(ME.ini):'JP','Busca cursos o habilidades…');
+if(LIVE&&MX.real('cursos',pg))return head+MX.vOrg('cursos',pg);
+if(!LIVE)pg=({ofertas:'cursos',cand:'insc'})[pg]||pg;
 if(pg==='cursos')return head+`
 <div class="grid">
   <section class="card c7" id="s-rend"><div class="sec-h"><h2>Rendimiento por curso</h2><button class="btn sm p" data-toast="Borrador de curso creado">${ic('plus')} Publicar curso</button></div>
@@ -1001,6 +1048,7 @@ return head+`
 </div>`};
 
 V.admin=pg=>{const head=topline('Equipo EN-MATCH','Administrador','EM','Busca organizaciones, usuarios u ofertas…');
+if(LIVE&&MX.real('admin',pg))return head+MX.vAdminVer();
 if(pg==='ver')return head+`
 <div class="stack">
   <section class="card" id="s-ver"><div class="sec-h"><h2>Verificación por RUC</h2><span class="small muted">Nuevas organizaciones</span></div>
@@ -1060,7 +1108,7 @@ function animate(){
 let pg='inicio',chatHTML='';
 function render(){
  const m=$('#msgs');if(m)chatHTML=m.innerHTML;
- app.innerHTML=(LIVE&&cur!=='estudiante'?demoNote('Datos de ejemplo: la publicación real de ofertas, cursos y voluntariados llega en la siguiente fase.'):'')+V[cur](pg);
+ app.innerHTML=(LIVE&&cur!=='estudiante'&&!MX.real(cur,pg)?demoNote('Esta pantalla muestra datos de ejemplo; aún no está conectada a datos reales.'):'')+V[cur](pg);
  const m2=$('#msgs');if(m2&&chatHTML)m2.innerHTML=chatHTML;
 }
 function rerender(){
@@ -1080,18 +1128,19 @@ function goPage(p){
  pg=p;
  $$('#nav a').forEach(x=>{const on=x.dataset.page===p;x.classList.toggle('on',on);if(on){x.setAttribute('aria-current','page');x.scrollIntoView({block:'nearest',inline:'nearest'})}else x.removeAttribute('aria-current')});
  app.classList.remove('view');void app.offsetWidth;app.classList.add('view');
- render();animate();
+ render();animate();MX.alMostrar();
  window.scrollTo({top:0,behavior:RM?'auto':'smooth'});
 }
 function show(v,keepScroll){
- if(!V[v])v='estudiante';if(v!==cur)chatHTML='';cur=v;pg=NAV[v][0][2];
+ if(!V[v])v='estudiante';if(v!==cur){chatHTML='';MX.reiniciar()}cur=v;pg=NAV[v][0][2];
  const R=ROLES[v];$('#rolechip').innerHTML=ic(R.ic)+R.panel;$('.rolebar').style.setProperty('--rc',R.c);$('.rolebar').style.setProperty('--rs',R.s);
  $('#nav').innerHTML=NAV[v].map(([i,t,p],n)=>`<a href="#${v}" class="${n===0?'on':''}" ${n===0?'aria-current="page"':''} data-nav data-page="${p}">${ic(i)}<span>${t}</span></a>`).join('');
  app.classList.remove('view');void app.offsetWidth;app.classList.add('view');
- render();animate();
+ render();animate();MX.alMostrar();MX.badge();
  if(!keepScroll)window.scrollTo({top:0,behavior:RM?'auto':'smooth'});
 }
 $('#nav').addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(!a)return;e.preventDefault();goPage(a.dataset.page)});
+MX.montar();
 
 function toast(msg){const t=$('#toast');t.innerHTML=ic('check',3)+'<span></span>';t.lastChild.textContent=msg;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2600)}
 
@@ -1151,7 +1200,7 @@ $('#modal').addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
  const m=$('#modal');if(m.hidden)return;
  if(e.key==='Escape')return closeGame();
- if(e.key==='Tab'){const f=$$('button:not(:disabled)',m);if(!f.length)return;const i=f.indexOf(document.activeElement);
+ if(e.key==='Tab'){const f=$$('button:not(:disabled),input:not(:disabled)',m);if(!f.length)return;const i=f.indexOf(document.activeElement);
   if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&(i===-1||i===f.length-1)){e.preventDefault();f[0].focus()}}
 });
 
@@ -1251,7 +1300,7 @@ function showAuth(){
 }
 function enter(k,mail,opts={}){
  auth.hidden=true;wrap.hidden=false;
- show(k);if(opts.page)goPage(opts.page);window.scrollTo(0,0);
+ show(k);if(opts.page)goPage(opts.page);if(k==='estudiante')MX.precargar();window.scrollTo(0,0);
  document.title='EN-MATCH · '+ROLES[k].panel;
  if(!opts.silent)toast('Sesión iniciada'+(mail?' como '+mail:''));
 }
@@ -1263,20 +1312,27 @@ $('#lg-signup').addEventListener('click',()=>openSignup());
 $('#su-back').innerHTML=ic('back')+'Volver';
 $('#su-back').addEventListener('click',()=>openLogin(pick));
 $('#su-login').addEventListener('click',()=>openLogin(pick));
+function rucValido(r){
+ if(!/^\d{11}$/.test(r)||!['10','15','17','20'].includes(r.slice(0,2)))return false;
+ const w=[5,4,3,2,7,6,5,4,3,2];let t=0;for(let i=0;i<10;i++)t+=+r[i]*w[i];
+ let d=11-(t%11);if(d===10)d=0;else if(d===11)d=1;return d===+r[10];
+}
+function verRuc(){const o=$('#su-rol').value!=='estudiante';$('#su-ruc-wrap').hidden=!o;$('#su-nombre').previousElementSibling.textContent=o?'Nombre de la organización':'Nombre completo'}
 function openSignup(){
- const rol=$('#su-rol');rol.value=pick&&pick!=='admin'?pick:'estudiante';
- ['su-nombre','su-mail','su-pw'].forEach(i=>{const x=$('#'+i);x.value='';x.removeAttribute('aria-invalid')});
+ const rol=$('#su-rol');rol.value=pick&&pick!=='admin'?pick:'estudiante';verRuc();
+ ['su-nombre','su-mail','su-pw','su-ruc'].forEach(i=>{const x=$('#'+i);x.value='';x.removeAttribute('aria-invalid')});
  $('#su-ok').checked=false;$('#su-err').hidden=true;
  step('step-signup');$('#su-nombre').focus({preventScroll:true});
 }
-$('#su-rol').addEventListener('change',e=>{pick=e.target.value;setAccent(pick)});
+$('#su-rol').addEventListener('change',e=>{pick=e.target.value;setAccent(pick);verRuc()});
 $('#step-signup').addEventListener('submit',async e=>{
  e.preventDefault();
  const rol=$('#su-rol').value,nombre=$('#su-nombre').value.trim(),mail=$('#su-mail').value.trim(),pw=$('#su-pw').value,er=$('#su-err');
- ['su-nombre','su-mail','su-pw'].forEach(i=>$('#'+i).removeAttribute('aria-invalid'));
- let msg='',bad='';
+ ['su-nombre','su-mail','su-pw','su-ruc'].forEach(i=>$('#'+i).removeAttribute('aria-invalid'));
+ const ruc=$('#su-ruc').value.trim();let msg='',bad='';
  if(nombre.length<2){msg='Escribe tu nombre.';bad='su-nombre'}
  else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){msg='Escribe un correo válido, por ejemplo nombre@correo.com';bad='su-mail'}
+ else if(rol!=='estudiante'&&!rucValido(ruc)){msg='Escribe un RUC válido de 11 dígitos (empieza con 10, 15, 17 o 20).';bad='su-ruc'}
  else if(pw.length<8){msg='La contraseña debe tener al menos 8 caracteres.';bad='su-pw'}
  else if(!$('#su-ok').checked){msg='Debes aceptar los términos para crear tu cuenta.'}
  if(msg){er.textContent=msg;er.hidden=false;if(bad){$('#'+bad).setAttribute('aria-invalid','true');$('#'+bad).focus()}return}
@@ -1286,7 +1342,7 @@ $('#step-signup').addEventListener('submit',async e=>{
   let page=rol==='estudiante'?'cv':null;
   if(LIVE){
    await loadSB();
-   const {data,error}=await sb.auth.signUp({email:mail,password:pw,options:{data:{rol,nombre}}});
+   const {data,error}=await sb.auth.signUp({email:mail,password:pw,options:{data:{rol,nombre,ruc:rol==='estudiante'?undefined:ruc}}});
    if(error)throw new Error(traducir(error.message));
    if(!data.session){openLogin(rol);$('#lg-mail').value=mail;toast('Te enviamos un correo para confirmar tu cuenta');return}
    await cargarUsuario(data.user);
@@ -1320,7 +1376,7 @@ $('#step-login').addEventListener('submit',async e=>{
   if(rol!==pick)toast('Tu cuenta es de tipo '+ROLES[rol].t.toLowerCase()+': entraste a ese panel');
  }catch(err){step('step-login');er.textContent=err.message;er.hidden=false}
 });
-$('#logout').addEventListener('click',async()=>{ssDel();if(LIVE&&sb)await sb.auth.signOut();showAuth();toast('Cerraste sesión')});
+$('#logout').addEventListener('click',async()=>{MX.reiniciar();ssDel();if(LIVE&&sb)await sb.auth.signOut();showAuth();toast('Cerraste sesión')});
 $('#tour').addEventListener('click',()=>{enter('estudiante','',{silent:true});startPresent();toast('Recorrido: cambia de perfil cada 9 segundos')});
 
 /* ---------- Inicio ---------- */

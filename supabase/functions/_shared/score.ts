@@ -66,19 +66,20 @@ export type Resultado = {
   desglose: Desglose
   pros: string[]
   contras: string[]
+  faltan: string[]
 }
 
-const NIVEL_PESO: Record<Nivel, number> = { basico: 0.6, intermedio: 0.85, avanzado: 1 }
+export const NIVEL_PESO: Record<Nivel, number> = { basico: 0.6, intermedio: 0.85, avanzado: 1 }
 const TIPO_PESO: Record<string, number> = { practica: 1, empleo: 1, proyecto: 0.7, liderazgo: 0.6, voluntariado: 0.5 }
 const INGLES_PESO: Record<string, number> = { a1: 0.1, a2: 0.3, b1: 0.6, b2: 0.85, c1: 1, c2: 1, nativo: 1, desconocido: 0.3 }
 
 export const norm = (s: string) =>
   String(s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim()
 
-const clamp = (n: number, a = 0, b = 1) => Math.min(b, Math.max(a, n))
+export const clamp = (n: number, a = 0, b = 1) => Math.min(b, Math.max(a, n))
 
 // Coincidencia por palabra completa o frase para evitar que "r" o "go" coincidan por azar.
-const coincide = (a: string, b: string) => {
+export const coincide = (a: string, b: string) => {
   const x = norm(a), y = norm(b)
   if (!x || !y) return false
   if (x === y) return true
@@ -86,7 +87,7 @@ const coincide = (a: string, b: string) => {
   return x.length >= 3 && y.length >= 3 && (re(y).test(x) || re(x).test(y))
 }
 
-function cobertura(items: Item[], objetivo: string[]) {
+export function cobertura(items: Item[], objetivo: string[]) {
   const hallados: string[] = []
   const faltan: string[] = []
   let suma = 0
@@ -164,7 +165,7 @@ export function puntuar(ext: Extraccion, rubroKey: string): Resultado {
   if (exp < 0.34) contras.push('Aún poca experiencia demostrable: suma un proyecto, voluntariado o práctica')
   if (ing.ratio < 0.6) contras.push(ing.nivel ? 'Tu inglés (' + ing.nivel.toUpperCase() + ') está por debajo de B1' : 'No declaras nivel de inglés')
 
-  return { rubro: rubroKey, nombre: rubro.nombre, total, desglose, pros, contras }
+  return { rubro: rubroKey, nombre: rubro.nombre, total, desglose, pros, contras, faltan: [...hab.faltan, ...her.faltan] }
 }
 
 export function puntuarTodos(ext: Extraccion) {

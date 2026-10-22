@@ -2,7 +2,7 @@
 // - La clave de Anthropic vive solo aquí (secret ANTHROPIC_API_KEY), nunca en el HTML.
 // - La IA solo extrae datos; el puntaje lo calcula score.ts.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.4'
-import { RUBROS, puntuar, puntuarTodos, sanitizar } from './score.ts'
+import { RUBROS, puntuar, puntuarTodos, sanitizar } from '../_shared/score.ts'
 
 const MODEL = Deno.env.get('CLAUDE_MODEL') ?? 'claude-sonnet-5-5'
 const MAX_BYTES = 5 * 1024 * 1024

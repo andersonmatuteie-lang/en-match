@@ -1,4 +1,4 @@
-import { puntuar, puntuarTodos, sanitizar, RUBROS } from '../supabase/functions/analizar-cv/score.ts'
+import { puntuar, puntuarTodos, sanitizar, RUBROS } from '../supabase/functions/_shared/score.ts'
 import assert from 'node:assert/strict'
 
 const fuerte = sanitizar({
