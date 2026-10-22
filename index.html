@@ -451,6 +451,25 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
   .kpi strong{font-size:24px}
   .route{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 }
+
+/* ---------- Cuenta, CV y puntaje ---------- */
+.field select{font:inherit;font-size:15px;width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none}
+.field select:focus{border-color:var(--rc,var(--brand));box-shadow:0 0 0 4px var(--rs,var(--mint-100))}
+.chk.block{align-items:flex-start;margin:0 0 14px;font-size:13.5px;line-height:1.4}
+.chk.block input{margin-top:2px;flex:none}
+.upl{border:2px dashed var(--mint-200);border-radius:var(--r);padding:16px;background:var(--mint-50);display:flex;flex-direction:column;gap:8px;align-items:flex-start;min-width:0}
+.upl input[type=file]{font:inherit;font-size:13px;max-width:100%}
+.opts2{display:flex;gap:8px;flex-wrap:wrap}
+.opts2 label{display:inline-flex;gap:6px;align-items:center;border:1.5px solid var(--line);border-radius:99px;padding:7px 14px;font-weight:600;font-size:13px;cursor:pointer;background:#fff}
+.opts2 label:has(input:checked){border-color:var(--brand);background:var(--mint-100);color:var(--brand-700)}
+.opts2 input{width:16px;height:16px;padding:0;border:0;box-shadow:none;accent-color:var(--brand);flex:none}
+.opts2 label{white-space:nowrap;font-size:13px}
+.upl input[type=file]{width:auto;padding:0;border:0;background:none;box-shadow:none}
+#cvform .field{margin-bottom:16px}
+#cvform .btn{padding:11px 22px;font-size:14px}
+.cvgrid{display:grid;grid-template-columns:150px minmax(0,1fr);gap:22px;align-items:center}
+@media (max-width:700px){.cvgrid{grid-template-columns:minmax(0,1fr);justify-items:center}.cvgrid .bars{width:100%}}
+.ul-clean{margin:8px 0 0;padding-left:18px;font-size:13px;display:flex;flex-direction:column;gap:5px}
 </style>
 </head>
 <body>
@@ -489,6 +508,19 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
       <p class="signup">¿Aún no tienes cuenta? <button type="button" class="linkbtn" id="lg-signup">Crear cuenta</button></p>
       <p class="demo-note" id="demo-note"></p>
     </form>
+    <form class="step" id="step-signup" hidden novalidate>
+      <button type="button" class="back" id="su-back"></button>
+      <h2>Crea tu cuenta</h2>
+      <p class="sub">Elige tu perfil y empieza en un minuto.</p>
+      <div class="field"><label for="su-rol">Soy</label><select id="su-rol"><option value="estudiante">Estudiante o egresado</option><option value="rrhh">Empresa que contrata</option><option value="ong">ONG</option><option value="cursos">Empresa de cursos</option></select></div>
+      <div class="field"><label for="su-nombre">Nombre completo o de la organización</label><input id="su-nombre" type="text" autocomplete="name" maxlength="80"></div>
+      <div class="field"><label for="su-mail">Correo electrónico</label><input id="su-mail" type="email" autocomplete="username" inputmode="email"></div>
+      <div class="field"><label for="su-pw">Contraseña (mínimo 8 caracteres)</label><input id="su-pw" type="password" autocomplete="new-password"></div>
+      <label class="chk block"><input type="checkbox" id="su-ok"><span>Acepto los términos de uso y el tratamiento de mis datos personales para el funcionamiento de EN-MATCH.</span></label>
+      <p class="err" id="su-err" role="alert" hidden></p>
+      <button class="go" type="submit">Crear cuenta</button>
+      <p class="signup">¿Ya tienes cuenta? <button type="button" class="linkbtn" id="su-login">Inicia sesión</button></p>
+    </form>
     <section class="step loading" id="step-load" hidden aria-live="polite">
       <div class="spin"></div>
       <h2 style="font-size:20px" id="load-t">Preparando tu panel…</h2>
@@ -524,6 +556,7 @@ select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5CDDC2"/><stop offset="1" stop-color="#0C7865"/></linearGradient></defs></svg>
 
+<script src="config.js"></script>
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const app=$('#app');
@@ -594,7 +627,7 @@ const fLarga=d=>`${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
 const fCorta=d=>`${d.getDate()} ${MESES[d.getMonth()].slice(0,3)}`;
 
 /* ---------- Datos (ejemplo) ---------- */
-const ME={n:'Anderson Matute Quispe',short:'Anderson',ini:'AM',car:'Ingeniería Industrial',ciclo:'8vo ciclo',pts:842,perfil:78};
+const ME={n:'Anderson Matute Quispe',short:'Anderson',ini:'AM',car:'Ingeniería Industrial',ciclo:'8vo ciclo',pts:842,perfil:78,analisis:null,consent:false,nueva:false};
 const S={
  ofertas:[
   {id:1,k:'andina',t:'Practicante de Costos y Presupuestos',lugar:'Callao, Perú',mod:'Presencial',sub:1300,m:94,est:0,bm:true},
@@ -626,9 +659,63 @@ const S={
  ]
 };
 
+/* ---------- Utilidades ---------- */
+// Todo texto que venga de la IA o de personas se escapa antes de ir a innerHTML.
+const real=()=>LIVE||ME.nueva; // cuenta propia: sin datos de ejemplo de Anderson
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+// Mismos rubros que supabase/functions/analizar-cv/score.ts
+const RUBROS={costos_finanzas:'Costos y finanzas',logistica_operaciones:'Logística y operaciones',produccion_calidad:'Producción y calidad',marketing_ventas:'Marketing y ventas',tecnologia_datos:'Tecnología y datos',talento_humano:'Talento humano',administracion:'Administración y gestión'};
+
+/* ---------- Servidor (Supabase) ----------
+   Con config.js vacío (o ?demo en la URL) la página funciona en modo demostración con datos de ejemplo. */
+const CFG=window.ENMATCH_CONFIG||{};
+const LIVE=!!(CFG.SUPABASE_URL&&CFG.SUPABASE_ANON_KEY)&&!new URLSearchParams(location.search).has('demo');
+let sb=null;
+const loadSB=()=>sb?Promise.resolve():new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';s.onload=()=>{sb=window.supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);ok()};s.onerror=()=>no(new Error('No se pudo conectar con el servidor. Revisa tu internet.'));document.head.appendChild(s)});
+const traducir=m=>/invalid login/i.test(m)?'Correo o contraseña incorrectos.':/not confirmed/i.test(m)?'Confirma tu correo antes de entrar.':/already registered|already been registered/i.test(m)?'Ese correo ya tiene una cuenta. Inicia sesión.':/password/i.test(m)&&/(short|least|weak)/i.test(m)?'La contraseña es muy corta o débil.':/rate limit|too many/i.test(m)?'Demasiados intentos. Espera unos minutos.':m;
+function setMe(nombre,limpio){
+ const n=String(nombre||'').trim()||'Estudiante';
+ ME.n=n;ME.short=n.split(/\s+/)[0];ME.ini=n.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+ if(limpio){ME.nueva=true;ME.car='';ME.ciclo='';ME.pts=0;ME.perfil=10;ME.analisis=null;ME.consent=false;S.postul=[]}
+}
+const completitud=e=>Math.round(100*[e.carrera,e.ciclo,e.habilidades.length>=3,e.herramientas.length>=2,e.idiomas.length,e.experiencia.length,e.logros.length].filter(Boolean).length/7);
+function applyAnalisis(a){ME.analisis=a;const e=a.extraccion;if(e.carrera)ME.car=e.carrera;if(e.ciclo)ME.ciclo=e.ciclo;ME.perfil=completitud(e)}
+async function cargarUsuario(user){
+ const {data:p,error}=await sb.from('perfiles').select('rol,nombre,consentimiento_cv').eq('id',user.id).maybeSingle();
+ if(error||!p)throw new Error('No encontramos tu perfil. Intenta de nuevo.');
+ setMe(p.nombre,true);ME.consent=!!p.consentimiento_cv;
+ if(p.rol==='estudiante'){const {data:a}=await sb.from('analisis_cv').select('extraccion,puntajes,rubro_objetivo,busca').eq('user_id',user.id).maybeSingle();if(a)applyAnalisis(a)}
+ return p.rol;
+}
+const DEMO_A=(rubro,busca)=>({demo:true,rubro_objetivo:rubro,busca,
+ extraccion:{carrera:'Ingeniería Industrial',ciclo:'8vo ciclo',habilidades:[{nombre:'Costos y presupuestos',nivel:'avanzado'},{nombre:'Análisis de datos',nivel:'intermedio'},{nombre:'Liderazgo',nivel:'intermedio'}],herramientas:[{nombre:'Excel',nivel:'avanzado'},{nombre:'Power BI',nivel:'intermedio'}],idiomas:[{idioma:'Inglés',nivel:'a2'}],experiencia:[{tipo:'proyecto',descripcion:'Modelo de costos con simulación',meses:4}],logros:[]},
+ puntajes:{objetivo:{rubro,nombre:RUBROS[rubro],total:68,desglose:{habilidades:24,herramientas:14,experiencia:12,idiomas:3,formacion:9},pros:['Habilidades alineadas: costos, análisis de datos','Herramientas que piden en este rubro: excel, power bi'],contras:['Tu inglés (A2) está por debajo de B1','Herramientas por aprender: sap, python']},top:[{nombre:RUBROS[rubro],total:68},{nombre:'Logística y operaciones',total:55},{nombre:'Administración y gestión',total:49}]}});
+async function analizarCV(file,rubro,busca,paso){
+ if(!LIVE){paso('Leyendo tu CV…');await delay(1800);return DEMO_A(rubro,busca)}
+ const {data:{user}}=await sb.auth.getUser();
+ if(!user)throw new Error('Tu sesión venció. Vuelve a iniciar sesión.');
+ paso('Guardando tu autorización…');
+ const {error:ec}=await sb.from('perfiles').update({consentimiento_cv:true}).eq('id',user.id);
+ if(ec)throw new Error('No pudimos guardar tu autorización.');
+ ME.consent=true;
+ paso('Subiendo tu CV…');
+ const path=user.id+'/cv.pdf';
+ const {error:eu}=await sb.storage.from('cv').upload(path,file,{upsert:true,contentType:'application/pdf'});
+ if(eu)throw new Error('No pudimos subir tu CV: '+eu.message);
+ paso('La IA está leyendo tu CV…');
+ const {data,error}=await sb.functions.invoke('analizar-cv',{body:{cv_path:path,rubro_objetivo:rubro,busca}});
+ if(error){let m='No pudimos analizar tu CV.';try{m=(await error.context.json()).error||m}catch(_){}throw new Error(m)}
+ return data;
+}
+async function borrarCV(){
+ if(LIVE){const {data:{user}}=await sb.auth.getUser();await sb.storage.from('cv').remove([user.id+'/cv.pdf']);await sb.from('analisis_cv').delete().eq('user_id',user.id)}
+ ME.analisis=null;ME.perfil=real()?10:78;if(real()){ME.car='';ME.ciclo=''}
+}
+
 /* ---------- Navegación lateral por rol: cada opción es una pantalla ---------- */
 const NAV={
- estudiante:[['home','Inicio','inicio'],['brief','Prácticas','practicas'],['user','Mi perfil','perfil'],['spark','Asistente IA y juegos','asistente']],
+ estudiante:[['home','Inicio','inicio'],['doc','Mi CV y puntaje','cv'],['brief','Prácticas','practicas'],['user','Mi perfil','perfil'],['spark','Asistente IA y juegos','asistente']],
  rrhh:[['home','Inicio','inicio'],['users','Candidatos','cand'],['target','Retos','retos'],['chart','Reportes','rep']],
  ong:[['home','Inicio','inicio'],['heart','Voluntariados','vols'],['check','Validar horas','validar']],
  cursos:[['home','Inicio','inicio'],['book','Mis cursos','cursos'],['target','Brechas del mercado','brechas'],['users','Inscritos','insc']],
@@ -653,25 +740,78 @@ const jobCard=o=>`
 const postulCard=()=>`
   <section class="card">
    <div class="sec-h"><h2>Mis postulaciones</h2><span class="tag t-ok">Siempre con respuesta</span></div>
-   <div class="list">${S.postul.map(p=>`
-    <div class="item"><div class="grow" style="display:flex;gap:10px;align-items:center">${logo(p.k,{bare:true})}<div style="min-width:0"><div class="t">${p.t}</div><div class="m">${L[p.k].n}</div></div></div><span class="tag ${tagSt[p.st][0]}">${tagSt[p.st][1]}</span><div class="fb ${p.st==='no'?'n':''}">${p.fb}</div></div>`).join('')}</div>
+   ${S.postul.length?`<div class="list">${S.postul.map(p=>`
+    <div class="item"><div class="grow" style="display:flex;gap:10px;align-items:center">${logo(p.k,{bare:true})}<div style="min-width:0"><div class="t">${p.t}</div><div class="m">${L[p.k].n}</div></div></div><span class="tag ${tagSt[p.st][0]}">${tagSt[p.st][1]}</span><div class="fb ${p.st==='no'?'n':''}">${p.fb}</div></div>`).join('')}</div>`
+   :`<p class="small muted" style="margin:0">Aún no te has postulado. Cuando lo hagas, cada empresa te responderá aquí con el motivo.</p>`}
   </section>`;
 const scoreCard=()=>`
   <section class="card">
    <div class="score"><span class="star">${icf('star')}</span><div><span class="small muted">Tu puntaje total</span><b class="num" id="pts" data-count="${ME.pts}" data-suf=" pts">0 pts</b></div></div>
-   <div class="top20">${ic('trophy')} Estás en el top 20% de candidatos de Ingeniería Industrial</div>
+   <div class="top20">${ic('trophy')} ${real()?'Suma puntos resolviendo retos y juegos':'Estás en el top 20% de candidatos de Ingeniería Industrial'}</div>
   </section>`;
 const ringCard=()=>`
   <section class="card ringcard">
    <div class="sec-h" style="margin-bottom:0"><h2 style="font-size:15px">Tu perfil</h2><button class="link" data-go="perfil">Ver perfil</button></div>
    <div class="ring"><svg viewBox="0 0 128 128"><circle class="bg" cx="64" cy="64" r="52"/><circle class="fg" cx="64" cy="64" r="52" data-ring="${ME.perfil}"/></svg><div class="val"><b class="num" data-count="${ME.perfil}" data-suf="%">0%</b><small>completo</small></div></div>
-   <p class="small muted" style="margin:0">¡Vas muy bien! Agrega tu nivel de inglés para aumentar tus oportunidades.</p>
+   <p class="small muted" style="margin:0">${ME.analisis?'Agrega tu nivel de inglés y más proyectos para subir tu puntaje.':'Sube tu CV para completar tu perfil automáticamente.'}</p>
   </section>`;
+const demoNote=t=>`<p class="demo-note" style="margin:0 0 16px">${ic('info')}<span>${t}</span></p>`;
+const NIVEL_TXT={basico:'Básico',intermedio:'Intermedio',avanzado:'Avanzado'};
+const NIVEL_PCT={basico:40,intermedio:65,avanzado:90};
+const PESOS={habilidades:35,herramientas:20,experiencia:25,idiomas:10,formacion:10};
+const meSub=()=>[ME.car,ME.ciclo].filter(Boolean).join(' · ')||'Estudiante';
+
+const cvPage=()=>{
+ const a=ME.analisis,o=a&&a.puntajes.objetivo,e=a&&a.extraccion;
+ const form=`<section class="card">
+   <div class="sec-h"><h2>${a?'Analizar otro CV':'Sube tu CV y obtén tu puntaje'}</h2><span class="tag t-br">${ic('shield')} Privado</span></div>
+   <form id="cvform" novalidate>
+    <div class="field"><label>¿Qué buscas?</label><div class="opts2">${[['practica','Mi primera práctica'],['curso','Cursos'],['voluntariado','Voluntariado']].map(([v,t])=>`<label><input type="checkbox" name="busca" value="${v}" ${(a?a.busca:['practica']).includes(v)?'checked':''}> ${t}</label>`).join('')}</div></div>
+    <div class="field"><label for="cv-rubro">¿A qué rubro quieres dirigirte?</label><select id="cv-rubro">${Object.entries(RUBROS).map(([k,n])=>`<option value="${k}" ${a&&a.rubro_objetivo===k?'selected':''}>${n}</option>`).join('')}</select></div>
+    <div class="field"><label for="cv-file">Tu CV en PDF (máx. 5 MB)</label><div class="upl"><input id="cv-file" type="file" accept="application/pdf,.pdf"><span class="small muted">Usa un PDF con texto seleccionable, no una foto.</span></div></div>
+    <label class="chk block"><input type="checkbox" id="cv-consent" ${ME.consent?'checked':''}><span>Autorizo que la IA lea mi CV para calcular mi perfil y mi puntaje. Puedo borrarlo cuando quiera. Para puntuar no se usan mi género, edad, región ni universidad.</span></label>
+    <p class="err" id="cv-err" role="alert" hidden></p>
+    <button class="btn p" type="submit" id="cv-go">${ic('spark')} Analizar con IA</button>
+   </form>
+  </section>`;
+ if(!a)return `<div class="stack">${LIVE?'':demoNote('Modo demostración: el resultado será de ejemplo. Para analizar CV reales hay que conectar el servidor.')}${form}</div>`;
+ const seg=Object.keys(PESOS).map(k=>[k,Math.round(o.desglose[k]/PESOS[k]*100)]);
+ const lab={habilidades:'Habilidades',herramientas:'Herramientas',experiencia:'Experiencia',idiomas:'Idiomas',formacion:'Formación'};
+ return `<div class="stack">
+  ${a.demo?demoNote('Resultado de ejemplo (modo demostración). No es el análisis de tu CV.'):''}
+  <section class="card">
+   <div class="sec-h"><h2>Tu puntaje en ${esc(o.nombre)}</h2><span class="tag t-ok">${ic('check',3)} Analizado por IA</span></div>
+   <div class="cvgrid">
+    <div class="ring"><svg viewBox="0 0 128 128"><circle class="bg" cx="64" cy="64" r="52"/><circle class="fg" cx="64" cy="64" r="52" data-ring="${o.total}"/></svg><div class="val"><b class="num" data-count="${o.total}">0</b><small>de 100</small></div></div>
+    <div class="bars">${seg.map(([k,v])=>bar(lab[k],v,v<45?'lo':'')).join('')}</div>
+   </div>
+   <div class="grid" style="margin-top:16px">
+    <div class="c6"><b style="font-family:var(--display)">Lo que juega a tu favor</b><ul class="ul-clean">${o.pros.length?o.pros.map(x=>`<li>${esc(x)}</li>`).join(''):'<li class="muted">Aún no encontramos puntos fuertes para este rubro.</li>'}</ul></div>
+    <div class="c6"><b style="font-family:var(--display)">Para mejorar</b><ul class="ul-clean">${o.contras.length?o.contras.map(x=>`<li>${esc(x)}</li>`).join(''):'<li class="muted">¡Sin puntos débiles importantes!</li>'}</ul></div>
+   </div>
+   <p class="small muted" style="margin:14px 0 0">El puntaje se calcula con una fórmula fija sobre lo que aparece en tu CV (habilidades 35, herramientas 20, experiencia 25, idiomas 10, formación 10). La IA solo lee tu CV; no decide tu puntaje.</p>
+  </section>
+  <section class="card">
+   <div class="sec-h"><h2>Rubros donde mejor encajas</h2></div>
+   <div class="chips">${a.puntajes.top.map(t=>`<span class="chip">${esc(t.nombre)}<i>${t.total}</i></span>`).join('')}</div>
+  </section>
+  <section class="card">
+   <div class="sec-h"><h2>Lo que leímos en tu CV</h2><button class="link" data-borrar>Borrar mi CV y análisis</button></div>
+   <p class="small muted" style="margin:0 0 10px">${esc([e.carrera,e.ciclo].filter(Boolean).join(' · ')||'Carrera y ciclo no detectados')}</p>
+   <div class="chips">${[...e.habilidades,...e.herramientas].map(x=>`<span class="chip">${esc(x.nombre)}<i>${NIVEL_TXT[x.nivel]||''}</i></span>`).join('')||'<span class="small muted">No detectamos habilidades.</span>'}${e.idiomas.map(x=>`<span class="chip">${esc(x.idioma)}<i>${esc(String(x.nivel).toUpperCase())}</i></span>`).join('')}</div>
+   ${e.experiencia.length?`<ul class="ul-clean">${e.experiencia.map(x=>`<li><b>${esc(x.tipo)}</b>: ${esc(x.descripcion)}</li>`).join('')}</ul>`:''}
+  </section>
+  ${form}
+ </div>`;
+};
 
 V.estudiante=pg=>{
-const head=topline('Hola, '+ME.short,ME.car+' · '+ME.ciclo,ME.ini,'Busca prácticas, empresas o habilidades…');
+const head=topline('Hola, '+esc(ME.short),esc(meSub()),esc(ME.ini),'Busca prácticas, empresas o habilidades…');
+const a=ME.analisis,o=a&&a.puntajes.objetivo;
+if(pg==='cv')return head+cvPage();
 if(pg==='practicas')return head+`
 <div class="stack">
+  ${real()?demoNote('Estas ofertas son de ejemplo. Las reales aparecerán cuando las empresas publiquen y se active el match.'):''}
   <section class="card" style="padding:14px 18px">
    <div class="sec-h" style="margin-bottom:8px"><h2 style="font-size:14px">Empresas que buscan practicantes en EN-MATCH</h2><span class="tag t-ok">${ic('shield')} Verificadas por RUC</span></div>
    <div class="marquee"><div class="track">${[...jobLogos,...jobLogos].map(k=>logo(k)).join('')}</div></div>
@@ -681,10 +821,16 @@ if(pg==='practicas')return head+`
    <div class="jobs">${S.ofertas.map(jobCard).join('')}</div>
   </section>
 </div>`;
-if(pg==='perfil')return head+`
+if(pg==='perfil'){
+ const e=a&&a.extraccion;
+ const bars=a?(e.habilidades.slice(0,6).map(x=>bar(esc(x.nombre),NIVEL_PCT[x.nivel]||40)).join('')||'<p class="small muted" style="margin:0">No encontramos habilidades en tu CV.</p>'):real()?'<p class="small muted" style="margin:0">Aún no analizamos tu CV. <button class="link" data-go="cv">Súbelo aquí</button>.</p>':`${bar('Liderazgo',90)}${bar('Análisis',88)}${bar('Organización',84)}${bar('Comunicación',79)}${bar('Inglés',46,'lo')}`;
+ const nota=a?(o.contras[0]?esc(o.contras[0]):''):real()?'':'Tu punto por mejorar es <b>inglés</b>. La IA te sugiere el curso “Inglés para entrevistas”.';
+ const chips=a?(e.herramientas.map(x=>`<span class="chip">${esc(x.nombre)}<i>${NIVEL_TXT[x.nivel]||''}</i></span>`).join('')||'<span class="small muted">No detectamos herramientas.</span>'):real()?'<span class="small muted">Se llenará con tu CV.</span>':[['Excel','Avanzado'],['Power BI','Intermedio'],['Python','Intermedio'],['@RISK','En desarrollo'],['FlexSim','En desarrollo'],['Monte Carlo','Aplicado'],['Evaluación de proyectos','Aplicado']].map(([x,y])=>`<span class="chip">${x}<i>${y}</i></span>`).join('');
+ const tags=a?`<span class="tag t-ok">${ic('check',3)} CV analizado</span><span class="tag t-br">${esc(o.nombre)} · ${o.total}/100</span>`:real()?`<span class="tag t-wa">CV sin analizar</span>`:`<span class="tag t-ok">${ic('check',3)} CV verificado</span><span class="tag t-br">Líder Santander X</span><span class="tag t-vi">Voluntario JNE</span><span class="tag t-wa">@RISK Monte Carlo</span>`;
+ return head+`
 <div class="cols">
  <div class="stack">
-  <section class="card" id="s-ruta">
+  ${real()?'':`<section class="card" id="s-ruta">
    <div class="sec-h"><h2>Tu ruta hacia la primera práctica</h2><span class="tag t-br">Estás en 8vo ciclo</span></div>
    <div class="route">${[
     ['5to ciclo','Descubre',['Test de intereses','CV base'],'done'],
@@ -694,32 +840,32 @@ if(pg==='perfil')return head+`
     ['9no ciclo','Practica',['Convenio firmado','Práctica en curso'],''],
     ['Egreso','Empleo',['Portafolio completo','Primer empleo'],'']
    ].map(([c,h,l,s])=>`<div class="stage ${s}">${s==='now'?'<span class="you">Tú</span>':''}<div class="cy">${c}</div><div class="h">${s==='done'?`<span class="ck">${ic('check',3)}</span>`:''}${h}</div><ul>${l.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>
+  </section>`}
+  <section class="card">
+   <div class="sec-h"><h2>Habilidades demostradas</h2><span class="small muted">${a?'Según tu CV':'Puntaje de 0 a 100'}</span></div>
+   <div class="bars">${bars}</div>
+   ${nota?`<p class="small muted" style="margin:12px 0 0">${nota}</p>`:''}
   </section>
   <section class="card">
-   <div class="sec-h"><h2>Habilidades demostradas</h2><span class="small muted">Puntaje de 0 a 100</span></div>
-   <div class="bars">${bar('Liderazgo',90)}${bar('Análisis',88)}${bar('Organización',84)}${bar('Comunicación',79)}${bar('Inglés',46,'lo')}</div>
-   <p class="small muted" style="margin:12px 0 0">Tu punto por mejorar es <b>inglés</b>. La IA te sugiere el curso “Inglés para entrevistas”.</p>
-  </section>
-  <section class="card">
-   <div class="sec-h"><h2>Tus herramientas</h2><button class="link" data-toast="Agrega una herramienta y valídala con un reto">+ Agregar</button></div>
-   <div class="chips">${[['Excel','Avanzado'],['Power BI','Intermedio'],['Python','Intermedio'],['@RISK','En desarrollo'],['FlexSim','En desarrollo'],['Monte Carlo','Aplicado'],['Evaluación de proyectos','Aplicado']].map(([a,b])=>`<span class="chip">${a}<i>${b}</i></span>`).join('')}</div>
+   <div class="sec-h"><h2>Tus herramientas</h2>${real()?'':'<button class="link" data-toast="Agrega una herramienta y valídala con un reto">+ Agregar</button>'}</div>
+   <div class="chips">${chips}</div>
   </section>
  </div>
  <aside class="stack">
   <section class="card" id="s-perfil">
-   <div class="pf"><span class="av">${ME.ini}</span><div><b>${ME.n}</b><span class="small muted">${ME.car} · ${ME.ciclo}<br>UARM · Intercambio PUJ Cali</span></div></div>
-   <div class="tags" style="margin-top:12px"><span class="tag t-ok">${ic('check',3)} CV verificado</span><span class="tag t-br">Líder Santander X</span><span class="tag t-vi">Voluntario JNE</span><span class="tag t-wa">@RISK Monte Carlo</span></div>
+   <div class="pf"><span class="av">${esc(ME.ini)}</span><div><b>${esc(ME.n)}</b><span class="small muted">${esc(meSub())}${real()?'':'<br>UARM · Intercambio PUJ Cali'}</span></div></div>
+   <div class="tags" style="margin-top:12px">${tags}</div>
   </section>
-  ${ringCard().replace('<button class="link" data-go="perfil">Ver perfil</button>','<button class="link" data-toast="Abriendo tu perfil">Editar</button>')}
+  ${ringCard().replace('<button class="link" data-go="perfil">Ver perfil</button>',real()?'<button class="link" data-go="cv">Mi CV</button>':'<button class="link" data-toast="Abriendo tu perfil">Editar</button>')}
   ${scoreCard()}
  </aside>
-</div>`;
+</div>`}
 if(pg==='asistente')return head+`
 <div class="cols">
  <div class="stack">
   <section class="card tint" id="aicard">
    <div class="ai-h"><span class="bot">${ic('bot')}</span><div><b style="font-family:var(--display)">Asistente IA</b><div class="small muted online">En línea</div></div></div>
-   <div class="msgs" id="msgs"><div class="msg b">Hola, Anderson. Soy tu asistente de EN-MATCH. ¿En qué te ayudo hoy?</div></div>
+   <div class="msgs" id="msgs"><div class="msg b">Hola, ${esc(ME.short)}. Soy tu asistente de EN-MATCH. ¿En qué te ayudo hoy?</div></div>
    <div class="qopts">
     <button data-ai="cv">${ic('doc')} Optimizar mi CV</button>
     <button data-ai="ent">${ic('mic')} Prepararme para una entrevista</button>
@@ -734,25 +880,27 @@ if(pg==='asistente')return head+`
  </div>
  <aside class="stack">${scoreCard()}</aside>
 </div>`;
+const orbVal=real()?(a?o.total:0):S.ofertas[0].m;
+const orbTxt=real()?(a?'tu puntaje en<br>'+esc(o.nombre):'sube tu CV para<br>ver tu puntaje'):'de match con<br>tu mejor oferta';
 return head+`
 <div class="cols">
  <div class="stack">
   <section class="hero">
    <span class="blob b1"></span><span class="blob b2"></span>
    <div style="position:relative">
-    <span class="tag t-br">${ic('spark')} ${ME.car} · UARM</span>
+    <span class="tag t-br">${ic('spark')} ${esc(ME.car||'Estudiante')}${real()?'':' · UARM'}</span>
     <h1 style="margin-top:10px">Tu talento encuentra <em>su oportunidad</em></h1>
     <p>Conecta con empresas, demuestra tus habilidades y prepárate con inteligencia artificial para tu primera práctica.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn p" data-go="practicas">Explorar prácticas →</button><button class="btn" data-go="asistente">${ic('bot')} Practicar con IA</button></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">${real()&&!a?`<button class="btn p" data-go="cv">${ic('doc')} Subir mi CV</button>`:'<button class="btn p" data-go="practicas">Explorar prácticas →</button>'}<button class="btn" data-go="asistente">${ic('bot')} Practicar con IA</button></div>
    </div>
    <div class="hero-art">
-    <div class="orbwrap" aria-hidden="true"><div class="ring-dash"></div><div class="orb"><div class="in"><b class="num" data-count="${S.ofertas[0].m}" data-suf="%">0%</b><small>de match con<br>tu mejor oferta</small></div></div></div>
+    <div class="orbwrap" aria-hidden="true"><div class="ring-dash"></div><div class="orb"><div class="in"><b class="num" data-count="${orbVal}" data-suf="${real()?'':'%'}">0</b><small>${orbTxt}</small></div></div></div>
    </div>
   </section>
-  <section>
+  ${real()?'':`<section>
    <div class="sec-h"><h2>Tu mejor match</h2><button class="link" data-go="practicas">Ver todas las prácticas →</button></div>
    <div class="jobs single">${jobCard(S.ofertas[0])}</div>
-  </section>
+  </section>`}
   ${postulCard()}
  </div>
  <aside class="stack">${ringCard()}${scoreCard()}</aside>
@@ -912,7 +1060,7 @@ function animate(){
 let pg='inicio',chatHTML='';
 function render(){
  const m=$('#msgs');if(m)chatHTML=m.innerHTML;
- app.innerHTML=V[cur](pg);
+ app.innerHTML=(LIVE&&cur!=='estudiante'?demoNote('Datos de ejemplo: la publicación real de ofertas, cursos y voluntariados llega en la siguiente fase.'):'')+V[cur](pg);
  const m2=$('#msgs');if(m2&&chatHTML)m2.innerHTML=chatHTML;
 }
 function rerender(){
@@ -954,9 +1102,19 @@ const AI={
  deb:['Ver mis puntos débiles','Tu punto más bajo es inglés (46/100): te descartó en 1 de 3 postulaciones. Luego, FlexSim y @RISK siguen “en desarrollo”; un reto práctico los convierte en insignias verificadas.'],
  cur:['Recomendarme cursos','Para tu perfil: “Inglés para entrevistas” de Aprende+ Perú (6 h, +80 pts) y “Power BI desde cero” (+60 pts). Con los dos subes al nivel “Listo para practicar”.']
 };
+function aiAnswer(k){
+ if(!real())return AI[k][1];
+ const a=ME.analisis;
+ if(k==='ent')return 'Practiquemos con una pregunta típica: “Cuéntame de un proyecto donde resolviste un problema”. Usa el método STAR: situación, tarea, acción y resultado. La entrevista simulada completa con IA llegará pronto.';
+ if(!a)return 'Primero sube tu CV en “Mi CV y puntaje”. Con eso puedo darte consejos concretos y no genéricos.';
+ const o=a.puntajes.objetivo;
+ if(k==='cv')return 'En '+o.nombre+' tienes '+o.total+'/100. '+(o.contras.length?'Para subir: '+o.contras.slice(0,2).join('; ')+'.':'Tu CV ya cubre lo principal.')+' Cuantifica tus logros (cifras, plazos, resultados) para que se note tu aporte.';
+ if(k==='deb')return o.contras.length?'Tus puntos más débiles para '+o.nombre+': '+o.contras.join('; ')+'.':'No veo puntos débiles importantes para '+o.nombre+'.';
+ return o.contras.length?'Para mejorar en '+o.nombre+' te convendría reforzar lo siguiente: '+o.contras.slice(0,2).join('; ')+'. Cuando haya cursos publicados, te recomendaré los que cubran eso.':'Ya cubres lo principal de '+o.nombre+'. Los cursos recomendados aparecerán cuando las empresas los publiquen.';
+}
 function askAI(k){
  const box=$('#msgs');if(!box)return;
- const [q,a]=AI[k];
+ const q=AI[k][0],a=aiAnswer(k);
  const u=document.createElement('div');u.className='msg u';u.textContent=q;box.appendChild(u);
  const b=document.createElement('div');b.className='msg b';b.innerHTML='<span class="typing"><i></i><i></i><i></i></span>';box.appendChild(b);
  box.scrollTop=box.scrollHeight;
@@ -1000,6 +1158,7 @@ document.addEventListener('keydown',e=>{
 /* ---------- Acciones ---------- */
 app.addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+ if('borrar' in d)return borrarCV().then(()=>{rerender();toast('Borramos tu CV y tu análisis')}).catch(e=>toast(e.message));
  if('game' in d)return openGame();
  if(d.ai){if(!$('#msgs'))goPage('asistente');return askAI(d.ai)}
  if(d.toast)return toast(d.toast);
@@ -1010,6 +1169,25 @@ app.addEventListener('click',e=>{
  if(d.val){S.vol[d.val].st='ok';rerender();return toast('Insignia emitida a '+S.vol[d.val].n)}
  if(d.apr){S.pend[d.apr].st='ok';rerender();return toast(L[S.pend[d.apr].k].n+' aprobada')}
  if(d.rec){S.pend[d.rec].st='no';rerender();return toast(L[S.pend[d.rec].k].n+' rechazada')}
+});
+app.addEventListener('submit',async e=>{
+ if(e.target.id!=='cvform')return;e.preventDefault();
+ const f=e.target,file=$('#cv-file').files[0],rubro=$('#cv-rubro').value,busca=$$('[name=busca]:checked',f).map(x=>x.value);
+ const er=$('#cv-err'),go=$('#cv-go');
+ const fail=m=>{er.textContent=m;er.hidden=false;er.scrollIntoView({block:'nearest'})};
+ er.hidden=true;
+ if(!$('#cv-consent').checked)return fail('Marca la autorización para que la IA pueda leer tu CV.');
+ if(!busca.length)return fail('Elige al menos una opción en “¿Qué buscas?”.');
+ if(!file)return fail('Selecciona tu CV en PDF.');
+ if(file.type!=='application/pdf'&&!/\.pdf$/i.test(file.name))return fail('El archivo debe ser un PDF.');
+ if(file.size>5*1024*1024)return fail('El PDF pesa más de 5 MB.');
+ go.disabled=true;
+ const paso=m=>{go.textContent=m};
+ try{
+  const r=await analizarCV(file,rubro,busca,paso);
+  applyAnalisis(r);rerender();window.scrollTo({top:0,behavior:RM?'auto':'smooth'});
+  toast('Listo: tu puntaje en '+r.puntajes.objetivo.nombre+' es '+r.puntajes.objetivo.total+'/100');
+ }catch(err){go.disabled=false;go.innerHTML=ic('spark')+' Analizar con IA';fail(err.message||'No pudimos analizar tu CV.')}
 });
 app.addEventListener('change',e=>{const s=e.target;if(!s.id||!s.id.startsWith('mot-')||!s.value)return;const i=+s.id.slice(4);const m=s.value;S.cand[i].st='des';rerender();toast('Respuesta enviada a '+S.cand[i].n+': '+m)});
 app.addEventListener('keydown',e=>{if(e.target.id==='q'&&e.key==='Enter'&&e.target.value.trim())toast('Buscando “'+e.target.value.trim()+'”')});
@@ -1045,6 +1223,7 @@ $('#facts').innerHTML=[['shield','Empresas y ONGs verificadas por RUC'],['check'
 $('#back').innerHTML=ic('back')+'Cambiar de perfil';
 $('#logout').innerHTML=ic('out')+'<span>Cerrar sesión</span>';
 $('#demo-note').innerHTML=ic('info')+'<span>Versión de demostración: entra con cualquier correo y contraseña.</span>';
+if(LIVE){$('#demo-note').hidden=true;$('.tour').hidden=true;$('#step-login .chk').hidden=true}
 
 function matchAnim(){
  const r=$('#mring'),v=$('#mval');r.classList.remove('on');v.textContent='0%';
@@ -1052,7 +1231,7 @@ function matchAnim(){
  if(RM){v.textContent='94%';return}
  setTimeout(()=>{const t0=performance.now();const st=t=>{const k=Math.min(1,(t-t0)/1200),e=1-Math.pow(1-k,3);v.textContent=Math.round(94*e)+'%';if(k<1)requestAnimationFrame(st)};requestAnimationFrame(st)},900);
 }
-function step(id){['step-role','step-login','step-load'].forEach(x=>{$('#'+x).hidden=x!==id});const el=$('#'+id);el.style.animation='none';void el.offsetWidth;el.style.animation=''}
+function step(id){['step-role','step-login','step-signup','step-load'].forEach(x=>{$('#'+x).hidden=x!==id});const el=$('#'+id);el.style.animation='none';void el.offsetWidth;el.style.animation=''}
 function setAccent(k){const r=ROLES[k];auth.style.setProperty('--rc',r.c);auth.style.setProperty('--rs',r.s)}
 function openLogin(k){
  pick=ROLES[k]?k:'estudiante';const r=ROLES[pick];setAccent(pick);
@@ -1072,7 +1251,7 @@ function showAuth(){
 }
 function enter(k,mail,opts={}){
  auth.hidden=true;wrap.hidden=false;
- show(k);window.scrollTo(0,0);
+ show(k);if(opts.page)goPage(opts.page);window.scrollTo(0,0);
  document.title='EN-MATCH · '+ROLES[k].panel;
  if(!opts.silent)toast('Sesión iniciada'+(mail?' como '+mail:''));
 }
@@ -1080,8 +1259,44 @@ auth.addEventListener('click',e=>{const b=e.target.closest('[data-role]');if(b)o
 $('#back').addEventListener('click',()=>{setAccent('estudiante');step('step-role')});
 $('#lg-eye').addEventListener('click',e=>{const p=$('#lg-pw'),on=p.type==='password';p.type=on?'text':'password';e.currentTarget.textContent=on?'Ocultar':'Mostrar';e.currentTarget.setAttribute('aria-pressed',on)});
 $('#lg-forgot').addEventListener('click',()=>toast('Te enviaríamos un enlace para crear una nueva contraseña'));
-$('#lg-signup').addEventListener('click',()=>toast('El registro estará disponible en la versión piloto'));
-$('#step-login').addEventListener('submit',e=>{
+$('#lg-signup').addEventListener('click',()=>openSignup());
+$('#su-back').innerHTML=ic('back')+'Volver';
+$('#su-back').addEventListener('click',()=>openLogin(pick));
+$('#su-login').addEventListener('click',()=>openLogin(pick));
+function openSignup(){
+ const rol=$('#su-rol');rol.value=pick&&pick!=='admin'?pick:'estudiante';
+ ['su-nombre','su-mail','su-pw'].forEach(i=>{const x=$('#'+i);x.value='';x.removeAttribute('aria-invalid')});
+ $('#su-ok').checked=false;$('#su-err').hidden=true;
+ step('step-signup');$('#su-nombre').focus({preventScroll:true});
+}
+$('#su-rol').addEventListener('change',e=>{pick=e.target.value;setAccent(pick)});
+$('#step-signup').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const rol=$('#su-rol').value,nombre=$('#su-nombre').value.trim(),mail=$('#su-mail').value.trim(),pw=$('#su-pw').value,er=$('#su-err');
+ ['su-nombre','su-mail','su-pw'].forEach(i=>$('#'+i).removeAttribute('aria-invalid'));
+ let msg='',bad='';
+ if(nombre.length<2){msg='Escribe tu nombre.';bad='su-nombre'}
+ else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){msg='Escribe un correo válido, por ejemplo nombre@correo.com';bad='su-mail'}
+ else if(pw.length<8){msg='La contraseña debe tener al menos 8 caracteres.';bad='su-pw'}
+ else if(!$('#su-ok').checked){msg='Debes aceptar los términos para crear tu cuenta.'}
+ if(msg){er.textContent=msg;er.hidden=false;if(bad){$('#'+bad).setAttribute('aria-invalid','true');$('#'+bad).focus()}return}
+ er.hidden=true;
+ $('#load-t').textContent='Creando tu cuenta…';step('step-load');
+ try{
+  let page=rol==='estudiante'?'cv':null;
+  if(LIVE){
+   await loadSB();
+   const {data,error}=await sb.auth.signUp({email:mail,password:pw,options:{data:{rol,nombre}}});
+   if(error)throw new Error(traducir(error.message));
+   if(!data.session){openLogin(rol);$('#lg-mail').value=mail;toast('Te enviamos un correo para confirmar tu cuenta');return}
+   await cargarUsuario(data.user);
+  }else{
+   await delay(RM?200:900);setMe(nombre,true);ssSet({r:rol,m:mail,n:nombre},true);
+  }
+  enter(rol,mail,{page,silent:false});
+ }catch(err){step('step-signup');er.textContent=err.message;er.hidden=false}
+});
+$('#step-login').addEventListener('submit',async e=>{
  e.preventDefault();
  const m=$('#lg-mail'),p=$('#lg-pw'),er=$('#lg-err'),mail=m.value.trim();
  m.removeAttribute('aria-invalid');p.removeAttribute('aria-invalid');
@@ -1090,18 +1305,39 @@ $('#step-login').addEventListener('submit',e=>{
  else if(!p.value){msg='Escribe tu contraseña para continuar';p.setAttribute('aria-invalid','true');p.focus()}
  if(msg){er.textContent=msg;er.hidden=false;return}
  er.hidden=true;
- const keep=$('.chk input').checked;
+ const keep=$('#step-login .chk input').checked;
  $('#load-t').textContent='Preparando tu '+ROLES[pick].panel.toLowerCase().replace('administración','panel de administración')+'…';
  step('step-load');
- setTimeout(()=>{ssSet({r:pick,m:mail},keep);enter(pick,mail)},RM?200:1100);
+ try{
+  let rol=pick;
+  if(LIVE){
+   await loadSB();
+   const {data,error}=await sb.auth.signInWithPassword({email:mail,password:p.value});
+   if(error)throw new Error(traducir(error.message));
+   rol=await cargarUsuario(data.user);
+  }else{await delay(RM?200:1100);ssSet({r:pick,m:mail},keep)}
+  enter(rol,mail);
+  if(rol!==pick)toast('Tu cuenta es de tipo '+ROLES[rol].t.toLowerCase()+': entraste a ese panel');
+ }catch(err){step('step-login');er.textContent=err.message;er.hidden=false}
 });
-$('#logout').addEventListener('click',()=>{ssDel();showAuth();toast('Cerraste sesión')});
+$('#logout').addEventListener('click',async()=>{ssDel();if(LIVE&&sb)await sb.auth.signOut();showAuth();toast('Cerraste sesión')});
 $('#tour').addEventListener('click',()=>{enter('estudiante','',{silent:true});startPresent();toast('Recorrido: cambia de perfil cada 9 segundos')});
 
 /* ---------- Inicio ---------- */
-(()=>{
- const h=(location.hash||'').slice(1),ses=ssGet();
- if(ses&&ROLES[ses.r]){enter(ses.r,ses.m,{silent:true});return}
+(async()=>{
+ const h=(location.hash||'').slice(1);
+ if(LIVE){
+  showAuth();
+  try{
+   await loadSB();
+   const {data:{session}}=await sb.auth.getSession();
+   if(session){const rol=await cargarUsuario(session.user);enter(rol,session.user.email,{silent:true});return}
+  }catch(e){}
+  if(ROLES[h])openLogin(h);
+  return;
+ }
+ const ses=ssGet();
+ if(ses&&ROLES[ses.r]){if(ses.n)setMe(ses.n,true);enter(ses.r,ses.m,{silent:true});return}
  showAuth();
  if(ROLES[h])openLogin(h);
 })();
