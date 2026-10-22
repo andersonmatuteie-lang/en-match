@@ -154,6 +154,7 @@ svg{display:block}
 .logo.lg .mk{width:46px;height:46px;border-radius:13px}.logo.lg .mk svg{width:26px;height:26px}
 .logo.lg{font-size:15px}
 .logo .nm small{display:block;font-family:var(--body);font-weight:500;font-size:11.5px;color:var(--muted)}
+.jobs.single{grid-template-columns:minmax(0,420px)}
 .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .track{display:flex;gap:34px;width:max-content;padding-block:4px}
 @media (prefers-reduced-motion:no-preference){.track{animation:marquee 30s linear infinite}}
@@ -625,13 +626,13 @@ const S={
  ]
 };
 
-/* ---------- Navegación lateral por rol ---------- */
+/* ---------- Navegación lateral por rol: cada opción es una pantalla ---------- */
 const NAV={
- estudiante:[['home','Inicio','top'],['brief','Ofertas de prácticas','ofertas'],['user','Mi perfil','s-perfil'],['spark','Asistente IA','aicard'],['cap','Desarrollo de habilidades','s-feats'],['game','Juegos y quizzes','game'],['chart','Mi progreso','s-ruta']],
- rrhh:[['home','Inicio','top'],['brief','Mis ofertas','s-kpis'],['users','Candidatos','s-cand'],['target','Retos','s-retos'],['shield','Sello y respuesta','s-sello'],['chart','Reportes','s-brechas']],
- ong:[['home','Inicio','top'],['heart','Voluntariados','s-vols'],['check','Validar horas','s-validar'],['users','Voluntarios','s-validar'],['chart','Impacto','s-kpis']],
- cursos:[['home','Inicio','top'],['book','Mis cursos','s-rend'],['users','Inscritos','s-insc'],['target','Brechas del mercado','s-brechas'],['chart','Resultados','s-kpis']],
- admin:[['home','Panel general','top'],['shield','Verificación','s-ver'],['alert','Alertas','s-alertas'],['scale','Revisión de sesgos','s-sesgos'],['building','Universidades','s-univ'],['chart','Reportes','s-kpis']]
+ estudiante:[['home','Inicio','inicio'],['brief','Prácticas','practicas'],['user','Mi perfil','perfil'],['spark','Asistente IA y juegos','asistente']],
+ rrhh:[['home','Inicio','inicio'],['users','Candidatos','cand'],['target','Retos','retos'],['chart','Reportes','rep']],
+ ong:[['home','Inicio','inicio'],['heart','Voluntariados','vols'],['check','Validar horas','validar']],
+ cursos:[['home','Inicio','inicio'],['book','Mis cursos','cursos'],['target','Brechas del mercado','brechas'],['users','Inscritos','insc']],
+ admin:[['home','Panel general','inicio'],['shield','Verificación','ver'],['alert','Alertas','alertas'],['scale','Revisión de sesgos','sesgos'],['building','Universidades','univ']]
 };
 
 /* ---------- Vistas ---------- */
@@ -641,54 +642,48 @@ const tagSt={in:['t-in','Entrevista'],no:['t-no','No seleccionado'],wa:['t-wa','
 const bar=(k,v,cls='')=>`<div class="bar"><span>${k}</span><div class="tr"><i class="${cls}" data-w="${v}"></i></div><span class="v">${v}</span></div>`;
 const topline=(who,sub,ini,ph)=>`<div class="topline"><label class="search">${ic('search')}<input id="q" placeholder="${ph}" aria-label="Buscar"></label><div class="me"><button class="bell" aria-label="Notificaciones" data-toast="Tienes 3 notificaciones nuevas">${ic('bell')}</button><span class="av">${ini}</span><span class="who">${who}<small>${sub}</small></span></div></div>`;
 const jobLogos=Object.keys(L).filter(k=>!['sembrando','minka','warmi'].includes(k));
-
-V.estudiante=()=>`
-${topline('Hola, '+ME.short,ME.car+' · '+ME.ciclo,ME.ini,'Busca prácticas, empresas o habilidades…')}
-<div class="cols">
- <div class="stack">
-  <section class="hero">
-   <span class="blob b1"></span><span class="blob b2"></span>
-   <div style="position:relative">
-    <span class="tag t-br">${ic('spark')} ${ME.car} · UARM</span>
-    <h1 style="margin-top:10px">Tu talento encuentra <em>su oportunidad</em></h1>
-    <p>Conecta con empresas, demuestra tus habilidades y prepárate con inteligencia artificial para tu primera práctica.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn p" data-go="ofertas">Explorar prácticas →</button><button class="btn" data-game>${ic('game')} Jugar un reto</button></div>
-   </div>
-   <div class="hero-art">
-    <div class="orbwrap" aria-hidden="true"><div class="ring-dash"></div><div class="orb"><div class="in"><b class="num" data-count="${S.ofertas[0].m}" data-suf="%">0%</b><small>de match con<br>tu mejor oferta</small></div></div></div>
-    <div class="pills">
-     <button class="pill float" data-go="ofertas"><i>${ic('brief')}</i>Postula a prácticas</button>
-     <button class="pill float" data-ai="cv"><i>${ic('doc')}</i>Mejora tu CV con IA</button>
-     <button class="pill float" data-ai="ent"><i>${ic('mic')}</i>Prepárate para entrevistas</button>
-     <button class="pill float" data-ai="cur"><i>${ic('cap')}</i>Desarrolla habilidades</button>
-    </div>
-   </div>
-  </section>
-
-  <section class="card" style="padding:14px 18px">
-   <div class="sec-h" style="margin-bottom:8px"><h2 style="font-size:14px">Empresas que buscan practicantes en EN-MATCH</h2><span class="tag t-ok">${ic('shield')} Verificadas por RUC</span></div>
-   <div class="marquee"><div class="track">${[...jobLogos,...jobLogos].map(k=>logo(k)).join('')}</div></div>
-  </section>
-
-  <section id="ofertas">
-   <div class="sec-h"><h2>Prácticas para ti</h2><button class="link" data-toast="Mostrando 24 prácticas para tu perfil">Ver todas →</button></div>
-   <div class="jobs">${S.ofertas.map(o=>`
+const jobCard=o=>`
     <article class="job lift">
      <div class="top">${logo(o.k)}<button class="bm ${o.bm?'on':''}" data-bm="${o.id}" aria-label="Guardar oferta">${o.bm?icf('mark'):ic('mark')}</button></div>
      <h3>${o.t}</h3>
      <div class="meta"><span>${ic('pin')}${o.lugar}</span><span>${ic('clock')}${o.mod} · ${soles(o.sub)}</span></div>
      <div class="matchbar"><span>Match</span><span class="t"><i data-w="${o.m}"></i></span><span class="num">${o.m}%</span></div>
      <button class="btn ${o.est?'':'p'} block" data-post="${o.id}" ${o.est?'disabled':''}>${o.est?ic('check')+' Postulado':'Postular'}</button>
-    </article>`).join('')}</div>
-  </section>
+    </article>`;
+const postulCard=()=>`
+  <section class="card">
+   <div class="sec-h"><h2>Mis postulaciones</h2><span class="tag t-ok">Siempre con respuesta</span></div>
+   <div class="list">${S.postul.map(p=>`
+    <div class="item"><div class="grow" style="display:flex;gap:10px;align-items:center">${logo(p.k,{bare:true})}<div style="min-width:0"><div class="t">${p.t}</div><div class="m">${L[p.k].n}</div></div></div><span class="tag ${tagSt[p.st][0]}">${tagSt[p.st][1]}</span><div class="fb ${p.st==='no'?'n':''}">${p.fb}</div></div>`).join('')}</div>
+  </section>`;
+const scoreCard=()=>`
+  <section class="card">
+   <div class="score"><span class="star">${icf('star')}</span><div><span class="small muted">Tu puntaje total</span><b class="num" id="pts" data-count="${ME.pts}" data-suf=" pts">0 pts</b></div></div>
+   <div class="top20">${ic('trophy')} Estás en el top 20% de candidatos de Ingeniería Industrial</div>
+  </section>`;
+const ringCard=()=>`
+  <section class="card ringcard">
+   <div class="sec-h" style="margin-bottom:0"><h2 style="font-size:15px">Tu perfil</h2><button class="link" data-go="perfil">Ver perfil</button></div>
+   <div class="ring"><svg viewBox="0 0 128 128"><circle class="bg" cx="64" cy="64" r="52"/><circle class="fg" cx="64" cy="64" r="52" data-ring="${ME.perfil}"/></svg><div class="val"><b class="num" data-count="${ME.perfil}" data-suf="%">0%</b><small>completo</small></div></div>
+   <p class="small muted" style="margin:0">¡Vas muy bien! Agrega tu nivel de inglés para aumentar tus oportunidades.</p>
+  </section>`;
 
-  <section class="feats" id="s-feats">
-   <div class="feat lift"><span class="ic">${ic('doc')}</span><h3>Optimiza tu CV con IA</h3><p>Recomendaciones para destacar tu proyecto de @RISK y tu liderazgo en Santander X.</p><button class="btn sm p" data-ai="cv">Mejorar mi CV →</button></div>
-   <div class="feat k lift"><span class="ic">${ic('mic')}</span><h3>Prepárate para entrevistas</h3><p>Practica con la IA: analiza tu respuesta y te da consejos al instante.</p><button class="btn sm p" data-ai="ent">Comenzar práctica →</button></div>
-   <div class="feat v lift"><span class="ic">${ic('game')}</span><h3>Juega y demuestra tu potencial</h3><p>Resuelve retos de costos y procesos. Cada acierto suma puntos a tu perfil.</p><button class="btn sm p" data-game>Jugar ahora →</button></div>
-   <div class="feat s lift"><span class="ic">${ic('cap')}</span><h3>Desarrolla tus habilidades</h3><p>Cursos de empresas colaboradoras según lo que te falta, con insignias.</p><button class="btn sm p" data-ai="cur">Ver cursos →</button></div>
+V.estudiante=pg=>{
+const head=topline('Hola, '+ME.short,ME.car+' · '+ME.ciclo,ME.ini,'Busca prácticas, empresas o habilidades…');
+if(pg==='practicas')return head+`
+<div class="stack">
+  <section class="card" style="padding:14px 18px">
+   <div class="sec-h" style="margin-bottom:8px"><h2 style="font-size:14px">Empresas que buscan practicantes en EN-MATCH</h2><span class="tag t-ok">${ic('shield')} Verificadas por RUC</span></div>
+   <div class="marquee"><div class="track">${[...jobLogos,...jobLogos].map(k=>logo(k)).join('')}</div></div>
   </section>
-
+  <section>
+   <div class="sec-h"><h2>Prácticas para ti</h2><span class="small muted">Ordenadas por match</span></div>
+   <div class="jobs">${S.ofertas.map(jobCard).join('')}</div>
+  </section>
+</div>`;
+if(pg==='perfil')return head+`
+<div class="cols">
+ <div class="stack">
   <section class="card" id="s-ruta">
    <div class="sec-h"><h2>Tu ruta hacia la primera práctica</h2><span class="tag t-br">Estás en 8vo ciclo</span></div>
    <div class="route">${[
@@ -700,40 +695,28 @@ ${topline('Hola, '+ME.short,ME.car+' · '+ME.ciclo,ME.ini,'Busca prácticas, emp
     ['Egreso','Empleo',['Portafolio completo','Primer empleo'],'']
    ].map(([c,h,l,s])=>`<div class="stage ${s}">${s==='now'?'<span class="you">Tú</span>':''}<div class="cy">${c}</div><div class="h">${s==='done'?`<span class="ck">${ic('check',3)}</span>`:''}${h}</div><ul>${l.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>
   </section>
-
-  <div class="grid">
-   <section class="card c6">
-    <div class="sec-h"><h2>Habilidades demostradas</h2><span class="small muted">Puntaje de 0 a 100</span></div>
-    <div class="bars">${bar('Liderazgo',90)}${bar('Análisis',88)}${bar('Organización',84)}${bar('Comunicación',79)}${bar('Inglés',46,'lo')}</div>
-    <p class="small muted" style="margin:12px 0 0">Tu punto por mejorar es <b>inglés</b>. La IA te sugiere el curso “Inglés para entrevistas”.</p>
-   </section>
-   <section class="card c6">
-    <div class="sec-h"><h2>Mis postulaciones</h2><span class="tag t-ok">Siempre con respuesta</span></div>
-    <div class="list">${S.postul.map(p=>`
-     <div class="item"><div class="grow" style="display:flex;gap:10px;align-items:center">${logo(p.k,{bare:true})}<div style="min-width:0"><div class="t">${p.t}</div><div class="m">${L[p.k].n}</div></div></div><span class="tag ${tagSt[p.st][0]}">${tagSt[p.st][1]}</span><div class="fb ${p.st==='no'?'n':''}">${p.fb}</div></div>`).join('')}</div>
-   </section>
-  </div>
-
+  <section class="card">
+   <div class="sec-h"><h2>Habilidades demostradas</h2><span class="small muted">Puntaje de 0 a 100</span></div>
+   <div class="bars">${bar('Liderazgo',90)}${bar('Análisis',88)}${bar('Organización',84)}${bar('Comunicación',79)}${bar('Inglés',46,'lo')}</div>
+   <p class="small muted" style="margin:12px 0 0">Tu punto por mejorar es <b>inglés</b>. La IA te sugiere el curso “Inglés para entrevistas”.</p>
+  </section>
   <section class="card">
    <div class="sec-h"><h2>Tus herramientas</h2><button class="link" data-toast="Agrega una herramienta y valídala con un reto">+ Agregar</button></div>
    <div class="chips">${[['Excel','Avanzado'],['Power BI','Intermedio'],['Python','Intermedio'],['@RISK','En desarrollo'],['FlexSim','En desarrollo'],['Monte Carlo','Aplicado'],['Evaluación de proyectos','Aplicado']].map(([a,b])=>`<span class="chip">${a}<i>${b}</i></span>`).join('')}</div>
   </section>
  </div>
-
  <aside class="stack">
   <section class="card" id="s-perfil">
    <div class="pf"><span class="av">${ME.ini}</span><div><b>${ME.n}</b><span class="small muted">${ME.car} · ${ME.ciclo}<br>UARM · Intercambio PUJ Cali</span></div></div>
    <div class="tags" style="margin-top:12px"><span class="tag t-ok">${ic('check',3)} CV verificado</span><span class="tag t-br">Líder Santander X</span><span class="tag t-vi">Voluntario JNE</span><span class="tag t-wa">@RISK Monte Carlo</span></div>
   </section>
-  <section class="card ringcard">
-   <div class="sec-h" style="margin-bottom:0"><h2 style="font-size:15px">Tu perfil</h2><button class="link" data-toast="Abriendo tu perfil">Editar</button></div>
-   <div class="ring"><svg viewBox="0 0 128 128"><circle class="bg" cx="64" cy="64" r="52"/><circle class="fg" cx="64" cy="64" r="52" data-ring="${ME.perfil}"/></svg><div class="val"><b class="num" data-count="${ME.perfil}" data-suf="%">0%</b><small>completo</small></div></div>
-   <p class="small muted" style="margin:0">¡Vas muy bien! Agrega tu nivel de inglés para aumentar tus oportunidades.</p>
-  </section>
-  <section class="card">
-   <div class="score"><span class="star">${icf('star')}</span><div><span class="small muted">Tu puntaje total</span><b class="num" id="pts" data-count="${ME.pts}" data-suf=" pts">0 pts</b></div></div>
-   <div class="top20">${ic('trophy')} Estás en el top 20% de candidatos de Ingeniería Industrial</div>
-  </section>
+  ${ringCard().replace('<button class="link" data-go="perfil">Ver perfil</button>','<button class="link" data-toast="Abriendo tu perfil">Editar</button>')}
+  ${scoreCard()}
+ </aside>
+</div>`;
+if(pg==='asistente')return head+`
+<div class="cols">
+ <div class="stack">
   <section class="card tint" id="aicard">
    <div class="ai-h"><span class="bot">${ic('bot')}</span><div><b style="font-family:var(--display)">Asistente IA</b><div class="small muted online">En línea</div></div></div>
    <div class="msgs" id="msgs"><div class="msg b">Hola, Anderson. Soy tu asistente de EN-MATCH. ¿En qué te ayudo hoy?</div></div>
@@ -744,115 +727,168 @@ ${topline('Hola, '+ME.short,ME.car+' · '+ME.ciclo,ME.ini,'Busca prácticas, emp
     <button data-ai="cur">${ic('cap')} Recomendarme cursos</button>
    </div>
   </section>
-  <section class="quote">${ic('target')}<span>No es solo una práctica, es tu próximo gran paso.</span></section>
- </aside>
+  <section class="feats">
+   <div class="feat v lift"><span class="ic">${ic('game')}</span><h3>Juega y demuestra tu potencial</h3><p>Resuelve retos de costos y procesos. Cada acierto suma puntos a tu perfil.</p><button class="btn sm p" data-game>Jugar ahora →</button></div>
+   <div class="feat s lift"><span class="ic">${ic('cap')}</span><h3>Desarrolla tus habilidades</h3><p>Cursos de empresas colaboradoras según lo que te falta, con insignias.</p><button class="btn sm p" data-ai="cur">Ver cursos →</button></div>
+  </section>
+ </div>
+ <aside class="stack">${scoreCard()}</aside>
 </div>`;
+return head+`
+<div class="cols">
+ <div class="stack">
+  <section class="hero">
+   <span class="blob b1"></span><span class="blob b2"></span>
+   <div style="position:relative">
+    <span class="tag t-br">${ic('spark')} ${ME.car} · UARM</span>
+    <h1 style="margin-top:10px">Tu talento encuentra <em>su oportunidad</em></h1>
+    <p>Conecta con empresas, demuestra tus habilidades y prepárate con inteligencia artificial para tu primera práctica.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn p" data-go="practicas">Explorar prácticas →</button><button class="btn" data-go="asistente">${ic('bot')} Practicar con IA</button></div>
+   </div>
+   <div class="hero-art">
+    <div class="orbwrap" aria-hidden="true"><div class="ring-dash"></div><div class="orb"><div class="in"><b class="num" data-count="${S.ofertas[0].m}" data-suf="%">0%</b><small>de match con<br>tu mejor oferta</small></div></div></div>
+   </div>
+  </section>
+  <section>
+   <div class="sec-h"><h2>Tu mejor match</h2><button class="link" data-go="practicas">Ver todas las prácticas →</button></div>
+   <div class="jobs single">${jobCard(S.ofertas[0])}</div>
+  </section>
+  ${postulCard()}
+ </div>
+ <aside class="stack">${ringCard()}${scoreCard()}</aside>
+</div>`};
 
-V.rrhh=()=>{const r=S.cand.filter(c=>c.st).length;return `
-${topline('Paola Ramírez','Talento · Andina Logística','PR','Busca candidatos, carreras o habilidades…')}
+V.rrhh=pg=>{const r=S.cand.filter(c=>c.st).length;const head=topline('Paola Ramírez','Talento · Andina Logística','PR','Busca candidatos, carreras o habilidades…');
+if(pg==='cand')return head+`
 <div class="stack">
- <section class="pagehead"><div>${logo('andina',{lg:true,sub:true})}<h1>Practicante de Costos y Presupuestos</h1><p>5 candidatos evaluados, ordenados por habilidades demostradas. Responde a cada uno para mantener tu sello.</p></div><button class="btn p" data-toast="Borrador de reto creado">${ic('plus')} Publicar un reto</button></section>
+  <section class="card" id="s-cand">
+   <div class="sec-h"><h2>Candidatos · Practicante de Costos y Presupuestos</h2><span class="tag t-br">${r} de ${S.cand.length} respondidos</span></div>
+   <div class="tw"><table><thead><tr><th>Candidato</th><th>Puntaje</th><th>Entrevista IA</th><th>Insignias</th><th>Acción</th></tr></thead><tbody>
+   ${S.cand.map((c,i)=>`<tr><td><div class="person"><span class="av">${c.ini}</span><div><b>${c.n}</b><div class="small muted">${c.u}</div></div></div></td><td class="sc" style="color:var(--brand-700)">${c.p}</td><td class="sc">${c.e}</td><td><div class="tags">${c.ins.length?c.ins.map(x=>`<span class="tag t-br">${x}</span>`).join(''):'<span class="muted">—</span>'}</div></td>
+   <td>${c.st==='inv'?`<span class="tag t-ok">${ic('check',3)} Invitado</span>`:c.st==='des'?'<span class="tag t-no">Respondido con motivo</span>':`<div class="act"><button class="btn sm p" data-inv="${i}">Invitar</button><select id="mot-${i}" aria-label="Descartar con motivo"><option value="">Descartar por…</option><option>Falta inglés intermedio</option><option>Horario no compatible</option><option>Se eligió otro perfil</option></select></div>`}</td></tr>`).join('')}
+   </tbody></table></div>
+  </section>
+</div>`;
+if(pg==='retos')return head+`
+<div class="stack">
+  <section class="card" id="s-retos"><div class="sec-h"><h2>Retos publicados</h2><button class="btn sm p" data-toast="Borrador de reto creado">${ic('plus')} Publicar un reto</button></div><div class="list">
+    <div class="item"><div class="grow"><div class="t">Reduce el costo por pedido</div><div class="m">32 soluciones · cierra el ${fCorta(enDias(6))}</div></div><span class="tag t-ok">Activo</span></div>
+    <div class="item"><div class="grow"><div class="t">Planifica una semana de despachos</div><div class="m">18 soluciones · cierra el ${fCorta(enDias(13))}</div></div><span class="tag t-ok">Activo</span></div></div></section>
+</div>`;
+if(pg==='rep')return head+`
+<div class="stack">
+  <section class="card" id="s-brechas"><div class="sec-h"><h2>Lo que más les falta a tus postulantes</h2><span class="small muted">% de postulantes, últimos 60 días</span></div>
+   <div class="bars">${bar('Inglés intermedio',44,'lo')}${bar('Manejo del tiempo',31,'lo')}${bar('Redacción',22,'lo')}${bar('Power BI',18,'lo')}</div></section>
+</div>`;
+return head+`
+<div class="stack">
+ <section class="pagehead"><div>${logo('andina',{lg:true,sub:true})}<h1>Practicante de Costos y Presupuestos</h1><p>${S.cand.length} candidatos evaluados, ordenados por habilidades demostradas. Responde a cada uno para mantener tu sello.</p></div><button class="btn p" data-go="cand">Ver candidatos →</button></section>
  <div class="kpis" id="s-kpis">
   <div class="kpi"><span class="ic">${ic('brief')}</span><span>Ofertas activas</span><strong data-count="3">0</strong><em>2 prácticas · 1 reto</em></div>
   <div class="kpi"><span class="ic">${ic('users')}</span><span>Postulantes esta semana</span><strong data-count="47">0</strong><em>+12 vs. semana pasada</em></div>
   <div class="kpi"><span class="ic">${ic('clock')}</span><span>Días para contratar</span><strong data-count="11">0</strong><em>−6 días con EN-MATCH</em></div>
   <div class="kpi hl"><span class="ic">${ic('shield')}</span><span>Tasa de respuesta</span><strong data-count="96" data-suf="%">0%</strong><em>Sello activo</em></div>
  </div>
- <div class="grid">
-  <section class="card c8" id="s-cand">
-   <div class="sec-h"><h2>Candidatos</h2><span class="tag t-br">${r} de ${S.cand.length} respondidos</span></div>
-   <div class="tw"><table><thead><tr><th>Candidato</th><th>Puntaje</th><th>Entrevista IA</th><th>Insignias</th><th>Acción</th></tr></thead><tbody>
-   ${S.cand.map((c,i)=>`<tr><td><div class="person"><span class="av">${c.ini}</span><div><b>${c.n}</b><div class="small muted">${c.u}</div></div></div></td><td class="sc" style="color:var(--brand-700)">${c.p}</td><td class="sc">${c.e}</td><td><div class="tags">${c.ins.length?c.ins.map(x=>`<span class="tag t-br">${x}</span>`).join(''):'<span class="muted">—</span>'}</div></td>
-   <td>${c.st==='inv'?`<span class="tag t-ok">${ic('check',3)} Invitado</span>`:c.st==='des'?'<span class="tag t-no">Respondido con motivo</span>':`<div class="act"><button class="btn sm p" data-inv="${i}">Invitar</button><select id="mot-${i}" aria-label="Descartar con motivo"><option value="">Descartar por…</option><option>Falta inglés intermedio</option><option>Horario no compatible</option><option>Se eligió otro perfil</option></select></div>`}</td></tr>`).join('')}
-   </tbody></table></div>
-  </section>
-  <div class="stack c4">
-   <section class="card" id="s-sello"><div class="seal"><span class="badge">96%</span><div><b style="font-family:var(--display)">Empresa que responde</b><div class="small muted">Los estudiantes ven este sello en tus ofertas.</div></div></div></section>
-   <section class="card" id="s-retos"><div class="sec-h"><h2>Retos publicados</h2></div><div class="list">
-    <div class="item"><div class="grow"><div class="t">Reduce el costo por pedido</div><div class="m">32 soluciones · cierra el ${fCorta(enDias(6))}</div></div><span class="tag t-ok">Activo</span></div>
-    <div class="item"><div class="grow"><div class="t">Planifica una semana de despachos</div><div class="m">18 soluciones · cierra el ${fCorta(enDias(13))}</div></div><span class="tag t-ok">Activo</span></div></div></section>
-  </div>
-  <section class="card c12" id="s-brechas"><div class="sec-h"><h2>Lo que más les falta a tus postulantes</h2><span class="small muted">% de postulantes, últimos 60 días</span></div>
-   <div class="bars">${bar('Inglés intermedio',44,'lo')}${bar('Manejo del tiempo',31,'lo')}${bar('Redacción',22,'lo')}${bar('Power BI',18,'lo')}</div></section>
- </div>
+ <section class="card" id="s-sello"><div class="seal"><span class="badge">96%</span><div><b style="font-family:var(--display)">Empresa que responde</b><div class="small muted">Los estudiantes ven este sello en tus ofertas.</div></div></div></section>
 </div>`};
 
-V.ong=()=>`
-${topline('Rosa Huamaní','Coordinadora · Red Sembrando Futuro','RH','Busca voluntarios o proyectos…')}
+V.ong=pg=>{const head=topline('Rosa Huamaní','Coordinadora · Red Sembrando Futuro','RH','Busca voluntarios o proyectos…');
+if(pg==='vols')return head+`
 <div class="stack">
- <section class="pagehead"><div>${logo('sembrando',{lg:true,sub:true})}<h1>12 voluntarios activos en tus proyectos</h1><p>Publica voluntariados ligados a carreras y valida las horas. Cada validación se convierte en una insignia que ven las empresas.</p></div><button class="btn p" data-toast="Borrador de voluntariado creado">${ic('plus')} Publicar voluntariado</button></section>
+  <section class="card" id="s-vols"><div class="sec-h"><h2>Tus voluntariados</h2><button class="btn sm p" data-toast="Borrador de voluntariado creado">${ic('plus')} Publicar voluntariado</button></div><div class="list">
+   <div class="item"><div class="grow"><div class="t">Diagnóstico de almacén comunitario</div><div class="m">Ing. Industrial, Administración · 40 h · Villa El Salvador</div></div><span class="tag t-ok">3 cupos</span></div>
+   <div class="item"><div class="grow"><div class="t">Taller de finanzas para emprendedoras</div><div class="m">Economía, Contabilidad · 24 h</div></div><span class="tag t-ok">5 cupos</span></div>
+   <div class="item"><div class="grow"><div class="t">Censo de huertos urbanos</div><div class="m">Ing. Ambiental · 30 h</div></div><span class="tag t-in">Completo</span></div></div></section>
+</div>`;
+if(pg==='validar')return head+`
+<div class="stack">
+  <section class="card" id="s-validar"><div class="sec-h"><h2>Validar horas</h2><span class="small muted">Emite la insignia al estudiante</span></div>
+   <div class="list">${S.vol.map((v,i)=>`<div class="item"><div class="person grow"><span class="av">${v.ini}</span><div><div class="t">${v.n}</div><div class="m">${v.a} · <span class="num">${v.h}</span> h</div></div></div>${v.st==='ok'?`<span class="tag t-ok">${ic('check',3)} Insignia emitida</span>`:`<div class="act"><button class="btn sm p" data-val="${i}">Validar</button><button class="btn sm" data-toast="Pediste más detalle al voluntario">Pedir detalle</button></div>`}</div>`).join('')}</div></section>
+</div>`;
+return head+`
+<div class="stack">
+ <section class="pagehead"><div>${logo('sembrando',{lg:true,sub:true})}<h1>12 voluntarios activos en tus proyectos</h1><p>Publica voluntariados ligados a carreras y valida las horas. Cada validación se convierte en una insignia que ven las empresas.</p></div><button class="btn p" data-go="validar">Validar horas →</button></section>
  <div class="kpis" id="s-kpis">
   <div class="kpi"><span class="ic">${ic('heart')}</span><span>Voluntariados publicados</span><strong data-count="4">0</strong><em>2 abiertos</em></div>
   <div class="kpi"><span class="ic">${ic('users')}</span><span>Voluntarios activos</span><strong data-count="12">0</strong><em>+5 este mes</em></div>
   <div class="kpi hl"><span class="ic">${ic('clock')}</span><span>Horas validadas</span><strong data-count="486">0</strong><em>desde marzo</em></div>
   <div class="kpi"><span class="ic">${ic('check')}</span><span>Por validar</span><strong>${S.vol.filter(v=>v.st==='p').length}</strong><em class="dn">Responde en 7 días</em></div>
  </div>
- <div class="grid">
-  <section class="card c7" id="s-validar"><div class="sec-h"><h2>Validar horas</h2><span class="small muted">Emite la insignia al estudiante</span></div>
-   <div class="list">${S.vol.map((v,i)=>`<div class="item"><div class="person grow"><span class="av">${v.ini}</span><div><div class="t">${v.n}</div><div class="m">${v.a} · <span class="num">${v.h}</span> h</div></div></div>${v.st==='ok'?`<span class="tag t-ok">${ic('check',3)} Insignia emitida</span>`:`<div class="act"><button class="btn sm p" data-val="${i}">Validar</button><button class="btn sm" data-toast="Pediste más detalle al voluntario">Pedir detalle</button></div>`}</div>`).join('')}</div></section>
-  <section class="card c5" id="s-vols"><div class="sec-h"><h2>Tus voluntariados</h2></div><div class="list">
-   <div class="item"><div class="grow"><div class="t">Diagnóstico de almacén comunitario</div><div class="m">Ing. Industrial, Administración · 40 h · Villa El Salvador</div></div><span class="tag t-ok">3 cupos</span></div>
-   <div class="item"><div class="grow"><div class="t">Taller de finanzas para emprendedoras</div><div class="m">Economía, Contabilidad · 24 h</div></div><span class="tag t-ok">5 cupos</span></div>
-   <div class="item"><div class="grow"><div class="t">Censo de huertos urbanos</div><div class="m">Ing. Ambiental · 30 h</div></div><span class="tag t-in">Completo</span></div></div></section>
- </div>
-</div>`;
+</div>`};
 
-V.cursos=()=>`
-${topline('Julio Paredes','Alianzas · Aprende+ Perú','JP','Busca cursos o habilidades…')}
+V.cursos=pg=>{const head=topline('Julio Paredes','Alianzas · Aprende+ Perú','JP','Busca cursos o habilidades…');
+if(pg==='cursos')return head+`
+<div class="grid">
+  <section class="card c7" id="s-rend"><div class="sec-h"><h2>Rendimiento por curso</h2><button class="btn sm p" data-toast="Borrador de curso creado">${ic('plus')} Publicar curso</button></div>
+   <div class="tw"><table><thead><tr><th>Curso</th><th>Inscritos</th><th>Completaron</th><th>Insignia</th></tr></thead><tbody>
+    <tr><td><b>Inglés para entrevistas</b></td><td class="num">702</td><td class="num">71%</td><td><span class="tag t-br">Inglés B1</span></td></tr>
+    <tr><td><b>Gestión del tiempo para practicantes</b></td><td class="num">389</td><td class="num">58%</td><td><span class="tag t-br">Manejo del tiempo</span></td></tr>
+    <tr><td><b>Power BI desde cero</b></td><td class="num">157</td><td class="num">44%</td><td><span class="muted">Sin insignia</span></td></tr></tbody></table></div>
+  </section>
+  <section class="card c5"><div class="sec-h"><h2>Así lo ve el estudiante</h2></div>
+   <div class="feat" style="background:#fff"><div style="display:flex;gap:10px;align-items:center">${logo('aprende',{bare:true})}<div><div class="small" style="font-weight:700;color:var(--sky)">Aprende+ Perú</div><h3>Inglés para entrevistas</h3></div></div><p>6 h · Gratis · Otorga insignia “Inglés B1” · +80 pts</p><span class="tag t-in" style="align-self:flex-start;white-space:normal">Recomendado porque te falta inglés intermedio</span><button class="btn sm p" data-toast="Así se inscribe el estudiante">Inscribirme</button></div>
+  </section>
+</div>`;
+if(pg==='brechas')return head+`
 <div class="stack">
- <section class="pagehead"><div>${logo('aprende',{lg:true,sub:true})}<h1>Tus cursos llegan a quien los necesita</h1><p>EN-MATCH recomienda tu curso solo a estudiantes a los que les falta esa habilidad, y les otorga una insignia al terminar.</p></div><button class="btn p" data-toast="Borrador de curso creado">${ic('plus')} Publicar curso</button></section>
+  <section class="card" id="s-brechas"><div class="sec-h"><h2>Habilidades que piden las empresas</h2><span class="small muted">Oportunidad para nuevos cursos</span></div>
+   <div class="list"><div class="item"><div class="grow t">Power BI</div><span class="tag t-wa">Demanda alta · pocos cursos</span></div><div class="item"><div class="grow t">Redacción profesional</div><span class="tag t-no">Demanda alta · sin cursos</span></div><div class="item"><div class="grow t">Inglés intermedio</div><span class="tag t-ok">Cubierta por ti</span></div></div></section>
+</div>`;
+if(pg==='insc')return head+`
+<div class="stack">
+  <section class="card" id="s-insc"><div class="sec-h" style="margin-bottom:0"><h2>Inscripciones por semana</h2></div>
+   <div class="minichart">${[120,150,138,176,201,214].map((v,i,a)=>`<div class="${i===a.length-1?'hl':''}" style="height:${v/214*100}%;animation-delay:${i*.07}s"><span>${v}</span></div>`).join('')}</div>
+   <div class="mlabels">${['S1','S2','S3','S4','S5','S6'].map(x=>`<span>${x}</span>`).join('')}</div>
+  </section>
+</div>`;
+return head+`
+<div class="stack">
+ <section class="pagehead"><div>${logo('aprende',{lg:true,sub:true})}<h1>Tus cursos llegan a quien los necesita</h1><p>EN-MATCH recomienda tu curso solo a estudiantes a los que les falta esa habilidad, y les otorga una insignia al terminar.</p></div><button class="btn p" data-go="cursos">Ver mis cursos →</button></section>
  <div class="kpis" id="s-kpis">
   <div class="kpi"><span class="ic">${ic('book')}</span><span>Cursos publicados</span><strong data-count="3">0</strong><em>2 con insignia</em></div>
   <div class="kpi"><span class="ic">${ic('users')}</span><span>Inscritos</span><strong data-count="1248">0</strong><em>+214 este mes</em></div>
   <div class="kpi"><span class="ic">${ic('check')}</span><span>Completaron</span><strong data-count="63" data-suf="%">0%</strong><em>+8 puntos</em></div>
   <div class="kpi hl"><span class="ic">${ic('trophy')}</span><span>Consiguieron práctica</span><strong data-count="118">0</strong><em>después del curso</em></div>
  </div>
- <div class="grid">
-  <section class="card c7" id="s-rend"><div class="sec-h"><h2>Rendimiento por curso</h2></div>
-   <div class="tw"><table><thead><tr><th>Curso</th><th>Inscritos</th><th>Completaron</th><th>Insignia</th></tr></thead><tbody>
-    <tr><td><b>Inglés para entrevistas</b></td><td class="num">702</td><td class="num">71%</td><td><span class="tag t-br">Inglés B1</span></td></tr>
-    <tr><td><b>Gestión del tiempo para practicantes</b></td><td class="num">389</td><td class="num">58%</td><td><span class="tag t-br">Manejo del tiempo</span></td></tr>
-    <tr><td><b>Power BI desde cero</b></td><td class="num">157</td><td class="num">44%</td><td><span class="muted">Sin insignia</span></td></tr></tbody></table></div>
-   <div class="sec-h" id="s-brechas" style="margin-top:18px"><h2>Habilidades que piden las empresas</h2><span class="small muted">Oportunidad para nuevos cursos</span></div>
-   <div class="list"><div class="item"><div class="grow t">Power BI</div><span class="tag t-wa">Demanda alta · pocos cursos</span></div><div class="item"><div class="grow t">Redacción profesional</div><span class="tag t-no">Demanda alta · sin cursos</span></div><div class="item"><div class="grow t">Inglés intermedio</div><span class="tag t-ok">Cubierta por ti</span></div></div>
-  </section>
-  <section class="card c5"><div class="sec-h"><h2>Así lo ve el estudiante</h2></div>
-   <div class="feat" style="background:#fff"><div style="display:flex;gap:10px;align-items:center">${logo('aprende',{bare:true})}<div><div class="small" style="font-weight:700;color:var(--sky)">Aprende+ Perú</div><h3>Inglés para entrevistas</h3></div></div><p>6 h · Gratis · Otorga insignia “Inglés B1” · +80 pts</p><span class="tag t-in" style="align-self:flex-start;white-space:normal">Recomendado porque te falta inglés intermedio</span><button class="btn sm p" data-toast="Así se inscribe el estudiante">Inscribirme</button></div>
-   <div class="sec-h" id="s-insc" style="margin-top:18px;margin-bottom:0"><h2>Inscripciones por semana</h2></div>
-   <div class="minichart">${[120,150,138,176,201,214].map((v,i,a)=>`<div class="${i===a.length-1?'hl':''}" style="height:${v/214*100}%;animation-delay:${i*.07}s"><span>${v}</span></div>`).join('')}</div>
-   <div class="mlabels">${['S1','S2','S3','S4','S5','S6'].map(x=>`<span>${x}</span>`).join('')}</div>
-  </section>
- </div>
-</div>`;
+</div>`};
 
-V.admin=()=>`
-${topline('Equipo EN-MATCH','Administrador','EM','Busca organizaciones, usuarios u ofertas…')}
+V.admin=pg=>{const head=topline('Equipo EN-MATCH','Administrador','EM','Busca organizaciones, usuarios u ofertas…');
+if(pg==='ver')return head+`
 <div class="stack">
- <section class="pagehead"><div><span class="tag t-br">${ic('shield')} Administrador</span><h1>Panel general del piloto</h1><p>Verifica organizaciones, vigila la calidad de las ofertas y revisa que el puntaje no discrimine.</p></div></section>
+  <section class="card" id="s-ver"><div class="sec-h"><h2>Verificación por RUC</h2><span class="small muted">Nuevas organizaciones</span></div>
+   <div class="list">${S.pend.map((e,i)=>`<div class="item"><div class="grow" style="display:flex;gap:10px;align-items:center">${logo(e.k,{bare:true})}<div style="min-width:0"><div class="t">${L[e.k].n}</div><div class="m">${e.tipo} · RUC <span class="num">${e.ruc}</span></div></div></div>${e.st==='ok'?`<span class="tag t-ok">${ic('check',3)} Aprobada</span>`:e.st==='no'?'<span class="tag t-no">Rechazada</span>':`<div class="act"><button class="btn sm p" data-apr="${i}">Aprobar</button><button class="btn sm" data-rec="${i}">Rechazar</button></div>`}</div>`).join('')}</div></section>
+</div>`;
+if(pg==='alertas')return head+`
+<div class="stack">
+  <section class="card" id="s-alertas"><div class="sec-h"><h2>Alertas</h2></div>
+   <div class="list"><div class="item"><div class="grow"><div class="t">Oferta sin subvención</div><div class="m">“Practicante ad honorem” · Comercial Norte Grande</div></div><span class="tag t-no">${ic('alert')} Revisar</span></div><div class="item"><div class="grow"><div class="t">Empresa con 12 días sin responder</div><div class="m">Distribuidora Pacífico Sur · 23 postulantes esperando</div></div><span class="tag t-wa">Recordatorio enviado</span></div></div></section>
+</div>`;
+if(pg==='sesgos')return head+`
+<div class="stack">
+  <section class="card" id="s-sesgos"><div class="sec-h"><h2>Revisión de sesgos</h2><span class="small muted">Puntaje promedio</span></div>
+   <p class="small muted" style="margin:-4px 0 12px">Si un grupo queda más de 8 puntos debajo del promedio, se revisa el modelo.</p>
+   <div class="bars">${bar('Lima',74)}${bar('Regiones',71)}${bar('Mujeres',75)}${bar('Hombres',73)}${bar('Univ. pública',72)}${bar('Univ. privada',75)}</div>
+   <div class="seal" style="margin-top:14px"><span class="badge">4</span><div><b style="font-family:var(--display)">Diferencia máxima entre grupos</b><div class="small muted">Dentro del límite de 8 puntos</div></div></div>
+  </section>
+</div>`;
+if(pg==='univ')return head+`
+<div class="stack">
+  <section class="card" id="s-univ"><div class="sec-h"><h2>Universidades aliadas</h2><span class="small muted">Datos de empleabilidad</span></div>
+   <div class="tw"><table><thead><tr><th>Universidad</th><th>Estudiantes</th><th>Nivel promedio</th><th>Con práctica</th><th>Licencia</th></tr></thead><tbody>
+    <tr><td><b>Universidad Antonio Ruiz de Montoya</b></td><td class="num">842</td><td class="num">3,1</td><td class="num">38%</td><td><span class="tag t-ok">Activa</span></td></tr>
+    <tr><td><b>Universidad de Ejemplo del Sur</b></td><td class="num">1 105</td><td class="num">2,7</td><td class="num">29%</td><td><span class="tag t-ok">Activa</span></td></tr>
+    <tr><td><b>Universidad de Ejemplo Andina</b></td><td class="num">465</td><td class="num">2,4</td><td class="num">21%</td><td><span class="tag t-wa">Piloto</span></td></tr></tbody></table></div></section>
+</div>`;
+return head+`
+<div class="stack">
+ <section class="pagehead"><div><span class="tag t-br">${ic('shield')} Administrador</span><h1>Panel general del piloto</h1><p>Verifica organizaciones, vigila la calidad de las ofertas y revisa que el puntaje no discrimine.</p></div><button class="btn p" data-go="ver">${S.pend.filter(e=>!e.st).length} por verificar →</button></section>
  <div class="kpis" id="s-kpis">
   <div class="kpi"><span class="ic">${ic('users')}</span><span>Estudiantes activos</span><strong data-count="3412">0</strong><em>+9% este mes</em></div>
   <div class="kpi"><span class="ic">${ic('building')}</span><span>Empresas verificadas</span><strong data-count="57">0</strong><em>${S.pend.filter(e=>!e.st).length} por revisar</em></div>
   <div class="kpi"><span class="ic">${ic('shield')}</span><span>Tasa de respuesta</span><strong data-count="91" data-suf="%">0%</strong><em>Meta: 90%</em></div>
   <div class="kpi hl"><span class="ic">${ic('trophy')}</span><span>Prácticas conseguidas</span><strong data-count="286">0</strong><em>desde marzo</em></div>
  </div>
- <div class="grid">
-  <section class="card c7" id="s-ver"><div class="sec-h"><h2>Verificación por RUC</h2><span class="small muted">Nuevas organizaciones</span></div>
-   <div class="list">${S.pend.map((e,i)=>`<div class="item"><div class="grow" style="display:flex;gap:10px;align-items:center">${logo(e.k,{bare:true})}<div style="min-width:0"><div class="t">${L[e.k].n}</div><div class="m">${e.tipo} · RUC <span class="num">${e.ruc}</span></div></div></div>${e.st==='ok'?`<span class="tag t-ok">${ic('check',3)} Aprobada</span>`:e.st==='no'?'<span class="tag t-no">Rechazada</span>':`<div class="act"><button class="btn sm p" data-apr="${i}">Aprobar</button><button class="btn sm" data-rec="${i}">Rechazar</button></div>`}</div>`).join('')}</div>
-   <div class="sec-h" id="s-alertas" style="margin-top:18px"><h2>Alertas</h2></div>
-   <div class="list"><div class="item"><div class="grow"><div class="t">Oferta sin subvención</div><div class="m">“Practicante ad honorem” · Comercial Norte Grande</div></div><span class="tag t-no">${ic('alert')} Revisar</span></div><div class="item"><div class="grow"><div class="t">Empresa con 12 días sin responder</div><div class="m">Distribuidora Pacífico Sur · 23 postulantes esperando</div></div><span class="tag t-wa">Recordatorio enviado</span></div></div>
-  </section>
-  <section class="card c5" id="s-sesgos"><div class="sec-h"><h2>Revisión de sesgos</h2><span class="small muted">Puntaje promedio</span></div>
-   <p class="small muted" style="margin:-4px 0 12px">Si un grupo queda más de 8 puntos debajo del promedio, se revisa el modelo.</p>
-   <div class="bars">${bar('Lima',74)}${bar('Regiones',71)}${bar('Mujeres',75)}${bar('Hombres',73)}${bar('Univ. pública',72)}${bar('Univ. privada',75)}</div>
-   <div class="seal" style="margin-top:14px"><span class="badge">4</span><div><b style="font-family:var(--display)">Diferencia máxima entre grupos</b><div class="small muted">Dentro del límite de 8 puntos</div></div></div>
-  </section>
-  <section class="card c12" id="s-univ"><div class="sec-h"><h2>Universidades aliadas</h2><span class="small muted">Datos de empleabilidad</span></div>
-   <div class="tw"><table><thead><tr><th>Universidad</th><th>Estudiantes</th><th>Nivel promedio</th><th>Con práctica</th><th>Licencia</th></tr></thead><tbody>
-    <tr><td><b>Universidad Antonio Ruiz de Montoya</b></td><td class="num">842</td><td class="num">3,1</td><td class="num">38%</td><td><span class="tag t-ok">Activa</span></td></tr>
-    <tr><td><b>Universidad de Ejemplo del Sur</b></td><td class="num">1 105</td><td class="num">2,7</td><td class="num">29%</td><td><span class="tag t-ok">Activa</span></td></tr>
-    <tr><td><b>Universidad de Ejemplo Andina</b></td><td class="num">465</td><td class="num">2,4</td><td class="num">21%</td><td><span class="tag t-wa">Piloto</span></td></tr></tbody></table></div></section>
- </div>
-</div>`;
+</div>`};
 
 /* ---------- Animaciones al mostrar ---------- */
 const fmtN=(n,suf)=>String(n).replace(/\B(?=(\d{3})+$)/g,' ')+(suf||'');
@@ -865,40 +901,49 @@ function animate(){
  requestAnimationFrame(()=>requestAnimationFrame(()=>{
   settle();
   $$('[data-count]',app).forEach(el=>{
-   const to=+el.dataset.count,suf=el.dataset.suf;
-   if(RM){el.textContent=fmtN(to,suf);return}
+   const suf=el.dataset.suf;
+   if(RM){el.textContent=fmtN(+el.dataset.count,suf);return}
    const t0=performance.now(),d=1100;
-   const step=t=>{const k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,3);el.textContent=fmtN(Math.round(to*e),suf);if(k<1)requestAnimationFrame(step)};
+   const step=t=>{const k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,3);el.textContent=fmtN(Math.round(+el.dataset.count*e),suf);if(k<1)requestAnimationFrame(step)};
    requestAnimationFrame(step);
   });
  }));
 }
+let pg='inicio',chatHTML='';
+function render(){
+ const m=$('#msgs');if(m)chatHTML=m.innerHTML;
+ app.innerHTML=V[cur](pg);
+ const m2=$('#msgs');if(m2&&chatHTML)m2.innerHTML=chatHTML;
+}
 function rerender(){
- const y=window.scrollY, msgs=$('#msgs')?.innerHTML;
+ const y=window.scrollY;
  app.classList.remove('view');
- app.innerHTML=V[cur]();
+ render();
  $$('[data-count]',app).forEach(el=>el.textContent=fmtN(+el.dataset.count,el.dataset.suf));
  $$('[data-w],[data-ring]',app).forEach(el=>el.style.transition='none');settle();
- if(msgs&&$('#msgs'))$('#msgs').innerHTML=msgs;
  window.scrollTo(0,y);
 }
 
 /* ---------- Navegación ---------- */
 const ORDER=['estudiante','rrhh','ong','cursos','admin'];
 let cur='estudiante';
-function show(v,keepScroll){
- if(!V[v])v='estudiante';cur=v;
- const R=ROLES[v];$('#rolechip').innerHTML=ic(R.ic)+R.panel;$('.rolebar').style.setProperty('--rc',R.c);$('.rolebar').style.setProperty('--rs',R.s);
- $('#nav').innerHTML=NAV[v].map(([i,t,sec],n)=>`<a href="#${v}" class="${n===0?'on':''}" data-nav data-sec="${sec}">${ic(i)}<span>${t}</span></a>`).join('');
+function goPage(p){
+ if(!NAV[cur].some(n=>n[2]===p))return;
+ pg=p;
+ $$('#nav a').forEach(x=>{const on=x.dataset.page===p;x.classList.toggle('on',on);if(on){x.setAttribute('aria-current','page');x.scrollIntoView({block:'nearest',inline:'nearest'})}else x.removeAttribute('aria-current')});
  app.classList.remove('view');void app.offsetWidth;app.classList.add('view');
- app.innerHTML=V[v]();animate();
+ render();animate();
+ window.scrollTo({top:0,behavior:RM?'auto':'smooth'});
+}
+function show(v,keepScroll){
+ if(!V[v])v='estudiante';if(v!==cur)chatHTML='';cur=v;pg=NAV[v][0][2];
+ const R=ROLES[v];$('#rolechip').innerHTML=ic(R.ic)+R.panel;$('.rolebar').style.setProperty('--rc',R.c);$('.rolebar').style.setProperty('--rs',R.s);
+ $('#nav').innerHTML=NAV[v].map(([i,t,p],n)=>`<a href="#${v}" class="${n===0?'on':''}" ${n===0?'aria-current="page"':''} data-nav data-page="${p}">${ic(i)}<span>${t}</span></a>`).join('');
+ app.classList.remove('view');void app.offsetWidth;app.classList.add('view');
+ render();animate();
  if(!keepScroll)window.scrollTo({top:0,behavior:RM?'auto':'smooth'});
 }
-$('#nav').addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(!a)return;e.preventDefault();$$('#nav a').forEach(x=>x.classList.remove('on'));a.classList.add('on');a.scrollIntoView({block:'nearest',inline:'nearest'});
- const sec=a.dataset.sec,beh=RM?'auto':'smooth';
- if(sec==='game')return openGame();
- if(sec==='top')return window.scrollTo({top:0,behavior:beh});
- const el=document.getElementById(sec);if(el){el.scrollIntoView({behavior:beh,block:'start'});el.animate&&!RM&&el.animate([{boxShadow:'0 0 0 3px #1FB597'},{boxShadow:'0 0 0 0 rgba(31,181,151,0)'}],{duration:1200})}});
+$('#nav').addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(!a)return;e.preventDefault();goPage(a.dataset.page)});
 
 function toast(msg){const t=$('#toast');t.innerHTML=ic('check',3)+'<span></span>';t.lastChild.textContent=msg;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2600)}
 
@@ -945,15 +990,20 @@ $('#modal').addEventListener('click',e=>{
   const p=$('#pts');if(p){p.dataset.count=ME.pts;p.textContent=fmtN(ME.pts,' pts')}
  } else $('#gres').innerHTML='<b style="color:var(--coral)">Casi.</b> Los tres elementos del costo son materiales, mano de obra y CIF; la publicidad es un gasto de venta.';
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#modal').hidden)closeGame()});
+document.addEventListener('keydown',e=>{
+ const m=$('#modal');if(m.hidden)return;
+ if(e.key==='Escape')return closeGame();
+ if(e.key==='Tab'){const f=$$('button:not(:disabled)',m);if(!f.length)return;const i=f.indexOf(document.activeElement);
+  if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&(i===-1||i===f.length-1)){e.preventDefault();f[0].focus()}}
+});
 
 /* ---------- Acciones ---------- */
 app.addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
  if('game' in d)return openGame();
- if(d.ai)return askAI(d.ai);
+ if(d.ai){if(!$('#msgs'))goPage('asistente');return askAI(d.ai)}
  if(d.toast)return toast(d.toast);
- if(d.go){const el=$('#'+d.go);el&&el.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});return}
+ if(d.go)return goPage(d.go);
  if(d.bm){const o=S.ofertas.find(x=>x.id==d.bm);o.bm=!o.bm;rerender();return toast(o.bm?'Guardaste la oferta':'Quitaste la oferta de guardados')}
  if(d.post){const o=S.ofertas.find(x=>x.id==d.post);o.est=1;rerender();return toast('Postulaste a '+o.t)}
  if(d.inv){S.cand[d.inv].st='inv';rerender();return toast('Invitación enviada a '+S.cand[d.inv].n)}
