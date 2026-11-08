@@ -757,6 +757,113 @@ textarea.in{resize:vertical;min-height:84px;line-height:1.45}
   @page{margin:16mm}
 }
 
+/* ---------- Entrevista por videollamada ---------- */
+.ivmodes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.ivmode{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:16px;border-radius:var(--r);border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font:inherit;transition:border-color .2s,box-shadow .2s}
+.ivmode:hover{border-color:var(--brand);box-shadow:var(--shadow)}
+.ivmode>span{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--mint-100);color:var(--brand-700);margin-bottom:6px}
+.ivmode>span svg{width:20px;height:20px}
+.ivmode b{font-family:var(--display);font-size:15px}
+.ivmode small{color:var(--muted);font-size:12.5px;line-height:1.4}
+.ivmode.p{background:var(--brand);border-color:var(--brand);color:#fff}
+.ivmode.p>span{background:rgba(255,255,255,.14);color:#fff}
+.ivmode.p small{color:rgba(255,255,255,.82)}
+.ivrec{font-style:normal;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.18);margin-top:6px}
+@media (max-width:600px){.ivmodes{grid-template-columns:1fr}}
+
+.vc{position:fixed;inset:0;z-index:200;background:#081C18;color:#E8F3EF;display:flex;flex-direction:column;padding:16px clamp(14px,3vw,46px) 22px;overflow-y:auto;overflow-x:hidden;font-family:var(--body)}
+.vc *{box-sizing:border-box}
+.vc-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px}
+.vc-x{width:48px;height:48px;flex:none;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center;cursor:pointer}
+.vc-x:hover{background:rgba(255,255,255,.16)}
+.vc-x svg{width:20px;height:20px}
+.vc-step{font-family:var(--display);font-weight:600;font-size:14px;text-align:center}
+.vc-time{display:flex;gap:6px;align-items:center;font-family:var(--display);font-size:14px;font-variant-numeric:tabular-nums;min-width:70px;justify-content:flex-end}
+.vc-time svg{width:18px;height:18px}
+.vc-time.warn{color:#F2C46B}
+.vc-stage{position:relative;margin-top:12px;border-radius:24px;overflow:hidden;background:linear-gradient(120deg,#D6E6E1 0%,#A9C3BC 55%,#8DABA4 100%);height:clamp(240px,52vh,520px);flex:none}
+.vc-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);background:#0d2a24}
+.vc-av{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(320px,60%);height:auto}
+.vc-live{position:absolute;top:18px;left:18px;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;background:rgba(40,62,58,.45);backdrop-filter:blur(6px);color:#fff;font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.08em}
+.vc-live i{width:8px;height:8px;border-radius:50%;background:#2BD9A8;box-shadow:0 0 0 0 rgba(43,217,168,.6);animation:vcpulse 1.6s infinite}
+.vc-live.off i{background:#F2C46B;animation:none}
+@keyframes vcpulse{70%{box-shadow:0 0 0 8px rgba(43,217,168,0)}100%{box-shadow:0 0 0 0 rgba(43,217,168,0)}}
+.vc-meter{position:absolute;top:20px;left:132px;display:flex;align-items:flex-end;gap:3px;height:20px}
+.vc-meter i{width:4px;border-radius:2px;background:rgba(255,255,255,.55);height:4px;transition:height .1s}
+.vc-ai{position:absolute;top:16px;right:16px;width:214px;padding:12px 14px;border-radius:14px;background:rgba(8,28,24,.72);backdrop-filter:blur(8px);font-size:12px}
+.vc-ai h4{margin:0 0 8px;font-family:var(--display);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7FE0C4;display:flex;align-items:center;gap:6px}
+.vc-ai h4 svg{width:14px;height:14px}
+.vc-row{display:grid;grid-template-columns:1fr auto;gap:2px 8px;margin-top:7px}
+.vc-row span{color:rgba(232,243,239,.8)}
+.vc-row b{font-family:var(--display);font-size:12.5px;color:#fff;font-variant-numeric:tabular-nums}
+.vc-row u{grid-column:1/-1;height:5px;border-radius:9px;background:rgba(255,255,255,.14);overflow:hidden;text-decoration:none}
+.vc-row u i{display:block;height:100%;border-radius:9px;background:#2BD9A8;transition:width .5s}
+.vc-row u i.w{background:#F2C46B}.vc-row u i.b{background:#F08A6C}
+.vc-cap{position:absolute;left:50%;bottom:66px;transform:translateX(-50%);width:min(680px,86%);text-align:center;font-size:15px;line-height:1.45;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.vc-cap span{background:rgba(5,20,17,.55);padding:3px 8px;border-radius:6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.vc-cap em{opacity:.7;font-style:normal}
+.vc-chips{position:absolute;left:18px;bottom:18px;right:18px;display:flex;flex-wrap:wrap;gap:8px}
+.vc-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:9px;background:rgba(20,56,50,.82);color:#BDF2E1;font-family:var(--display);font-size:12px;font-weight:500}
+.vc-chip svg{width:14px;height:14px}
+.vc-chip.tip{color:#fff;background:rgba(36,52,49,.86)}
+.vc-chip.tip svg{color:#F2C46B}
+.vc-fb{position:absolute;inset:0;display:grid;place-items:center;background:rgba(6,22,19,.62);backdrop-filter:blur(3px);padding:16px}
+.vc-card{width:min(520px,100%);max-height:100%;overflow:auto;background:#0E2B25;border:1px solid rgba(127,224,196,.2);border-radius:18px;padding:20px}
+.vc-card h3{margin:0;font-family:var(--display);font-size:18px;color:#fff}
+.vc-card p{margin:6px 0 0;color:rgba(232,243,239,.8);font-size:13.5px}
+.vc-card .vc-row{margin-top:10px}
+.vc-card p svg{display:inline-block;width:16px;height:16px;vertical-align:-3px;color:#F2C46B}
+.vc-card .vc-acts{margin-top:16px}
+.vc-score{display:flex;align-items:center;gap:14px}
+.vc-score b{font-family:var(--display);font-size:34px;color:#7FE0C4;line-height:1}
+.vc-bottom{text-align:center;padding-top:22px;max-width:860px;margin:0 auto;width:100%}
+.vc-k{font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:.14em;color:#2BB28D}
+.vc-bottom h2{margin:8px 0 6px;font-family:var(--display);font-weight:700;font-size:clamp(21px,3.2vw,34px);line-height:1.15;letter-spacing:-.02em;color:#fff}
+.vc-bottom p{margin:0;color:rgba(232,243,239,.78);font-size:13.5px}
+.vc-acts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.vc-b{font-family:var(--display);font-weight:700;font-size:15px;padding:14px 22px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.vc-b:hover{background:rgba(255,255,255,.06)}
+.vc-b:disabled{opacity:.45;cursor:not-allowed}
+.vc-b.p{background:#22C3A0;border-color:#22C3A0;color:#06251E;box-shadow:0 10px 28px -10px rgba(34,195,160,.7)}
+.vc-b.p:hover{background:#2BD9A8}
+.vc-b svg{width:18px;height:18px}
+.vc-checks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.vc-ck{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:99px;background:rgba(255,255,255,.07);font-size:12.5px}
+.vc-ck svg{width:14px;height:14px}
+.vc-ck.ok{color:#7FE0C4}.vc-ck.no{color:#F2C46B}
+.vc-tg{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:rgba(232,243,239,.85);cursor:pointer}
+.vc-tg input{width:16px;height:16px;accent-color:#22C3A0}
+.vc-ta{width:100%;margin-top:12px;min-height:88px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;padding:12px;font:inherit;font-size:14px;resize:vertical}
+.vc-ta::placeholder{color:rgba(232,243,239,.5)}
+.vc-err{color:#F2C46B;font-size:13px;margin-top:10px}
+.vc-link{background:none;border:0;color:#7FE0C4;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;margin-top:10px}
+.vc-priv{display:flex;gap:8px;align-items:flex-start;justify-content:center;margin-top:14px;font-size:12px;color:rgba(232,243,239,.6)}
+.vc-priv svg{width:14px;height:14px;flex:none;margin-top:2px}
+@media (max-width:640px){
+ .vc{padding:12px 14px 18px}
+ .vc-x{width:42px;height:42px}
+ .vc-stage{height:clamp(220px,42vh,380px);border-radius:18px}
+ .vc-ai{display:none}
+ .vc-live{top:12px;left:12px}
+ .vc-meter{top:14px;left:122px}
+ .vc-chips{left:10px;right:10px;bottom:10px;gap:6px}
+ .vc-chip{padding:6px 9px;font-size:11px}
+ .vc-cap{bottom:56px;font-size:13px;width:92%}
+ .vc-b{padding:12px 16px;font-size:14px}
+}
+
+/* Resultado de la videollamada */
+.vres{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.vres div{background:var(--mint-50);border-radius:10px;padding:12px}
+.vres b{display:block;font-family:var(--display);font-size:20px;color:var(--brand-700)}
+.vres span{font-size:12px;color:var(--muted)}
+@media (max-width:600px){.vres{grid-template-columns:1fr 1fr}}
+.nerv{display:flex;align-items:flex-end;gap:8px;height:90px;margin-top:10px}
+.nerv div{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.nerv i{display:block;width:100%;max-width:38px;border-radius:6px 6px 2px 2px;background:var(--data)}
+.nerv i.w{background:var(--sun)}.nerv i.b{background:var(--coral)}
+.nerv span{font-size:11px;color:var(--muted)}
+.sresempty{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -1121,7 +1228,7 @@ function parseQuery(q){
  if(hm){let a=+hm[1],b=+hm[4];const pa=(hm[3]||'').startsWith('p'),pb=(hm[6]||'').startsWith('p');
   if(pb&&b<12)b+=12;if(pa&&a<12)a+=12;if(!hm[3]&&pb&&a+12<=b&&a<b-12)a+=12;if(!hm[3]&&!hm[6]&&a<7){a+=12;b+=12}if(!hm[6]&&b<a)b+=12;
   if(a>=0&&b<=24&&b>a)F.h=[a,b]}
- else if(has(t,'manana')||has(t,'mananas'))F.h=[8,13];else if(has(t,'tarde')||has(t,'tardes'))F.h=[14,19];else if(has(t,'tiempo completo')||has(t,'full time'))F.h=[9,18];
+ else if(has(t,'manana')||has(t,'mananas'))F.h=[9,12];else if(has(t,'tarde')||has(t,'tardes'))F.h=[14,18];else if(has(t,'tiempo completo')||has(t,'full time'))F.h=[9,18];
  if(/sabado|fin(es)? de semana|domingo/.test(t))F.dias='Sábados';
  const cm=t.match(/(\d{1,2})\s*(?:vo|mo|ro|do|to|no|er|°|º)?\s*ciclo/);if(cm)F.cmin=+cm[1];if(has(t,'egresado')||has(t,'egresada'))F.cmin=11;
  const im=t.match(/ingles\s*(basico|intermedio|avanzado|b1|b2|c1)/);if(im){F.ingles={basico:40,intermedio:60,b1:60,avanzado:80,b2:75,c1:85}[im[1]];F.skills=F.skills.filter(s=>s!=='Inglés')}
@@ -1427,13 +1534,15 @@ function analizar(txt,kws){const t=norm(txt),w=words(txt);
 }
 V.estudiante.entrevista=()=>{
  if(!IV||!IV.started){const ops=allOfertas().filter(o=>DB.swipes[o.id]==='like'||DB.swipes[o.id]==='save');const sel=IV&&IV.of||'';
-  return `<div class="stack">${pg('Entrevista con IA','Practica sin presión. Respondes por escrito o dictando, y recibes retroalimentación en cada pregunta.')}
+  return `<div class="stack">${pg('Entrevista con IA','Practica sin presión, por videollamada o por escrito, y recibe retroalimentación en cada pregunta.')}
   <div class="iv"><section class="card"><div class="f"><label for="ivof">¿Para qué puesto quieres practicar?</label><select class="in" id="ivof"><option value="">Entrevista general</option>${ops.map(o=>`<option value="${o.id}" ${sel===o.id?'selected':''}>${esc(o.t)} · ${L[o.k].n}</option>`).join('')}</select><small>${ops.length?'Aparecen las ofertas que guardaste o a las que postulaste.':'Cuando postules o guardes ofertas, podrás practicar para cada una.'}</small></div>
    <div class="note" style="margin-top:14px">${ic('bulb')}<span>Respira y tómate tu tiempo. No buscamos una respuesta perfecta: buscamos que mejores en cada intento.</span></div>
-   <button class="btn p" style="margin-top:16px" data-ivstart>${ic('mic')} Empezar práctica · 5 preguntas</button></section>
+   <div class="ivmodes"><button type="button" class="ivmode p" data-ivvideo><span>${ic('cam')}</span><b>Entrevista por videollamada</b><small>Con tu cámara y micrófono. La IA analiza tu voz, tus gestos y tus nervios mientras respondes. 6 preguntas.</small><em class="ivrec">Recomendada</em></button>
+   <button type="button" class="ivmode" data-ivstart><span>${ic('doc')}</span><b>Por escrito</b><small>Respondes escribiendo o dictando y recibes retroalimentación del contenido. 5 preguntas.</small></button></div></section>
    <aside class="stack"><div class="mini"><span class="mi-ic sun">${icf('star')}</span><div class="mi-b"><span class="mi-k">Mejor puntaje</span><b>${DB.iv.best||'—'}</b><span class="mi-s">${DB.iv.n} prácticas realizadas</span></div></div>
-   <div class="note w">${ic('info')}<span>Simulación de demostración: el análisis se hace en tu navegador y no graba audio ni video. En el piloto se conecta a un modelo de IA.</span></div></aside></div></div>`}
+   <div class="note w">${ic('info')}<span>El análisis se hace en tu navegador: no grabamos ni enviamos tu audio o video, solo guardamos tus puntajes. Funciona mejor en Chrome o Edge.</span></div></aside></div></div>`}
  const Q=IVQ(ofertaById(IV.of)),o=ofertaById(IV.of);
+ if(IV.done&&IV.video)return vcResultView();
  if(IV.done){const avg=k=>Math.round(IV.res.reduce((a,r)=>a+r[k],0)/IV.res.length),tot=avg('tot');const all=IV.res.flatMap(r=>r.tips);const top=all.sort((a,b)=>all.filter(x=>x===b).length-all.filter(x=>x===a).length)[0];
   return `<div class="stack">${pg('Resultado de tu entrevista',o?esc(o.t)+' · '+L[o.k].n:'Entrevista general')}
   <div class="iv"><section class="card"><div class="bigscore"><div class="ringsm dk"><svg viewBox="0 0 92 92"><circle class="bg" cx="46" cy="46" r="38"/><circle class="fg" cx="46" cy="46" r="38" data-ringsm="${tot}" style="stroke-dashoffset:239"/></svg><b>${tot}</b></div><div><b style="font-family:var(--display);font-size:17px">${tot>=80?'¡Muy bien preparado!':tot>=60?'Vas por buen camino':'Sigue practicando'}</b><p class="small muted" style="margin:4px 0 0">Puntaje promedio de tus 5 respuestas.</p></div></div>
@@ -1456,6 +1565,233 @@ V.estudiante.entrevista=()=>{
  <aside class="stack"><div class="note">${ic('bulb')}<span><b>Método STAR:</b> cuenta la situación, tu tarea, lo que hiciste y el resultado, con una cifra.</span></div><button class="btn" data-ivreset>Salir de la práctica</button></aside></div></div>`;
 };
 AFTER['estudiante/entrevista']=()=>{clearInterval(IV&&IV.tm);if(IV&&IV.started&&!IV.done){const el=$('#ivt');IV.t0=IV.t0||Date.now();IV.tm=setInterval(()=>{if(!document.body.contains(el))return clearInterval(IV.tm);const s=Math.floor((Date.now()-IV.t0)/1000);el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},1000)}};
+
+/* ---------- Entrevista por videollamada ----------
+   Cámara y micrófono del estudiante. Todo el análisis corre en el navegador (Web Audio, Canvas y
+   reconocimiento de voz del navegador). No se graba ni se envía audio o video: solo se guardan los puntajes. */
+I.cam='<path d="M15 10l5-3v10l-5-3"/><rect x="2" y="6" width="13" height="12" rx="2"/>';
+I.wave='<path d="M3 12h1M7 8v8M11 5v14M15 8v8M19 10v4"/>';
+const VQ_EXTRA=[
+ ['¿Qué harías si no entiendes una tarea?',['pregunt','consult','aclar','anot','verific','plazo','jefe']],
+ ['Cuéntame de una vez que cometiste un error. ¿Qué aprendiste?',['error','aprend','corregi','resultado','mejore']],
+ ['¿Cómo organizas tu tiempo cuando tienes varias entregas a la vez?',['priorid','plan','agenda','tiempo','entrega','organic']],
+ ['Si te piden algo que no sabes hacer, ¿cómo lo enfrentas?',['aprend','curso','pregunt','investig','tutorial','practic']],
+ ['¿Qué te diferencia de otros postulantes?',['logre','proyecto','reto','habilidad','resultado']],
+ ['Cuéntame de un trabajo en equipo que salió bien. ¿Cuál fue tu aporte?',['equipo','rol','aporte','coordine','resultado']]
+];
+const MULETILLAS=/\b(eh+|em+|mm+|este|o sea|osea|bueno|pues|tipo|digamos|como que|ehh)\b/g;
+let VC=null;
+const vcSR=()=>window.SpeechRecognition||window.webkitSpeechRecognition;
+const vcAvatar='<svg class="vc-av" viewBox="0 0 320 300" aria-hidden="true"><path d="M30 300c0-80 58-130 130-130s130 50 130 130z" fill="#245E55"/><ellipse cx="160" cy="118" rx="60" ry="72" fill="#C68C6E"/><path d="M98 112c0-46 28-72 62-72s62 26 62 72v6H98z" fill="#2B3B38"/></svg>';
+const vcMM=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+const vcBar=(k,v,txt,inv)=>{const cls=inv?(v>=60?'b':v>=35?'w':''):(v>=70?'':v>=45?'w':'b');return `<div class="vc-row"><span>${k}</span><b>${txt!=null?txt:v}</b><u><i class="${cls}" style="width:${clamp(v,2,100)}%"></i></u></div>`};
+
+function openVcall(of){
+ closeVcall(true);
+ const o=ofertaById(of),base=IVQ(o);
+ const qs=[base[0],base[1],VQ_EXTRA[0],base[2],base[3],base[4]];
+ VC={of,o,qs,i:0,swaps:0,extra:1,stage:'lobby',res:[],speak:true,noCam:false,noMic:false,typing:!vcSR(),err:''};
+ let el=$('#vcall');if(!el){el=document.createElement('div');el.id='vcall';document.body.appendChild(el);el.addEventListener('click',vcClick);el.addEventListener('change',e=>{if(e.target.id==='vcSpeak'&&VC)VC.speak=e.target.checked})}
+ el.className='vc';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('aria-label','Entrevista por videollamada');el.hidden=false;
+ el.innerHTML=`<div class="vc-top"><button class="vc-x" data-vc="exit" aria-label="Salir de la entrevista">${ic('x')}</button><div class="vc-step" id="vcStep">Prueba tu cámara y micrófono</div><div class="vc-time" id="vcTimeW">${ic('clock')}<span id="vcTime">00:00</span></div></div>
+ <div class="vc-stage" id="vcStage"><video id="vcVid" playsinline muted autoplay></video>${vcAvatar}
+  <span class="vc-live off" id="vcLive"><i></i><span>CONECTANDO</span></span><div class="vc-meter" id="vcMeter" aria-hidden="true">${'<i></i>'.repeat(6)}</div>
+  <div class="vc-ai" id="vcAi" hidden><h4>${ic('spark')} Análisis IA en vivo</h4><div id="vcAiRows"></div></div>
+  <div class="vc-cap" id="vcCap" aria-live="polite"></div><div class="vc-chips" id="vcChips"></div><div class="vc-fb" id="vcFb" hidden></div></div>
+ <div class="vc-bottom" id="vcBottom"></div>`;
+ document.body.style.overflow='hidden';
+ $('#vcVid').hidden=true;
+ vcBottom();vcMedia();
+}
+function closeVcall(silent){
+ if(!VC)return;const v=VC;VC=null;
+ clearInterval(v.tick);clearInterval(v.clock);
+ try{v.rec&&(v.rec.onend=null,v.rec.abort())}catch(e){}
+ try{speechSynthesis.cancel()}catch(e){}
+ try{v.stream&&v.stream.getTracks().forEach(t=>t.stop())}catch(e){}
+ try{v.ac&&v.ac.close()}catch(e){}
+ const el=$('#vcall');if(el){el.hidden=true;el.innerHTML=''}
+ document.body.style.overflow='';
+}
+async function vcMedia(){
+ const v=VC;if(!v)return;v.err='';
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){v.noCam=v.noMic=true;v.err='Tu navegador no permite usar la cámara aquí. Abre la página en Chrome o Edge actualizados.';vcBottom();return}
+ let stream=null;
+ try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:640},height:{ideal:480}},audio:{echoCancellation:true,noiseSuppression:true}})}
+ catch(e){try{stream=await navigator.mediaDevices.getUserMedia({audio:true});v.noCam=true}catch(e2){v.noCam=v.noMic=true;v.err=e&&e.name==='NotAllowedError'?'No diste permiso para usar la cámara y el micrófono. Actívalos en el candado de la barra de direcciones y pulsa Reintentar.':'No encontramos cámara ni micrófono. Revisa que estén conectados.'}}
+ if(VC!==v){stream&&stream.getTracks().forEach(t=>t.stop());return}
+ if(stream){
+  v.stream=stream;
+  if(!v.noCam){const vid=$('#vcVid');vid.srcObject=stream;vid.hidden=false;try{await vid.play()}catch(e){}$('#vcStage .vc-av').style.display='none'}
+  try{const AC=window.AudioContext||window.webkitAudioContext;v.ac=new AC();const src=v.ac.createMediaStreamSource(stream);v.an=v.ac.createAnalyser();v.an.fftSize=2048;src.connect(v.an);v.buf=new Float32Array(v.an.fftSize);if(v.ac.state==='suspended')v.ac.resume()}catch(e){v.noMic=true}
+  if('FaceDetector' in window&&!v.noCam){try{v.fd=new FaceDetector({fastMode:true,maxDetectedFaces:1})}catch(e){}}
+  v.cv=document.createElement('canvas');v.cv.width=64;v.cv.height=48;v.cx=v.cv.getContext('2d',{willReadFrequently:true});
+  v.floor=.012;v.cal=[];v.n=0;v.live={rms:0,motion:0,face:0,cent:0,size:0,light:0,jit:0};v.prev=null;
+  v.tick=setInterval(vcTick,100);
+  const lv=$('#vcLive');lv.classList.remove('off');lv.lastChild.textContent='EN VIVO';
+ }
+ vcBottom();
+}
+/* Tono: autocorrelación sobre la señal del micrófono (70 a 400 Hz) */
+function vcPitch(buf,sr,rms){if(rms<.015)return 0;const minL=Math.floor(sr/400),maxL=Math.min(Math.floor(sr/70),buf.length-512),N=Math.min(buf.length-maxL,1024);let e=0;for(let i=0;i<N;i++)e+=buf[i]*buf[i];if(!e)return 0;let best=0,bl=0;
+ for(let l=minL;l<=maxL;l+=1){let s=0;for(let i=0;i<N;i++)s+=buf[i]*buf[i+l];if(s>best){best=s;bl=l}}return best/e>.55&&bl?sr/bl:0}
+function vcTick(){
+ const v=VC;if(!v)return;v.n++;const now=performance.now();
+ /* Audio */
+ if(v.an){v.an.getFloatTimeDomainData(v.buf);let s=0;for(let i=0;i<v.buf.length;i++)s+=v.buf[i]*v.buf[i];const rms=Math.sqrt(s/v.buf.length);
+  if(v.cal.length<15){v.cal.push(rms);if(v.cal.length===15)v.floor=Math.max(.008,v.cal.sort((a,b)=>a-b)[7]*2.2)}
+  v.live.rms=v.live.rms*.6+rms*.4;const voiced=rms>v.floor;
+  const bars=$('#vcMeter');if(bars){const lvl=clamp((20*Math.log10(Math.max(rms,1e-5))+60)/45,0,1);[...bars.children].forEach((b,i)=>b.style.height=(4+Math.max(0,lvl*6-i)*3.2|0)+'px')}
+  const a=v.ans;if(a&&!a.paused){a.ticks++;
+   if(voiced){a.voiced++;a.db.push(20*Math.log10(rms));if(a.silRun>=25&&a.voiced>10)a.pauses++;a.silRun=0;
+    if(v.n%2===0){const p=vcPitch(v.buf,v.ac.sampleRate,rms);if(p){const st=12*Math.log2(p/110);if(a.lastSt!=null&&Math.abs(st-a.lastSt)<8)a.jit.push(Math.abs(st-a.lastSt));a.lastSt=st;a.st.push(st)}}}
+   else{a.silRun++;if(a.silRun>6)a.lastSt=null}}}
+ /* Video (5 veces por segundo) */
+ if(!v.noCam&&v.n%2===0){const vid=$('#vcVid');if(vid&&vid.readyState>=2){
+  v.cx.drawImage(vid,0,0,64,48);const d=v.cx.getImageData(0,0,64,48).data;let lum=0,diff=0,sk=0,sx=0,sy=0,minx=64,maxx=0,miny=48,maxy=0;const cur=new Uint8Array(64*48);
+  for(let i=0,p=0;i<d.length;i+=4,p++){const r=d[i],g=d[i+1],b=d[i+2];const y=.299*r+.587*g+.114*b;cur[p]=y;lum+=y;if(v.prev)diff+=Math.abs(y-v.prev[p]);
+   const cb=128-.168736*r-.331264*g+.5*b,cr=128+.5*r-.418688*g-.081312*b;if(y>45&&cb>=77&&cb<=127&&cr>=137&&cr<=173){const x=p%64,yy=(p/64)|0;sk++;sx+=x;sy+=yy;if(x<minx)minx=x;if(x>maxx)maxx=x;if(yy<miny)miny=yy;if(yy>maxy)maxy=yy}}
+  const L=v.live;L.light=lum/(64*48);const mo=v.prev?diff/(64*48):0;v.prev=cur;L.motion=L.motion*.7+mo*.3;
+  const ratio=sk/(64*48);let face=ratio>.025,cx=face?sx/sk/64:.5,cy=face?sy/sk/48:.5,size=ratio;
+  if(v.box){const B=v.box;face=true;cx=B.cx;cy=B.cy;size=B.size}
+  L.face=L.face*.7+(face?1:0)*.3;L.cx=cx;L.cy=cy;L.size=size;const centered=face&&Math.abs(cx-.5)<.17&&cy>.18&&cy<.68;L.cent=L.cent*.75+(centered?1:0)*.25;
+  if(L.lastCx!=null&&face)L.jit=L.jit*.8+Math.abs(cx-L.lastCx)*100*.2;L.lastCx=face?cx:null;
+  if(v.fd&&v.n%6===0&&!v.fdBusy){v.fdBusy=true;v.fd.detect(vid).then(f=>{if(f&&f[0]){const b=f[0].boundingBox,W=vid.videoWidth||640,H=vid.videoHeight||480;v.box={cx:(b.x+b.width/2)/W,cy:(b.y+b.height/2)/H,size:b.width*b.height/(W*H)}}else v.box=null}).catch(()=>{v.fd=null}).finally(()=>{v.fdBusy=false})}
+  const a=v.ans;if(a&&!a.paused){a.vf++;if(face)a.face++;if(centered)a.cent++;if(mo>9)a.fidget++;a.mo+=mo;a.light+=L.light}}}
+ if(v.n%5===0)vcLiveUI();
+}
+function vcWords(){const a=VC&&VC.ans;if(!a)return'';return (a.final+' '+a.interim).trim()}
+function vcAnsStats(a){
+ const txt=(VC.typing?($('#vcTa')||{}).value||a.typed||'':a.final+' '+a.interim).trim();a.typed=VC.typing?txt:a.typed;
+ const secs=Math.max(1,a.ticks/10),w=words(txt),wpm=Math.round(w/(secs/60)),fill=(norm(txt).match(MULETILLAS)||[]).length;
+ const dbs=a.db.slice().sort((x,y)=>x-y),db=dbs.length?dbs[dbs.length>>1]:-60;
+ const stv=a.st.length>8?Math.sqrt(a.st.reduce((s,x,_,ar)=>s+(x-ar.reduce((p,q)=>p+q,0)/ar.length)**2,0)/a.st.length):null;
+ const jit=a.jit.length>6?a.jit.reduce((x,y)=>x+y,0)/a.jit.length:null;
+ const vf=Math.max(1,a.vf);
+ return{txt,secs,w,wpm,fill,fpm:fill/(secs/60),db,stv,jit,pauses:a.pauses,voicedPct:a.voiced/Math.max(1,a.ticks),face:a.face/vf,cent:a.cent/vf,fidget:a.fidget/vf,motion:a.mo/vf,light:a.light/vf,hasVid:a.vf>5};
+}
+function vcScore(s,kws){
+ const c=analizar(s.txt||'',kws);const tips=[];
+ /* Voz: volumen y entonación */
+ let vol=s.db<-48?45:s.db<-40?70:s.db>-8?75:100;if(VC.noMic)vol=null;
+ let ton=s.stv==null?null:s.stv<1.1?55:s.stv<1.6?78:s.stv<=6?100:80;
+ const voz=vol==null?null:Math.round(ton==null?vol:vol*.5+ton*.5);
+ if(vol!=null&&vol<75)tips.push('Habla un poco más fuerte y cerca del micrófono.');if(ton!=null&&ton<70)tips.push('Varía tu entonación: un tono plano suena a texto memorizado.');
+ /* Ritmo: palabras por minuto, muletillas y pausas largas */
+ const spoken=!VC.typing&&s.w>=8&&s.wpm<=260;let ritmo=null;if(spoken){const dev=s.wpm<105?105-s.wpm:s.wpm>165?s.wpm-165:0;ritmo=Math.round(clamp(100-dev*1.1-Math.max(0,s.fpm-2)*7-Math.max(0,s.pauses-1)*8,25,100));
+  if(s.wpm>165)tips.push(`Hablaste rápido (${s.wpm} palabras por minuto). Baja a 120-150.`);else if(s.wpm<105&&!VC.typing)tips.push('Hablaste lento o con muchas pausas. Prepara 2 o 3 ideas clave.');
+  if(s.fpm>2)tips.push(`Usaste ${s.fill} muletillas (“este”, “o sea”, “bueno”). Haz una pausa en lugar de rellenar.`);if(s.pauses>2)tips.push(`Hiciste ${s.pauses} silencios largos. Es normal: respira y retoma con tu idea principal.`)}
+ /* Lenguaje corporal: rostro visible, centrado y sin movimientos bruscos */
+ let nv=null;if(s.hasVid){nv=Math.round(clamp((s.face*.25+s.cent*.45+(1-Math.min(1,s.fidget*1.6))*.3)*100,10,100));
+  if(s.face<.6)tips.push('Tu rostro no se vio buena parte del tiempo. Acomoda la cámara a la altura de tus ojos.');else if(s.cent<.6)tips.push('Céntrate en el encuadre y mira a la cámara, no a la pantalla.');
+  if(s.fidget>.25)tips.push('Te moviste bastante. Apoya los brazos y evita balancearte.');if(s.light<70)tips.push('Busca más luz de frente: tu rostro se ve oscuro.')}
+ /* Nervios: voz temblorosa, prisa, muletillas, silencios y movimiento */
+ let nerv=0;if(s.jit!=null)nerv+=clamp((s.jit-1.2)*18,0,35);if(spoken)nerv+=clamp((s.wpm-165)*.6,0,20)+clamp((s.fpm-2)*5,0,20)+clamp((s.pauses-1)*5,0,15);if(s.hasVid)nerv+=clamp(s.fidget*60,0,25);
+ const calma=Math.round(clamp(100-nerv,15,100));if(calma<60)tips.push('Se notaron nervios: antes de responder, respira 3 segundos y empieza con una frase corta.');
+ const parts=[[c.tot,.5],[voz,.15],[ritmo,.15],[nv,.2]].filter(p=>p[0]!=null);const tw=parts.reduce((a,p)=>a+p[1],0);
+ const tot=Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/tw);
+ return{...c,tips:[...c.tips.filter(t=>!/Respuesta sólida/.test(t)),...tips],tot,cont:c.tot,voz,ritmo,nv,calma,wpm:spoken?s.wpm:null,fill:s.fill,pauses:s.pauses,secs:Math.round(s.secs),txt:s.txt,q:VC.qs[VC.i][0]};
+}
+function vcLiveUI(){
+ const v=VC;if(!v||v.stage!=='call')return;const a=v.ans,L=v.live;
+ if(a&&!a.paused){const s=vcAnsStats(a);
+  const cap=$('#vcCap');if(cap&&!v.typing){const f=a.final.slice(-150),it=a.interim.slice(-90);cap.innerHTML=(f||it)?`<span>${esc(f)} <em>${esc(it)}</em></span>`:''}
+  /* Calma en vivo: últimos segundos */
+  const rj=a.jit.slice(-15),jit=rj.length>4?rj.reduce((x,y)=>x+y,0)/rj.length:1;
+  let nerv=clamp((jit-1.2)*18,0,35)+clamp((L.motion-6)*3,0,25)+(s.w>=8&&!v.typing?clamp((s.wpm-165)*.6,0,20)+clamp((s.fpm-2)*5,0,20):0);const calma=Math.round(clamp(100-nerv,15,100));
+  const lvl=clamp((20*Math.log10(Math.max(L.rms,1e-5))+60)/45*100,0,100);
+  const rows=$('#vcAiRows');if(rows)rows.innerHTML=vcBar('Calma',calma,calma>=70?'Tranquilo':calma>=50?'Algo nervioso':'Nervioso')+vcBar('Volumen de voz',Math.round(lvl),lvl<25?'Bajo':lvl>90?'Alto':'Bien')+(v.typing?'':vcBar('Ritmo',s.w>=8?clamp(100-Math.abs(s.wpm-135)*1.2,5,100):50,s.w>=8?s.wpm+' pal/min':'…'))+vcBar('Muletillas',clamp(100-s.fill*12,5,100),String(s.fill))+(v.noCam?'':vcBar('Movimiento',clamp(100-L.motion*5,5,100),L.motion>9?'Inquieto':'Estable'));
+  /* Chips sobre el video */
+  const ch=[];const ok=(t)=>`<span class="vc-chip">${ic('check',3)}${t}</span>`,tip=(t)=>`<span class="vc-chip tip">${ic('spark')}${t}</span>`;
+  if(!v.noCam){const goodSize=L.size>.03&&L.size<.45;ch.push(L.face>.5&&L.cy>.15&&L.cy<.7&&goodSize&&L.motion<9?ok('Postura'):tip(L.face<.5?'Acomoda tu cámara':L.size>=.45?'Aléjate un poco':L.motion>=9?'Quédate quieto':'Endereza tu postura'))}
+  if(!v.noMic)ch.push(lvl<22&&a.voiced>5?tip('Habla más fuerte'):(s.w>=12&&s.wpm>170)?tip('Habla más despacio'):ok('Tono claro'));
+  if(!v.noCam)ch.push(L.cent>.6&&L.jit<4?ok('Mira a cámara'):tip('Mira a cámara'));
+  if(!v.noCam&&L.light<70)ch.push(tip('Busca más luz'));if(s.fill>=4&&s.fpm>3)ch.push(tip('Evita muletillas'));
+  $('#vcChips').innerHTML=ch.join('');
+  const t=$('#vcTime');if(t){t.textContent=vcMM(s.secs);$('#vcTimeW').classList.toggle('warn',s.secs>150)}
+ }
+}
+function vcStartRec(){
+ const v=VC,SR=vcSR();if(!v||v.typing||!SR)return;
+ try{const r=new SR();r.lang='es-PE';r.continuous=true;r.interimResults=true;
+  r.onresult=e=>{if(!v.ans)return;let fin='',it='';for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal)fin+=t+' ';else it+=t}if(fin)v.ans.final=(v.ans.final+' '+fin).replace(/\s+/g,' ').trim();v.ans.interim=it};
+  r.onerror=e=>{if(e.error==='no-speech'||e.error==='aborted')return;v.typing=true;v.ans&&(v.ans.typed=vcWords());if(VC===v&&v.stage==='call')vcBottom()};
+  r.onend=()=>{if(VC===v&&v.ans&&!v.ans.paused&&!v.typing){try{r.start()}catch(e){}}};
+  v.rec=r;r.start()}catch(e){v.typing=true;vcBottom()}
+}
+function vcAsk(){
+ const v=VC;if(!v)return;v.stage='call';v.err='';
+ v.ans={ticks:0,voiced:0,db:[],st:[],jit:[],lastSt:null,silRun:0,pauses:0,vf:0,face:0,cent:0,fidget:0,mo:0,light:0,final:'',interim:'',typed:'',paused:true};
+ $('#vcFb').hidden=true;$('#vcAi').hidden=false;$('#vcCap').innerHTML='';$('#vcStep').textContent=`Pregunta ${v.i+1} de ${v.qs.length}`;$('#vcTime').textContent='00:00';
+ vcBottom();
+ const go=()=>{if(VC!==v||!v.ans)return;v.ans.paused=false;vcStartRec();const b=$('#vcEnd');b&&(b.disabled=false)};
+ if(v.speak&&'speechSynthesis' in window){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(v.qs[v.i][0]);u.lang='es-ES';const vs=speechSynthesis.getVoices().filter(x=>/^es/i.test(x.lang));const pick=vs.find(x=>/PE|419|MX|US/i.test(x.lang))||vs[0];if(pick){u.voice=pick;u.lang=pick.lang}u.rate=1.02;let done=false;const fin=()=>{if(!done){done=true;go()}};u.onend=fin;u.onerror=fin;setTimeout(fin,Math.min(9000,1500+v.qs[v.i][0].length*75));speechSynthesis.speak(u)}catch(e){go()}}else go();
+}
+function vcFinishAnswer(){
+ const v=VC;if(!v||!v.ans)return;const s=vcAnsStats(v.ans);
+ if(s.w<8){v.err=v.typing?'Escribe al menos 8 palabras para poder evaluar tu respuesta.':'Casi no te escuchamos. Habla más cerca del micrófono o escribe tu respuesta.';if(!v.typing)v.offerType=true;vcBottom();return}
+ v.ans.paused=true;try{v.rec&&(v.rec.onend=null,v.rec.stop())}catch(e){}
+ const r=vcScore(s,v.qs[v.i][1]);v.res[v.i]=r;v.stage='fb';
+ const last=v.i>=v.qs.length-1;$('#vcAi').hidden=true;$('#vcCap').innerHTML='';
+ const fb=$('#vcFb');fb.hidden=false;fb.innerHTML=`<div class="vc-card"><div class="vc-score"><b>${r.tot}</b><div><h3>Respuesta ${v.i+1} guardada</h3><p>${r.tot>=80?'Muy bien: clara y con evidencia.':r.tot>=60?'Vas bien. Mira qué puedes ajustar.':'Puedes mejorarla. Te dejamos un consejo.'}</p></div></div>
+  ${vcBar('Contenido (STAR y evidencia)',r.cont)}${r.voz!=null?vcBar('Voz (volumen y tono)',r.voz):''}${r.ritmo!=null?vcBar('Ritmo',r.ritmo,r.wpm!=null?r.wpm+' pal/min':null):''}${r.nv!=null?vcBar('Lenguaje corporal',r.nv):''}${vcBar('Calma',r.calma,r.calma>=70?'Tranquilo':r.calma>=50?'Algo nervioso':'Nervioso')}
+  <p style="margin-top:12px">${ic('bulb')} ${esc(r.tips[0]||'Sigue así.')}</p>
+  <div class="vc-acts"><button class="vc-b p" data-vc="${last?'end':'next'}">${last?'Ver mi resultado':'Siguiente pregunta'} ${ic('chev')}</button></div></div>`;
+ $('#vcChips').innerHTML='';vcBottom();const nb=$('#vcFb .vc-b');nb&&nb.focus({preventScroll:true});
+}
+function vcEnd(){
+ const v=VC;if(!v)return;const R=v.res.filter(Boolean);if(!R.length){closeVcall();return}
+ const tot=Math.round(R.reduce((a,r)=>a+r.tot,0)/R.length);
+ IV={of:v.of,started:true,done:true,video:true,res:R,noCam:v.noCam,noMic:v.noMic};
+ DB.iv.n++;DB.iv.best=Math.max(DB.iv.best,tot);DB.iv.hist.push({at:Date.now(),tot,of:v.of,modo:'video'});save();
+ closeVcall();go('entrevista');toast(`Entrevista terminada: ${tot}/100`)}
+function vcBottom(){
+ const v=VC,b=$('#vcBottom');if(!v||!b)return;
+ if(v.stage==='lobby'){
+  const SRok=!!vcSR();const ck=(ok,t)=>`<span class="vc-ck ${ok?'ok':'no'}">${ic(ok?'check':'alert',3)}${t}</span>`;
+  b.innerHTML=`<div class="vc-k">ANTES DE EMPEZAR</div><h2>Prueba tu cámara y micrófono</h2>
+  <p>Son ${v.qs.length} preguntas${v.o?` para ${esc(v.o.t)} en ${esc(L[v.o.k].n)}`:''}. Mientras respondes, la IA analiza tu voz (volumen, ritmo, tono, muletillas y silencios) y tu lenguaje corporal (postura, movimiento y encuadre) para estimar tus nervios.</p>
+  <div class="vc-checks">${ck(!!v.stream&&!v.noCam,v.noCam?'Sin cámara':'Cámara lista')}${ck(!!v.an,v.noMic?'Sin micrófono':'Micrófono listo')}${ck(SRok,SRok?'Transcripción en vivo':'Escribirás tus respuestas')}</div>
+  ${v.err?`<p class="vc-err">${esc(v.err)}</p>`:''}
+  ${'speechSynthesis' in window?`<label class="vc-tg"><input type="checkbox" id="vcSpeak" ${v.speak?'checked':''}> Leer las preguntas en voz alta</label>`:''}
+  <div class="vc-acts">${v.err?`<button class="vc-b" data-vc="retry">${ic('refresh')} Reintentar</button>`:''}<button class="vc-b p" data-vc="start">${ic('cam')} ${v.err?'Continuar sin cámara':'Entrar a la entrevista'}</button></div>
+  <div class="vc-priv">${ic('lock')}<span>Todo se procesa en tu navegador. No grabamos ni enviamos tu video ni tu voz: solo guardamos tus puntajes.</span></div>`;
+  if(v.err)v.typing=v.typing||v.noMic;return}
+ if(v.stage==='call'){const q=v.qs[v.i];
+  b.innerHTML=`<div class="vc-k">PREGUNTA ACTUAL</div><h2>${esc(q[0])}</h2><p>Respira y tómate tu tiempo. No buscamos una respuesta perfecta.</p>
+  ${v.typing?`<textarea class="vc-ta" id="vcTa" aria-label="Tu respuesta" placeholder="${v.noMic?'Escribe tu respuesta…':'Tu navegador no transcribe la voz: escribe aquí lo que vas diciendo…'}">${esc(v.ans&&v.ans.typed||'')}</textarea>`:''}
+  ${v.err?`<p class="vc-err">${esc(v.err)}</p>`:''}${v.offerType&&!v.typing?`<button class="vc-link" data-vc="type">Prefiero escribir mi respuesta</button>`:''}
+  <div class="vc-acts"><button class="vc-b" data-vc="swap" ${v.swaps>=2||v.extra>=VQ_EXTRA.length?'disabled':''}>Cambiar pregunta</button><button class="vc-b p" id="vcEnd" data-vc="answer" ${v.ans&&v.ans.paused?'disabled':''}>Terminar respuesta</button></div>`;
+  return}
+ if(v.stage==='fb'){b.innerHTML=`<div class="vc-k">PREGUNTA ${v.i+1} DE ${v.qs.length}</div><h2>${esc(v.qs[v.i][0])}</h2>${v.res[v.i]&&v.res[v.i].txt?`<p style="max-width:720px;margin:0 auto">“${esc(v.res[v.i].txt.slice(0,260))}${v.res[v.i].txt.length>260?'…':''}”</p>`:''}`}
+}
+function vcClick(e){
+ const b=e.target.closest('[data-vc]');if(!b||!VC)return;const a=b.dataset.vc,v=VC;
+ if(a==='exit'){const n=v.res.filter(Boolean).length;if(n)return vcEnd();closeVcall();return toast('Saliste de la entrevista')}
+ if(a==='retry'){try{v.stream&&v.stream.getTracks().forEach(t=>t.stop())}catch(e){}clearInterval(v.tick);v.stream=null;v.an=null;v.noCam=v.noMic=false;return vcMedia()}
+ if(a==='start'){if(v.ac&&v.ac.state==='suspended')v.ac.resume();if(v.noMic)v.typing=true;return vcAsk()}
+ if(a==='swap'){if(v.swaps>=2||v.extra>=VQ_EXTRA.length)return;v.qs[v.i]=VQ_EXTRA[v.extra++];v.swaps++;try{v.rec&&(v.rec.onend=null,v.rec.abort())}catch(e){}return vcAsk()}
+ if(a==='type'){v.typing=true;v.err='';try{v.rec&&(v.rec.onend=null,v.rec.stop())}catch(e){}const prev=vcWords();vcBottom();const ta=$('#vcTa');if(ta){ta.value=prev;ta.focus()}return}
+ if(a==='answer')return vcFinishAnswer();
+ if(a==='next'){v.i++;v.offerType=false;return vcAsk()}
+ if(a==='end')return vcEnd();
+}
+function vcResultView(){
+ const R=IV.res,o=ofertaById(IV.of),avg=k=>{const x=R.map(r=>r[k]).filter(n=>n!=null);return x.length?Math.round(x.reduce((a,b)=>a+b,0)/x.length):null};
+ const tot=avg('tot'),wpm=avg('wpm'),fill=R.reduce((a,r)=>a+(r.fill||0),0),pau=R.reduce((a,r)=>a+(r.pauses||0),0),calma=avg('calma');
+ const all=R.flatMap(r=>r.tips);const top=[...new Set(all.sort((a,b)=>all.filter(x=>x===b).length-all.filter(x=>x===a).length))].slice(0,3);
+ return `<div class="stack">${pg('Resultado de tu videollamada',o?esc(o.t)+' · '+L[o.k].n:'Entrevista general')}
+ <div class="iv"><section class="card"><div class="bigscore"><div class="ringsm dk"><svg viewBox="0 0 92 92"><circle class="bg" cx="46" cy="46" r="38"/><circle class="fg" cx="46" cy="46" r="38" data-ringsm="${tot}" style="stroke-dashoffset:239"/></svg><b>${tot}</b></div><div><b style="font-family:var(--display);font-size:17px">${tot>=80?'¡Muy bien preparado!':tot>=60?'Vas por buen camino':'Sigue practicando'}</b><p class="small muted" style="margin:4px 0 0">Promedio de ${R.length} respuestas: contenido 50 %, lenguaje corporal 20 %, voz 15 % y ritmo 15 %.</p></div></div>
+  <div class="vres"><div><b>${wpm!=null?wpm:'—'}</b><span>palabras por minuto (ideal 120-150)</span></div><div><b>${fill}</b><span>muletillas</span></div><div><b>${pau}</b><span>silencios largos</span></div><div><b>${calma}</b><span>índice de calma</span></div></div>
+  <div class="bars" style="margin:6px 0 18px">${bar('Contenido (STAR y evidencia)',avg('cont'))}${avg('voz')!=null?bar('Voz (volumen y tono)',avg('voz')):''}${avg('ritmo')!=null?bar('Ritmo y fluidez',avg('ritmo')):''}${avg('nv')!=null?bar('Lenguaje corporal',avg('nv')):''}${bar('Calma',calma)}</div>
+  <div class="fbk"><b>Lo que más te ayudará</b><ul>${top.map(t=>`<li>${esc(t)}</li>`).join('')||'<li>Respuestas sólidas. Practica con otra oferta.</li>'}</ul></div>
+  <div class="row-act" style="margin-top:16px"><button class="btn p" data-ivvideo>${ic('cam')} Practicar de nuevo</button><button class="btn" data-ivreset>Cambiar de puesto</button><button class="btn" data-go="match">Ir a postular</button></div></section>
+  <aside class="stack"><section class="card"><h3 style="margin:0;font-family:var(--display);font-size:15px">Tus nervios en cada pregunta</h3><p class="small muted" style="margin:4px 0 0">Más alto = más calma.</p>
+   <div class="nerv">${R.map((r,i)=>`<div><i class="${r.calma>=70?'':r.calma>=50?'w':'b'}" style="height:${clamp(r.calma,8,100)}%" title="${r.calma}"></i><span>P${i+1}</span></div>`).join('')}</div></section>
+   ${R.map((r,i)=>`<div class="mini"><span class="mi-ic">${i+1}</span><div class="mi-b"><span class="mi-k">${esc(r.q.slice(0,52))}${r.q.length>52?'…':''}</span><b>${r.tot}</b><span class="mi-s">${r.secs}s${r.wpm!=null?' · '+r.wpm+' pal/min':''}</span></div></div>`).join('')}
+   <div class="note">${ic('info')}<span>La IA estima tu voz, gestos y nervios en tu navegador con la cámara y el micrófono. Es una guía para practicar, no una evaluación médica ni psicológica.${IV.noCam?' Esta vez no usaste cámara.':''}</span></div></aside></div></div>`}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&VC){e.stopPropagation();const n=VC.res.filter(Boolean).length;if(n)vcEnd();else{closeVcall();toast('Saliste de la entrevista')}}},true);
 
 /* ---------- Cursos ---------- */
 V.estudiante.cursos=()=>{
@@ -1492,7 +1828,7 @@ DB.invites=DB.invites||[];
 
 /* ---------- Buscador inteligente ---------- */
 const SRCH={rrhh:{q:'',F:null},ong:{q:'',F:null}};
-const EXS={rrhh:['Necesito un joven de Ingeniería de Sistemas que sepa Power BI y Python, que viva cerca a la Plaza de la Bandera de Pueblo Libre y tenga disponibilidad de 8 a 12','Estudiante de Ingeniería Industrial de 7mo ciclo en adelante con Excel y costos, cerca de Callao','Practicante de economía con inglés intermedio, por las mañanas'],
+const EXS={rrhh:['Necesito un joven de Ingeniería de Sistemas que sepa Power BI y Python, que viva cerca a la Plaza de la Bandera de Pueblo Libre y tenga disponibilidad de 8 a 12','Estudiante de Ingeniería Industrial de 7mo ciclo en adelante con Excel y costos, cerca de Magdalena del Mar','Practicante de economía con inglés intermedio, por las mañanas'],
  ong:['Voluntario de psicología disponible los sábados cerca de Comas','Estudiante que sepa Excel para un voluntariado de sábados en Villa El Salvador a 25 km','Estudiantes de economía o contabilidad cerca de Comas']};
 function fchips(F){const c=[];
  if(F.car)c.push(['car',`Carrera: <b>${F.car}</b>`]);F.skills.forEach(s=>c.push(['sk:'+s,`Sabe <b>${s}</b>`]));
@@ -1500,23 +1836,30 @@ function fchips(F){const c=[];
  if(F.place)c.push(['place',`Cerca de <b>${F.place.n}</b> <em>· hasta ${String(F.r).replace('.',',')} km</em>`]);
  if(F.h)c.push(['h',`Disponible <b>${hrs(F.h)}</b>`]);if(F.dias)c.push(['dias','<b>Sábados</b>']);if(F.cmin)c.push(['cmin',F.cmin>=11?'<b>Egresados</b>':`Desde <b>${cicloTxt(F.cmin)}</b>`]);
  return c.length?`<div class="understood"><span class="small muted">Entendí:</span>${c.map(([k,t])=>`<span class="fchip">${t}<button data-rmf="${esc(k)}" aria-label="Quitar filtro">${ic('x',3)}</button></span>`).join('')}</div>`:`<div class="note w" style="margin-top:14px">${ic('info')}<span>No identifiqué filtros. Menciona una carrera, una habilidad (Excel, Power BI, Python…), un distrito o un horario.</span></div>`}
-function searchView(role){
- const st=SRCH[role],res=st.F?searchCands(st.F):null,me=orgOf(role),inv=c=>DB.invites.some(i=>i.cand===c&&i.by===me);
+function searchRes(role){
+ const st=SRCH[role];if(!st.F)return st.q.trim()?'':`<div class="note">${ic('bulb')}<span>Escribe qué perfil necesitas o toca un ejemplo. Los filtros se actualizan mientras escribes.</span></div>`;
+ const res=searchCands(st.F),me=orgOf(role),inv=c=>DB.invites.some(i=>i.cand===c&&i.by===me);
  const rc=(x,i)=>{const c=x.c;return `<div class="rescard"><span class="rk">${x.almost?'·':'#'+(i+1)}</span>
-  <div style="min-width:0">${person(c)}<div class="reasons">${x.reasons.map(([,t])=>`<span class="rs">${ic('check',3)}${esc(t)}</span>`).join('')}${x.almost?`<span class="rs w">${ic('info',3)}No cumple: ${esc(x.almost)}</span>`:''}</div></div>
+  <div style="min-width:0">${person(c)}<div class="reasons">${x.reasons.map(([,t])=>`<span class="rs">${ic('check',3)}${esc(t)}</span>`).join('')}${x.almost?`<span class="rs w">${ic('info',3)}No cumple: ${esc(x.almost)}${x.almost==='distancia'&&x.dk!=null?` (vive ${kmTxt(x.dk)} de ${esc(st.F.place.n)})`:''}</span>`:''}</div></div>
   <div class="ra"><div class="sc2"><b>${x.p}</b>Puntaje EN-MATCH</div><button class="btn sm" data-vercv="${c.id}">${ic('eye')} Ver CV</button>${inv(c.id)?`<span class="tag t-ok">${ic('check',3)} Invitado</span>`:`<button class="btn sm p" data-invite="${c.id}" data-role="${role}">${role==='ong'?'Invitar a voluntariado':'Invitar a entrevista'}</button>`}</div></div>`};
  const exNames={carrera:'carrera',habilidades:'habilidades',distancia:'distancia',horario:'horario','días':'días',ciclo:'ciclo','inglés':'inglés'};
+ const near=st.F.place?res.almost.filter(x=>x.almost==='distancia'&&x.dk!=null).map(x=>x.dk):[];
+ const wid=near.length?Math.max(Math.ceil(Math.min(...near)),Math.ceil((st.F.r||0)+1)):0,widN=near.filter(d=>d<=wid).length;
+ return `<div class="saving">${ic('target')}<div><b>${res.ok.length} de ${res.total} perfiles</b>cumplen todo lo que pediste. Entrevistas solo a quien encaja y ahorras horas de filtro de CV.</div></div>
+  <section class="card"><div class="sec-h"><h2>${res.ok.length?'Perfiles que cumplen':'Nadie cumple todo todavía'}</h2>${Object.keys(res.excl).length?`<div class="excl">Descartados por ${Object.entries(res.excl).map(([k,n])=>`<span>${exNames[k]||k}: ${n}</span>`).join('')}</div>`:''}</div>
+   ${res.ok.length?res.ok.map(rc).join(''):`<div class="sresempty"><p class="muted" style="margin:0">Quita algún filtro${st.F.place?' o amplía la distancia':''}.</p>${wid?`<button class="btn sm p" data-widen="${wid}">${ic('pin')} Ampliar a ${wid} km (${widN} ${widN===1?'perfil':'perfiles'})</button>`:''}</div>`}</section>
+  ${res.almost.length?`<section class="card"><div class="sec-h"><h2>Casi cumplen</h2><span class="small muted">Les falta un solo requisito</span></div>${res.almost.slice(0,5).map(rc).join('')}</section>`:''}
+  <div class="note">${ic('scale')}<span>El orden usa habilidades demostradas, el puntaje EN-MATCH y la cercanía. Nunca la universidad ni los contactos. ${role==='rrhh'?'Para elegir entre los mejores, <button class="link" data-go="retos">publica un reto</button> y entrevista solo a los 2 o 3 primeros.':''}</span></div>`}
+function searchView(role){
+ const st=SRCH[role];
  return `<div class="stack">
  ${pg(role==='ong'?'Buscar voluntarios':'Buscar talento','Escríbelo como se lo pedirías a una persona. EN-MATCH entiende carrera, habilidades, cercanía, horario y ciclo, y solo te muestra los perfiles que cumplen todo.')}
- <section class="card"><form class="sbox" id="sform"><textarea id="sq" rows="2" aria-label="Qué perfil buscas" placeholder="${esc(EXS[role][0])}">${esc(st.q)}</textarea><button class="btn p">${ic('search')} Buscar</button></form>
-  <div class="exs"><span class="small muted">Prueba con:</span>${EXS[role].map(x=>`<button type="button" data-ex="${esc(x)}">${esc(x.length>70?x.slice(0,68)+'…':x)}</button>`).join('')}</div>
-  ${st.F?fchips(st.F):''}</section>
- ${res?`<div class="saving">${ic('target')}<div><b>${res.ok.length} de ${res.total} perfiles</b>cumplen todo lo que pediste. Entrevistas solo a quien encaja y ahorras horas de filtro de CV.</div></div>
-  <section class="card"><div class="sec-h"><h2>${res.ok.length?'Perfiles que cumplen':'Nadie cumple todo todavía'}</h2>${Object.keys(res.excl).length?`<div class="excl">Descartados por ${Object.entries(res.excl).map(([k,n])=>`<span>${exNames[k]||k}: ${n}</span>`).join('')}</div>`:''}</div>
-   ${res.ok.length?res.ok.map(rc).join(''):'<p class="muted" style="margin:0">Quita algún filtro o amplía la distancia.</p>'}</section>
-  ${res.almost.length?`<section class="card"><div class="sec-h"><h2>Casi cumplen</h2><span class="small muted">Les falta un solo requisito</span></div>${res.almost.slice(0,5).map(rc).join('')}</section>`:''}
-  <div class="note">${ic('scale')}<span>El orden usa habilidades demostradas, el puntaje EN-MATCH y la cercanía. Nunca la universidad ni los contactos. ${role==='rrhh'?'Para elegir entre los mejores, <button class="link" data-go="retos">publica un reto</button> y entrevista solo a los 2 o 3 primeros.':''}</span></div>`:''}
+ <section class="card"><form class="sbox" id="sform"><textarea id="sq" rows="2" aria-label="Qué perfil buscas" placeholder="Describe el perfil: carrera, habilidades, zona y horario…">${esc(st.q)}</textarea><button class="btn p">${ic('search')} Buscar</button></form>
+  <div class="exs"><span class="small muted">Prueba con:</span>${EXS[role].map(x=>`<button type="button" data-ex="${esc(x)}" title="${esc(x)}">${esc(x.length>70?x.slice(0,68)+'…':x)}</button>`).join('')}</div>
+  <div id="schips">${st.F?fchips(st.F):''}</div></section>
+ <div class="stack" id="sres">${searchRes(role)}</div>
  </div>`}
+function liveSearch(q){const role=cur;if(!SRCH[role])return;SRCH[role].q=q;clearTimeout(liveSearch.t);liveSearch.t=setTimeout(()=>{if(cur!==role)return;SRCH[role].F=q.trim()?parseQuery(q):null;const c=$('#schips'),r=$('#sres');if(c)c.innerHTML=SRCH[role].F?fchips(SRCH[role].F):'';if(r)r.innerHTML=searchRes(role)},300)}
 function runSearch(role,q){SRCH[role].q=q;SRCH[role].F=q.trim()?parseQuery(q):null;go('buscar')}
 function cvModal(id){const c=candById(id);if(!c)return;
  const body=c.me?cvPreview():cvPreview({perfil:`Estudiante de ${cicloTxt(c.c)} de ${c.car}. Disponible ${hrs(c.h)}${c.dias==='Sábados'?' los sábados':''}.`,tel:'',linkedin:'',edu:[{inst:c.u,grado:`${c.car} · ${cicloTxt(c.c)}`,ini:'',fin:'',logros:''}],exp:[],proy:c.rt.map((s,i)=>({nombre:`Reto EN-MATCH ${i+1}`,rol:`Puntaje ${s}/100`,desc:'Solución evaluada con los criterios de la empresa.'})),extra:''},{n:c.n,d:c.d,mail:'',sk:c.sk});
@@ -1741,6 +2084,7 @@ app.addEventListener('click',e=>{
  /* Retos estudiante */
  if(d.reto)return openReto(d.reto);
  /* Entrevista */
+ if('ivvideo' in d){const sel=$('#ivof');openVcall(sel?(sel.value||null):(IV&&IV.of)||null);return}
  if('ivstart' in d){IV={of:$('#ivof').value||null,i:0,ans:[],res:[],started:true};return rerender()}
  if('ivreset' in d){clearInterval(IV&&IV.tm);IV=null;return rerender()}
  if('ivsend' in d){const t=$('#ivans').value.trim();if(words(t)<10){const er=$('#iverr');er.textContent='Escribe al menos 10 palabras para poder darte retroalimentación.';er.hidden=false;return}
@@ -1754,6 +2098,7 @@ app.addEventListener('click',e=>{
   return toast(bestBefore?`${c.s} validada. Tu match con ${L[bestBefore.o.k].n} subió de ${before}% a ${matchOf(bestBefore.o).pct}%`:`${c.s} validada en tu perfil`)}
  /* Organizaciones */
  if(d.ex!==undefined&&b.matches('[data-ex]')){$('#sq').value=d.ex;return runSearch(cur,d.ex)}
+ if(d.widen){const F=SRCH[cur].F;if(F){F.r=+d.widen;toast(`Distancia ampliada a ${d.widen} km`)}return rerender()}
  if(d.rmf){const F=SRCH[cur].F;const k=d.rmf;if(k==='car')F.car=null;else if(k.startsWith('sk:'))F.skills=F.skills.filter(s=>s!==k.slice(3));else if(k==='place'){F.place=null;F.r=null}else F[k]=null;return rerender()}
  if(d.vercv)return cvModal(d.vercv);
  if(d.invite)return invite(d.invite,d.role);
@@ -1773,10 +2118,12 @@ app.addEventListener('change',e=>{const s=e.target;
 });
 let cvT=0;
 app.addEventListener('input',e=>{const s=e.target;
+ if(s.id==='sq')return liveSearch(s.value);
  if(s.dataset.cv){setP(DB.me.cv,s.dataset.cv,s.value)}else if(s.dataset.me&&s.dataset.me!=='d'){DB.me[s.dataset.me]=s.value}else{if(s.getAttribute('aria-invalid'))s.removeAttribute('aria-invalid');return}
  const p=$('#cvprint');if(p)p.innerHTML=cvPreview();const sc=$('#cvsc');if(sc)sc.textContent=`Calidad ${cvScore(DB.me.cv).total}/100`;
  clearTimeout(cvT);cvT=setTimeout(save,300);
 });
+app.addEventListener('keydown',e=>{if(e.target.id==='sq'&&e.key==='Enter'&&!e.shiftKey){e.preventDefault();clearTimeout(liveSearch.t);runSearch(cur,e.target.value)}});
 app.addEventListener('submit',e=>{e.preventDefault();const f=e.target;
  if(f.id==='sform')return runSearch(cur,$('#sq').value);
  if(f.id==='retopub')return publishReto(f);
